@@ -11,7 +11,12 @@ LIBFT        = ./lib/libft/libft.a
 PRINTF_H	= ./lib/ft_fprintf/ft_printf.h
 PRINTF		= ./lib/ft_fprintf/libftprintf.a
 
-SRCS = ./ft_minishell/parcing/test.c
+SRCS = ./ft_minishell/ft_pipex/pipe_utils.c \
+			 ./ft_minishell/ft_pipex/ft_create_ar.c \
+			 ./ft_minishell/ft_pipex/main.c \
+			 ./ft_minishell/ft_pipex/search_env.c \
+			 ./ft_minishell/ft_pipex/child_exec.c \
+			 ./ft_minishell/ft_pipex/fd_open_file.c
 
 DIR_OBJ := .object/
 
