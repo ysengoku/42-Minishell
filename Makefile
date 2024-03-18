@@ -3,6 +3,7 @@ NAME = minishell
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
+RDFLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
 IFLAGS = ./ft_minishell/minishell.h
 
 
@@ -11,12 +12,7 @@ LIBFT        = ./lib/libft/libft.a
 PRINTF_H	= ./lib/ft_fprintf/ft_printf.h
 PRINTF		= ./lib/ft_fprintf/libftprintf.a
 
-SRCS = ./ft_minishell/ft_pipex/pipe_utils.c \
-			 ./ft_minishell/ft_pipex/ft_create_ar.c \
-			 ./ft_minishell/ft_pipex/main.c \
-			 ./ft_minishell/ft_pipex/search_env.c \
-			 ./ft_minishell/ft_pipex/child_exec.c \
-			 ./ft_minishell/ft_pipex/fd_open_file.c
+SRCS = ./ft_minishell/parsing/test.c
 
 DIR_OBJ := .object/
 
@@ -25,11 +21,11 @@ OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS})
 all: mlibft mfprintf $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -o $(NAME) $(RDFLAGS)
 
 ${DIR_OBJ}%.o: %.c $(IFLAGS) Makefile
 	mkdir -p $(shell dirname $@)
-	$(CC) ${CFLAGS} -c $< -o $@
+	$(CC) ${CFLAGS} ${RDFLAGS} -c $< -o $@
 
 mlibft:
 	make -C ./lib/libft
