@@ -39,6 +39,9 @@
 # define PWD "pwd"
 # define UNSET "unset"
 
+# define READ_END 0
+# define WRITE_END 1
+
 // typedef struct s_env
 // {
 // 	char			*key;
@@ -66,7 +69,14 @@ typedef struct s_base
 int		ft_exec(t_base *base);
 int		open_input_file(t_base *base);
 int		open_output_file(t_base *base);
+void	init_pipe(int (*pipefd)[2]);
+void	dup_input(int fd_in);
+void	dup_output(int fd_out);
+pid_t	ft_fork(int pipe[2]);
 void	ft_write(char *st1, char *st2);
+void	ft_close(int fd);
+
+int		ft_strcmp(char *s1, char *s2); // To put into libft
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_echo(char **arg, char *output_file, bool append); //// append --> Just for test
