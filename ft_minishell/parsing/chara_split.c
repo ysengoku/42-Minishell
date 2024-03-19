@@ -1,114 +1,132 @@
 #include "../minishell.h"
 
-static int	check_chara(char const *s, int i)
+int	write_out_file(int i, t_line *tmp, char *str)
 {
-	int res;
+	int	j;
 
-	res = 0;
-	if (s[i] != ';' || s[i] != '|' || s[i] != ' ')
-		return (0);
-	if (i != 0 && s[i] == ' ' && s[i - 1] == ' ')
-		return (0);
-	if (s[i] == ';' || s[i] == '|')
-		res++;
-	while (s[i] && s[i] == ' ')
+	i++;
+	if (tmp->write)
+		free(tmp->write);
+	tmp->write = calloc(1, sizeof(ft_strlen(str)));
+	if (str[i] == '>')
+	{
+		tmp->append = true;
 		i++;
-	if (s[i])
-		res++;
-	return (res);
+	}
+	j = 0;
+	if (str[i] == '<')
+			return (-1);
+	while (str[i] && str[i] != ' ' && str[i] != '<' \
+	&& str[i] != '|')
+	{
+		tmp->write[j] = str[i];
+		i++;
+		j++;
+	}
+		tmp->write[j] = '\0';
+	return(i);
 }
 
-static int	ft_countword( char const *s, int word)
+int	write_in_file(int i, t_line *tmp, char *str)
 {
-	int	i;
-	int	cmpt;
+	int	j;
 
+	i++;
+	if (tmp->write)
+		free(tmp->write);
+	tmp->write = calloc(1, sizeof(ft_strlen(str)));
+	if (str[i] == '<')
+	{
+		tmp->append = true;
+		i++;
+	}
+	j = 0;
+	if (str[i] == '>')
+			return (-1);
+	while (str[i] && str[i] != ' ' && str[i] != '<' \
+	&& str[i] != '>' && str[i] != '|')
+	{
+		tmp->write[j] = str[i];
+		i++;
+		j++;
+	}
+		tmp->write[j] = '\0';
+	return(i);
+}
+
+int	write_char(int i, t_line *tmp, char *str)
+{
+	int	j;
+	char	*arg_string;
+
+	arg_string = calloc(ft_strlen(str) + 1, sizeof(char));
+	j = 0;
+	while (str[i] && str[i] != '<' \
+	&& str[i] != '>' && str[i] != '|')
+	{
+		arg_string[j] = str[i];
+		i++;
+		j++;
+	}
+	
+	arg_string[j] = '\0';
+	tmp->arg = ft_split (arg_string, ' ');
+	return(i);
+}
+
+void	create_nod(t_line **line, char *str)
+{
+	t_line	*tmp;
+	t_line	*nxt;
+	int		i;
+	(void)nxt;
 	i = 0;
-	while (s[i] && s[i] == ' ')
-		i++;
-	if (s[i] == '\0')
-		return (0);
-	cmpt = 1;
-	while (s[i] && cmpt != word)
+	nxt = *line;
+	tmp = ft_calloc(1, sizeof(t_line));
+	tmp->next = NULL;
+	while (str[i])
 	{
-		cmpt = check_chara(s, i);
-		i++;
-	}
-	if (cmpt >= word)
-	{
-		cmpt = 0;
-		while (s[i] != c && s[i] != 0)
-		{
+		if (str[i] == '>')
+			i = write_out_file(i, tmp, str);
+		else if (str[i] == '<')
+			i = write_in_file(i, tmp, str);
+		else if (str[i] == ' ')
 			i++;
-			cmpt++;
-		}
+		else
+			i = write_char(i, tmp, str);
 	}
-	return (cmpt);
-}
-
-static void	ft_strwt(char const *s, int word, char *srep)
-{
-	int	i;
-	int	cmpt;
-
-	i = 0;
-	while (s[i] && s[i] == c)
-		i++;
-	cmpt = 1;
-	while (s[i] && cmpt != word)
-	{
-		if (s[i] == c && s[i + 1] != c && s[i + 1] != '\0')
-			cmpt++;
-		i++;
-	}
-	if (cmpt == word)
-	{
-		cmpt = 0;
-		while (s[i] != c && s[i] != 0)
-		{
-			srep[cmpt] = s[i];
-			cmpt++;
-			i++;
-		}
-		srep[cmpt] = 0;
-	}
-}
-
-static void	ft_freebug(char **srep, int i)
-{
-	i--;
-	while (i >= 0)
-	{
-		free(srep[i]);
-		i--;
-	}
-	free(srep);
+	if (line == NULL)
+		*line = tmp;
+	// else
+	// {
+	// 	while (nxt->next)
+	// 		nxt = nxt->next;
+	// 	tmp = nxt->next;
+	//}
+	
 }
 
 char	**ft_chara_split(char const *s)
 {
 	char		**srep;
 	int			i;
-	size_t		len;
+	t_line		*line;
 
 	i = 0;
+	line = NULL;
 	if (ft_strlen(s) == 0)
 		return (ft_calloc(1, sizeof(char *)));
-	srep = ft_calloc((ft_countword(s, 0) + 1), sizeof(char *));
-	if (srep == 0)
-		return (0);
-	while (i < (ft_countword(s, 0) + 1) - 1)
+	srep = ft_split(s, '|');
+	while (srep[i])
 	{
-		len = ft_countword(s, i + 1) + 1;
-		srep[i] = malloc(sizeof(char) * len);
-		if (srep[i] == 0)
-		{
-			ft_freebug(srep, i);
-			return (0);
-		}
-		ft_strwt(s, i + 1, srep[i]);
+		create_nod(&line, srep[i]);
 		i++;
 	}
-	srep[i] = 0;
+	i = 0;
+	while ((line->arg)[i])
+	{
+		printf("%s", line->arg[i]);
+		i++;
+	}
 	return (srep);
 }
