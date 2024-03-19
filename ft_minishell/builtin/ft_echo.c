@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/19 13:53:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/19 14:00:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_echo(char **arg, char *output_file, bool append) //// append --> Just for
 		// if (list->append == false)
 		// fd_out = open(list->write, , O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else
-			fd_out = open(output_file, O_RDWR| O_CREAT | O_APPEND, 0644);
+			fd_out = open(output_file, O_RDWR | O_CREAT | O_APPEND, 0644);
 		// fd_out = open(list->write, O_RDWR| O_CREAT | O_APPEND, 0644);
 		// if (fd_out < 0)
 		// 	//--- error handling ---
@@ -55,14 +55,14 @@ int	ft_echo(char **arg, char *output_file, bool append) //// append --> Just for
 	return (0);
 }
 
-int main(int argc, char **argv) 
-{
-	(void)argc;
-    // ft_echo(argv, NULL, false);
-	// ft_echo(argv, "test_output.txt", false);
-	ft_echo(argv, "test_output.txt", true);
-    return 0;
-}
+// int main(int argc, char **argv) 
+// {
+// 	(void)argc;
+//     ft_echo(argv, NULL, false);
+// 	// ft_echo(argv, "test_output.txt", false);
+// 	// ft_echo(argv, "test_output.txt", true);
+//     return 0;
+// }
 
 /*
 Example:
