@@ -12,7 +12,8 @@ LIBFT        = ./lib/libft/libft.a
 PRINTF_H	= ./lib/ft_fprintf/ft_printf.h
 PRINTF		= ./lib/ft_fprintf/libftprintf.a
 
-SRCS = ./ft_minishell/parsing/test.c
+SRCS = ./ft_minishell/parsing/test.c \
+		./ft_minishell/parsing/chara_split.c
 
 DIR_OBJ := .object/
 
