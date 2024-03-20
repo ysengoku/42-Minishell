@@ -12,12 +12,21 @@
 # include "../lib/libft/libft.h"
 # include "../lib/ft_fprintf/ft_printf.h"
 
+typedef struct s_cnt
+{
+	int		nb_arg;
+	int		nb_out;
+	int		nb_in;
+}				t_cnt;
+
 typedef struct s_line
 {
-	char 			*read;
-	char 			*write;
+	char 			**read;
+	char 			**write;
 	bool			append;
+	bool			here_doc;
 	char			**arg;
+	t_cnt			*count;
 	struct s_line	*next;
 }				t_line;
 
