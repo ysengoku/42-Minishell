@@ -6,14 +6,16 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 11:58:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:31:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_pipe_commands(t_base *base);
-static void	execute_single_command(t_base *base);
+static void		execute_pipe_commands(t_base *base);
+static void		pipe_loop(t_base *base, int *fd_in, int *fd_out);
+static pid_t	pipe_last_command(t_base *base, int fd_in);
+static void		execute_single_command(t_base *base);
 
 int	ft_exec(t_base *base)
 {
@@ -44,86 +46,78 @@ int	ft_exec(t_base *base)
 
 static void	execute_pipe_commands(t_base *base)
 {
-	int		fd_in;
-	int		fd_out;
-	int		pipe[2];
-	pid_t	child_pid;
+	int		fd[2];
+	pid_t	lastchild_pid;
+	int		exit_status;
 
-	fd_in = 0;
-/*pipe--------------------------------------------*/
+	fd[IN] = STDIN_FILENO;
+	fd[OUT] = 0;
 	while (base->lst->next)
 	{
-		init_pipe(&pipe);
-		// if (base->lst->read[0] != NULL)
-		// 	fd_in = open_input_file(base);
-		// if (base->lst->write[0] != NULL)
-		// 	fd_out = open_output_file(base);
-		// else
-		fd_out = pipe[WRITE_END];
-		check_redirection(base, &fd_in, &fd_out);
-
-		child_pid = ft_fork(pipe);
-		if (child_pid == 0)
-		{
-			close(pipe[READ_END]);
-			dup_input(fd_in);
-			dup_output(fd_out);
-			if (execve(base->lst->arg[0], base->lst->arg, base->env) == -1)
-			{
-				ft_write(strerror(errno), "execve");
-				// free all here
-				exit(EXIT_FAILURE);
-			}
-		}
-		close(pipe[WRITE_END]);
-		ft_close(fd_in);
-		fd_in = pipe[READ_END];
+		pipe_loop(base, &fd[IN], &fd[OUT]);
 		base->lst = base->lst->next;
 	}
-	
-/*last pipe----------------------------------------*/
-	pid_t	lastchild_pid;
-
-	init_pipe(&pipe);
-	fd_out = 1;
-	check_redirection(base, &fd_in, &fd_out);
-		
-	lastchild_pid = ft_fork(pipe);
-	if (lastchild_pid == 0)
-	{
-		close(pipe[READ_END]);
-		dup_input(fd_in);
-		dup_output(fd_out);
-		if (execve(base->lst->arg[0], base->lst->arg, base->env) == -1)
-		{
-			ft_write(strerror(errno), "execve");
-			// free all here
-			exit(EXIT_FAILURE);
-		}
-	}
-	close(pipe[WRITE_END]);
-	close(pipe[READ_END]);
-	ft_close(fd_in);
-	
-	/*--- wait children ---*/
-	int	exit_status;
+	lastchild_pid = pipe_last_command(base, fd[IN]);
+/*wait children -----------------------------------*/
 	exit_status = 0;
 	waitpid(lastchild_pid, &exit_status, 0);
 	// loop 'wait' for the number of pipe times 
 	exit(WEXITSTATUS(exit_status));
 }
 
+static void	pipe_loop(t_base *base, int *fd_in, int *fd_out)
+{
+	pid_t	child_pid;
+	int		pipe[2];
+
+	init_pipe(&pipe);
+	*fd_out = pipe[OUT];
+	check_redirection(base, fd_in, fd_out);
+	child_pid = ft_fork(pipe);
+	if (child_pid == 0)
+	{
+		close(pipe[IN]);
+		dup_input(*fd_in);
+		dup_output(*fd_out);
+		ft_execve(base);
+	}
+	close(pipe[OUT]);
+	ft_close(*fd_in, *fd_out);
+	*fd_in = pipe[IN];
+}
+
+static pid_t	pipe_last_command(t_base *base, int fd_in)
+{
+	pid_t	lastchild_pid;
+	int		pipe[2];
+	int		fd_out;
+
+	init_pipe(&pipe);
+	fd_out = STDOUT_FILENO;
+	check_redirection(base, &fd_in, &fd_out);
+	lastchild_pid = ft_fork(pipe);
+	if (lastchild_pid == 0)
+	{
+		close(pipe[IN]);
+		dup_input(fd_in);
+		dup_output(fd_out);
+		ft_execve(base);
+	}
+	ft_close(pipe[OUT], pipe[IN]);
+	ft_close(fd_in, fd_out);
+	return (lastchild_pid);
+}
+
 static void	execute_single_command(t_base *base)
 {
-	int		fd_in;
-	int		fd_out;
+	int		fd[2];
 	int		exit_status;
 	pid_t	child_pid;
-	
+
 	exit_status = 0;
-	fd_in = 0;
-	fd_out = 1;
-	check_redirection(base, &fd_in, &fd_out);
+	fd[IN] = STDIN_FILENO;
+	fd[OUT] = STDOUT_FILENO;
+	check_redirection(base, &fd[IN], &fd[OUT]);
 	child_pid = fork();
 	if (child_pid == -1)
 	{
@@ -133,16 +127,10 @@ static void	execute_single_command(t_base *base)
 	}
 	if (child_pid == 0)
 	{
-		dup_input(fd_in);
-		dup_output(fd_out);
-		if (execve(base->lst->arg[0], base->lst->arg, base->env) == -1)
-		{
-			ft_write(strerror(errno), "execve");
-			// free all here
-			exit(EXIT_FAILURE);
-		}
+		dup_input(fd[IN]);
+		dup_output(fd[OUT]);
+		ft_execve(base);
 	}
 	waitpid(child_pid, &exit_status, 0);
-	// free something ?
 	exit(WEXITSTATUS(exit_status));
 }

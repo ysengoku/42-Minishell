@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 11:57:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:32:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	open_input_file(t_base *base, int i)
 {
 	int	fd_in;
-	
+
 	fd_in = open(base->lst->read[i], O_RDONLY);
 	if (fd_in == -1)
 	{
@@ -29,7 +29,7 @@ int	open_input_file(t_base *base, int i)
 int	open_output_file(t_base *base, int i)
 {
 	int	fd_out;
-	
+
 	if (base->lst->append)
 		fd_out = open(base->lst->write[i], O_RDWR | O_CREAT | O_APPEND, 0644);
 	else
@@ -54,6 +54,8 @@ void	check_redirection(t_base *base, int *fd_in, int *fd_out)
 		{
 			*fd_in = open_input_file(base, i);
 			i++;
+			if (base->lst->read[i])
+				ft_close(*fd_in, 0);
 		}
 	}
 	i = 0;
@@ -63,12 +65,16 @@ void	check_redirection(t_base *base, int *fd_in, int *fd_out)
 		{
 			*fd_out = open_output_file(base, i);
 			i++;
+			if (base->lst->write[i])
+				ft_close(*fd_out, 0);
 		}
 	}
 }
 
-void	ft_close(int fd)
+void	ft_close(int fd1, int fd2)
 {
-	if (fd > 2)
-		close (fd);
+	if (fd1 > 2)
+		close (fd1);
+	if (fd2 > 2)
+		close (fd2);
 }
