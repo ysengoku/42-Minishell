@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:37:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 16:31:44 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:44:32 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ static char	**extract_path(t_base *base);
 void	ft_execve(t_base *base)
 {
 	char	*pathname;
-	char	*tmp;
+	// char	*tmp;
 
+// Need to check if base->lst->arg[0] is built in or not ?
 /*--- get path ---*/
 	if (access(base->lst->arg[0], X_OK) == 0)
 		pathname = ft_strdup(base->lst->arg[0]);
 	else
 		pathname = get_pathname(base);
-	tmp = base->lst->arg[0];
-	base->lst->arg[0] = pathname;
-	free(tmp);
+	// tmp = base->lst->arg[0];
+	// base->lst->arg[0] = pathname;
+	// free(tmp);
 /*--- execute ---*/
 	execve(pathname, base->lst->arg, base->env);
 	ft_write(strerror(errno), "execve");
