@@ -20,8 +20,8 @@ INCLUDE = -I./ft_minishell -I$(LIBFT_DIR)
 #INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR)
 
 LIBFT_DIR	= ./lib/libft
-LIBFT_H		= ./lib/libf/libft.h
-LIBFT       = ./lib/libft/libft.a
+LIBFT_H		= $(LIBFT_DIR)/libft.h
+LIBFT       = $(LIBFT_DIR)/libft.a
 
 #PRINTF_DIR	= ./lib/libft_fprintf
 #PRINTF_H	= ./lib/ft_libfprintf/ft_printf.h
@@ -41,6 +41,7 @@ SRCS =	test_main.c	\
 		ft_pwd.c \
 		ft_exec.c	\
 		open_file.c	\
+		redirection.c	\
 		ft_execve.c	\
 		utils_exec.c	\
 		utils.c
