@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/19 15:54:30 by yusengok         ###   ########.fr        #
+#    Updated: 2024/03/20 11:39:11 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,13 +35,15 @@ LIBFT       = ./lib/libft/libft.a
 			 ./ft_minishell/ft_pipex/fd_open_file.c	\
 			 ./ft_minishell/builtin/ft_echo.c
 
-vpath %c ./ft_minishell/ft_pipex ./ft_minishell/builtin ./ft_minishell/exec
+vpath %c ./ft_minishell/builtin ./ft_minishell/exec
 SRCS =	test_main.c	\
 		ft_echo.c	\
 		ft_pwd.c \
 		ft_exec.c	\
 		open_file.c	\
-		exec_utils.c
+		ft_execve.c	\
+		utils_exec.c	\
+		utils.c
 
 DIR_OBJ := .object/
 
