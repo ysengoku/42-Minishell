@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 09:27:20 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:04:22 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	dup_input(int fd_in)
 		ft_write(strerror(errno), "dup2");
 		exit(EXIT_FAILURE);
 	}
-	ft_close(fd_in);
+	ft_close(fd_in, 0);
 }
 
 void	dup_output(int fd_out)
 {
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
-		ft_close(fd_out);
+		ft_close(fd_out, 0);
 		ft_write(strerror(errno), "dup2");
 		exit(EXIT_FAILURE);
 	}
-	ft_close(fd_out);
+	ft_close(fd_out, 0);
 }
 
 pid_t	ft_fork(int pipe[2])
@@ -49,8 +49,8 @@ pid_t	ft_fork(int pipe[2])
 	pid = fork();
 	if (pid == -1)
 	{
-		close(pipe[READ_END]);
-		close(pipe[WRITE_END]);
+		close(pipe[IN]);
+		close(pipe[OUT]);
 		ft_write(strerror(errno), "fork");
 		exit(EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 11:57:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:05:44 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 # define PWD "pwd"
 # define UNSET "unset"
 
-# define READ_END 0
-# define WRITE_END 1
+# define IN 0
+# define OUT 1
 
 // typedef struct s_env
 // {
@@ -76,10 +76,15 @@ void	init_pipe(int (*pipefd)[2]);
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 pid_t	ft_fork(int pipe[2]);
+void	ft_execve(t_base *base);
 void	ft_write(char *st1, char *st2);
-void	ft_close(int fd);
+void	ft_close(int fd1, int fd2);
+void	ft_free_arr(char **arr);
 
-int		ft_strcmp(char *s1, char *s2); // To put into libft ?
+ // To put into libft ?
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_strcpy(char *dest, char *src);
+char	*ft_strcat(char *dest, char *src);
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_echo(char **arg, char *output_file, bool append); //// append --> Just for test

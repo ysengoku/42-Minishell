@@ -24,7 +24,7 @@ int main(int ac, char **av, char **envp)
 	base->lst->read[0] = ft_strdup("in");
 	base->lst->write[0] = NULL;
 	base->lst->arg = malloc(sizeof(char **));
-	base->lst->arg[0] = ft_strdup("/bin/cat");
+	base->lst->arg[0] = ft_strdup("cat");
 	base->lst->arg[1] = NULL;
 	base->lst->append = false;
 	base->lst->next = NULL;
@@ -37,7 +37,7 @@ int main(int ac, char **av, char **envp)
 	// new->write = NULL;
 	new->write[0] = ft_strdup("out");
 	new->arg = malloc(sizeof(char **));
-	new->arg[0] = ft_strdup("/bin/grep");
+	new->arg[0] = ft_strdup("grep");
 	new->arg[1] = ft_strdup("Hello");
 	new->arg[2] = NULL;
 	new->append = false;
@@ -52,7 +52,7 @@ int main(int ac, char **av, char **envp)
 	new->write[0] = ft_strdup("out2");
 	new->write[1] = ft_strdup("out");
 	new->arg = malloc(sizeof(char **));
-	new->arg[0] = ft_strdup("/usr/bin/wc");
+	new->arg[0] = ft_strdup("wc");
 	new->arg[1] = ft_strdup("-l");
 	new->arg[2] = NULL;
 	new->append = true;
