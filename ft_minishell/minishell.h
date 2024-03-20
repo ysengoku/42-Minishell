@@ -53,8 +53,6 @@ typedef struct s_line
 {
 	char			**read;
 	char			**write;
-	// char			*read;
-	// char			*write;
 	bool			append;
 	char			**arg;
 	struct s_line	*next;
@@ -87,7 +85,7 @@ char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
 /*----- Builtin commands -----------------------------------------------------*/
-int		ft_echo(char **arg, char *output_file, bool append); //// append --> Just for test
+int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 
 #endif
