@@ -25,7 +25,7 @@ int	ft_exec(t_base *base)
 		// if (ft_strcmp(base->lst->arg[0], CD) == 0)
 		// 	ft_cd(); // to code
 		if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-			ft_echo(base->lst->arg, base->lst->write[0], base->lst->append); // not complete yet
+			ft_echo(base); // not complete yet
 		// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 		// 	ft_env(); // to code
 		// else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
@@ -49,19 +49,23 @@ static void	execute_pipe_commands(t_base *base)
 	int		fd[2];
 	pid_t	lastchild_pid;
 	int		exit_status;
+	int		count;
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = 0;
+	count = 0;
+	exit_status = 0;
 	while (base->lst->next)
 	{
 		pipe_loop(base, &fd[IN], &fd[OUT]);
 		base->lst = base->lst->next;
+		count++;
 	}
 	lastchild_pid = pipe_last_command(base, fd[IN]);
-/*wait children -----------------------------------*/
-	exit_status = 0;
+	count++;
 	waitpid(lastchild_pid, &exit_status, 0);
-	// loop 'wait' for the number of pipe times 
+	while (count-- > 0)
+		wait(NULL);
 	exit(WEXITSTATUS(exit_status));
 }
 
