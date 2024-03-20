@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/19 15:43:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:57:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@
 
 typedef struct s_line
 {
-	char			*read;
-	char			*write;
+	char			**read;
+	char			**write;
+	// char			*read;
+	// char			*write;
 	bool			append;
 	char			**arg;
 	struct s_line	*next;
@@ -67,8 +69,9 @@ typedef struct s_base
 
 /*----- Execution ------------------------------------------------------------*/
 int		ft_exec(t_base *base);
-int		open_input_file(t_base *base);
-int		open_output_file(t_base *base);
+int		open_input_file(t_base *base, int i);
+int		open_output_file(t_base *base, int i);
+void	check_redirection(t_base *base, int *fd_in, int *fd_out);
 void	init_pipe(int (*pipefd)[2]);
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
@@ -76,7 +79,7 @@ pid_t	ft_fork(int pipe[2]);
 void	ft_write(char *st1, char *st2);
 void	ft_close(int fd);
 
-int		ft_strcmp(char *s1, char *s2); // To put into libft
+int		ft_strcmp(char *s1, char *s2); // To put into libft ?
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_echo(char **arg, char *output_file, bool append); //// append --> Just for test
