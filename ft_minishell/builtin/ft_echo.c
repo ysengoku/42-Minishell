@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 09:12:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:07:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_echo(t_base *base)
 	int	newline;
 	int	fd_out;
 
-
+	// check_redirection(base, 0, &fd_out);
 	if (base->lst->write[0] == NULL)
 		fd_out = 1;
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:48:59 by dvo               #+#    #+#             */
-/*   Updated: 2024/02/28 19:54:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 11:06:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_pipex_child(char *str, t_base *base)
 		exit(ft_free_all(ar, base, 127));
 	execve(base->ag1, ar, base->env);
 	ft_putnbr_fd(errno, 2);
-	ft_write(strerror(errno), ar[0]);
+	print_error(strerror(errno), ar[0]);
 	exit(ft_free_all(ar, base, 126));
 }
 

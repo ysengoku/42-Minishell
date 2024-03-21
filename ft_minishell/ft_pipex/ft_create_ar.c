@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_ar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:12:00 by dvo               #+#    #+#             */
-/*   Updated: 2024/02/20 14:05:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 11:06:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	**create_ar(char *str, t_base *base)
 	ar = ft_split(str, ' ');
 	if (!ar)
 	{
-		ft_write(strerror(errno), NULL);
+		print_error(strerror(errno), NULL);
 		return (NULL);
 	}
 	base->ag1 = search_exec((base->env)[i], ar[0], str);
 	if (!base->ag1)
 	{
-		ft_write("command not found", ar[0]);
+		print_error("command not found", ar[0]);
 		ft_free_split(ar);
 		return (NULL);
 	}
