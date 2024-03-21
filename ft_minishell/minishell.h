@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 12:58:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:44:22 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,31 @@
 // 	struct s_env	*next;
 // }	t_env;
 
+// typedef struct s_open_file
+// {
+// 	char *files;
+// 	bool out;
+// 	bool append;
+// 	bool here_doc;
+// }				t_open_file;
+
+typedef struct s_cnt
+{
+	int		nb_arg;
+	int		nb_out;
+	int		nb_in;
+}				t_cnt;
+
 typedef struct s_line
 {
-	char			**read;
-	char			**write;
+	char 			**read;
+	char 			**write;
 	bool			append;
+	bool			here_doc;
 	char			**arg;
+	t_cnt			*count;
 	struct s_line	*next;
-}			t_line;
+}				t_line;
 
 typedef struct s_base
 {
@@ -112,5 +129,13 @@ void 	free_base(t_base *base);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
+
+char	**ft_chara_split(char *s, t_base *base);
+int		write_char(int i, t_line *tmp, char *str);
+int		write_in_file(int i, t_line *tmp, char *str);
+int		write_out_file(int i, t_line *tmp, char *str);
+int		cnt_param(char *str, t_line *line);
+int 	write_double_quote(int i, t_line *tmp, char *str);
+int		write_simple_quote(int i, t_line *tmp, char *str);
 
 #endif
