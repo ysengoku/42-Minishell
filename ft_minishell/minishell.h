@@ -36,7 +36,12 @@ typedef struct s_base
 	t_line	*lst;
 }			t_base;
 
-char	**ft_chara_split(char const *s);
-void	check_infile(char **line, int i);
+char	**ft_chara_split(char *s);
+int	write_char(int i, t_line *tmp, char *str);
+int	write_in_file(int i, t_line *tmp, char *str);
+int	write_out_file(int i, t_line *tmp, char *str);
+int	cnt_param(char *str, t_line *line);
+int write_double_quote(int i, t_line *tmp, char *str);
+int	write_simple_quote(int i, t_line *tmp, char *str);
 
 #endif

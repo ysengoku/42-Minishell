@@ -1,132 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   chara_split.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
+/*   Updated: 2024/03/21 00:52:41 by dvo              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-int	write_out_file(int i, t_line *tmp, char *str)
-{
-	int	j;
-	char *file;
-
-	i++;
-	file = calloc(1, sizeof(ft_strlen(str)));
-	if (str[i] == '>')
-	{
-		tmp->append = true;
-		i++;
-	}
-	j = 0;
-	if (str[i] == '<' || str[i] == '>')
-			return (-1);
-	while(str[i] == ' ')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-			return (-1);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>')
-		file[j++] = str[i++];
-	file[j] = '\0';
-	j = 0;
-	while (tmp->write[j])
-		j++;
-	tmp->write[j] = file;
-	return(i);
-}
-
-int	write_in_file(int i, t_line *tmp, char *str)
-{
-	int		j;
-	char	*file;
-
-	i++;
-	
-	file = calloc(1, sizeof(ft_strlen(str)));
-	if (str[i] == '<')
-	{
-		tmp->here_doc = true;
-		i++;
-	}
-	j = 0;
-	if (str[i] == '>' || str[i] == '<')
-			return (-1);
-	while(str[i] == ' ')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-			return (-1);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|')
-		file[j++] = str[i++];
-	file[j] = '\0';
-	j = 0;
-	while (tmp->read[j])
-		j++;
-	tmp->read[j] = file;
-	return(i);
-}
-
-int	write_char(int i, t_line *tmp, char *str)
-{
-	int	j;
-	char	*arg_string;
-	int	last_arg;
-
-	arg_string = calloc(ft_strlen(str) + 1, sizeof(char));
-	j = 0;
-	while (str[i] && str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && str[i] != ' ')
-	{
-		arg_string[j] = str[i];
-		i++;
-		j++;
-	}
-	arg_string[j] = '\0';
-	last_arg = 0;
-	while (tmp->arg[last_arg])
-		last_arg++;
-	tmp->arg[last_arg] = arg_string;
-	return(i);
-}
-
-int	cnt_param(char *str, t_line *line)
-{
-	t_cnt 	*cnt;
-	int		i;
-
-	i = 0;
-	cnt = calloc(1, sizeof(t_cnt));
-	if (str[i] != '<' && str[i] != '>' && str[i] != ' ')
-	{
-		cnt->nb_arg++;
-		i++;
-	}
-	while (str[i])
-	{
-		if (str[i] == '<')
-		{
-			cnt->nb_in++;
-			i++;
-			if (str[i] == '<')
-				i++;
-			while (str[i] == ' ')
-			 i++;
-			if (str[i] == '>' || str[i] == '<')
-				return (-1);
-		}
-		else if (str[i] == '>')
-		{
-			cnt->nb_out++;
-			i++;
-			if (str[i] == '>')
-				i++;
-			while (str[i] == ' ')
-			 i++;
-			if (str[i] == '<' || str[i] == '>')
-				return (-1);
-		}
-		else if (str[i] != ' ' && str[i - 1] == ' ')
-			cnt->nb_arg++;
-		i++;
-	}
- line->count = cnt;
- return (0);
-}
 
 void	malloc_string(t_line *line)
 {
@@ -157,6 +41,13 @@ void	create_nod(t_line **line, char *str)
 			i = write_in_file(i, tmp, str);
 		else if (str[i] == ' ')
 			i++;
+		else if (str[i] == 34)
+			i = write_double_quote(i, tmp, str);
+		else if (str[i] == 39)
+		{
+			printf("%i\n", i);
+			i = write_simple_quote(i, tmp, str);
+		}
 		else
 			i = write_char(i, tmp, str);
 	}
@@ -170,7 +61,41 @@ void	create_nod(t_line **line, char *str)
 	}
 }
 
-char	**ft_chara_split(char const *s)
+char	*check_quote(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 39)
+		{
+			i++;
+			while (s[i] && s[i] != 39)
+			{
+				s[i] = s[i] * (-1);
+				i++;
+			}
+			if (!s[i])
+				return (NULL);
+		}
+		if (s[i] == 34)
+		{
+			i++;
+			while (s[i] && s[i] != 34)
+			{
+				s[i] = s[i] * (-1);
+				i++;
+			}
+			if (!s[i])
+				return (NULL);
+		}
+		i++;
+	}
+	return (s);
+}
+
+char	**ft_chara_split(char *s)
 {
 	char		**srep;
 	int			i;
@@ -180,6 +105,7 @@ char	**ft_chara_split(char const *s)
 	line = NULL;
 	if (ft_strlen(s) == 0)
 		return (ft_calloc(1, sizeof(char *)));
+	s = check_quote(s);
 	srep = ft_split(s, '|');
 	while (srep[i])
 	{

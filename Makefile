@@ -13,7 +13,9 @@ PRINTF_H	= ./lib/ft_fprintf/ft_printf.h
 PRINTF		= ./lib/ft_fprintf/libftprintf.a
 
 SRCS = ./ft_minishell/parsing/test.c \
-		./ft_minishell/parsing/chara_split.c
+		./ft_minishell/parsing/chara_split.c \
+		./ft_minishell/parsing/count_lst.c \
+		./ft_minishell/parsing/write_on_nod.c
 
 DIR_OBJ := .object/
 
