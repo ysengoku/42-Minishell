@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 14:44:22 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:36:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@
 // 	struct s_env	*next;
 // }	t_env;
 
-// typedef struct s_open_file
-// {
-// 	char *files;
-// 	bool out;
-// 	bool append;
-// 	bool here_doc;
-// }				t_open_file;
+typedef struct s_open_file
+{
+	char *files;
+	bool out;
+	bool append;
+	bool here_doc;
+}				t_open_file;
 
 typedef struct s_cnt
 {
@@ -70,6 +70,7 @@ typedef struct s_line
 	char 			**write;
 	bool			append;
 	bool			here_doc;
+	// t_open_file		*file;
 	char			**arg;
 	t_cnt			*count;
 	struct s_line	*next;
@@ -85,11 +86,11 @@ typedef struct s_base
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int		ft_exec(t_base *base);
-void	execute_builtin(t_base *base);
+int		execute_builtin(t_base *base);
 // static void	execute_single_command(t_base *base);
 
 /* pipex.c */
-void	pipex(t_base *base);
+int		pipex(t_base *base);
 // static void		init_pipe(int (*pipefd)[2]);
 // static void		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 // static pid_t	pipe_last_command(t_base *base, int fd_in);
@@ -105,7 +106,7 @@ int		open_output_file(t_base *base, int i);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
-void	check_redirection(t_base *base, int *fd_in, int *fd_out);
+int	check_redirection(t_base *base, int *fd_in, int *fd_out);
 // static void	check_redirection_in(t_base *base, int *fd_in);
 // static void	check_redirection_out(t_base *base, int *fd_in, int *fd_out);
 
@@ -114,8 +115,8 @@ void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 
 /*----- Builtin commands -----------------------------------------------------*/
-void	ft_echo(t_base *base);
-void	ft_pwd(t_base *base);
+int		ft_echo(t_base *base);
+int		ft_pwd(t_base *base);
 void	ft_exit(t_base *base, int exit_status);
 
 /*----- Utils ----------------------------------------------------------------*/

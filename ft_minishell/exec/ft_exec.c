@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 11:41:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:07:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		execute_single_command(t_base *base);
+static int		execute_single_command(t_base *base);
 static pid_t	ft_fork(t_base *base);
 
 int	ft_exec(t_base *base)
@@ -20,33 +20,35 @@ int	ft_exec(t_base *base)
 /*------ if no pipe -----*/
 	if (base->lst->next == NULL)
 	{
-		execute_builtin(base);
+		return (execute_builtin(base));
 		execute_single_command(base);
 	}
 /*------ if pipe -----*/
-	pipex(base);
+	return (pipex(base));
+	free_base(base);
 	return (0);
 }
 
-void	execute_builtin(t_base *base)
+int	execute_builtin(t_base *base)
 {
 	// if (ft_strcmp(base->lst->arg[0], CD) == 0)
 	// 	ft_cd(); // to code
 	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-		ft_echo(base); // not complete yet
+		return (ft_echo(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-	// 	ft_env(); // to code
+	// 	return (ft_env()); // to code
 	// else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-	// 	ft_exit(); // to code
+	// 	return (ft_exit()); // to code
 	// else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-	// 	ft_export(); // to code
+	// 	return (ft_export()); // to code
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
-		ft_pwd(base); // not complete yet
+		return (ft_pwd(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
-	// 	ft_unset(); // to code
+	// 	return (ft_unset()); // to code
+	return (0);
 }
 
-static void	execute_single_command(t_base *base)
+static int	execute_single_command(t_base *base)
 {
 	int		fd[2];
 	int		exit_status;
@@ -56,7 +58,11 @@ static void	execute_single_command(t_base *base)
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
 	check_redirection(base, &fd[IN], &fd[OUT]);
+	printf("in: %d\n", fd[IN]);
+	printf("out: %d\n", fd[OUT]);
 	child_pid = ft_fork(base);
+	if (child_pid == -1)
+		return (EXIT_FAILURE);
 	if (child_pid == 0)
 	{
 		dup_input(fd[IN]);
@@ -64,20 +70,19 @@ static void	execute_single_command(t_base *base)
 		execute_command(base);
 	}
 	waitpid(child_pid, &exit_status, 0);
-	exit(WEXITSTATUS(exit_status));
+	return (WEXITSTATUS(exit_status));
 }
 
 static pid_t	ft_fork(t_base *base)
 {
 	pid_t	pid;
 
-	(void)base; //----->temporary
 	pid = fork();
 	if (pid == -1)
 	{
 		print_error(strerror(errno), "fork");
-		// free base
-		exit(EXIT_FAILURE);
+		if (base->lst->next == NULL)
+			free_base(base);
 	}
 	return (pid);
 }
