@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 10:26:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:58:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,22 @@ void	check_redirection(t_base *base, int *fd_in, int *fd_out);
 /* utils_exec.c */
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
-/* utils */
-void	ft_write(char *st1, char *st2);
-void	ft_free_arr(char **arr);
+
+/*----- Builtin commands -----------------------------------------------------*/
+void	ft_echo(t_base *base);
+void	ft_pwd(t_base *base);
+void	ft_exit(t_base *base, int exit_status);
+
+/*----- Utils ----------------------------------------------------------------*/
+/* error handling */
+void	print_error(char *st1, char *st2);
+/* free */
+void	ft_free_strarr(char **arr);
+void 	free_base(t_base *base);
 
  // To put into libft ?
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
-
-/*----- Builtin commands -----------------------------------------------------*/
-void	ft_echo(t_base *base);
-void	ft_pwd(t_base *base);
 
 #endif

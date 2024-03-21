@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 10:18:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:06:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	init_pipe(int (*pipefd)[2])
 {
 	if (pipe((*pipefd)) == -1)
 	{
-		ft_write(strerror(errno), "pipe");
+		print_error(strerror(errno), "pipe");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -103,7 +103,7 @@ static pid_t	ft_fork_pipex(int pipe[2])
 	{
 		close(pipe[IN]);
 		close(pipe[OUT]);
-		ft_write(strerror(errno), "fork");
+		print_error(strerror(errno), "fork");
 		exit(EXIT_FAILURE);
 	}
 	return (pid);

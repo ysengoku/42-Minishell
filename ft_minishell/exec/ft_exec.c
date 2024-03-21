@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 10:23:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:41:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static pid_t	ft_fork(t_base *base)
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_write(strerror(errno), "fork");
+		print_error(strerror(errno), "fork");
 		// free base
 		exit(EXIT_FAILURE);
 	}
