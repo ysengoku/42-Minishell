@@ -14,9 +14,9 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char *str;
+	char 	*str;
 	char	**line;
-	t_base *base;
+	t_base	*base;
 
 	base = ft_calloc(1, sizeof(t_base));
 	base->env = env;
@@ -24,12 +24,12 @@ int	main(int ac, char **av, char **env)
 	(void) av;
 	while(1)
 	{
-		str = readline("Minishell🐚 >>> ");
+		str = readline(CYAN "minishell>>> " RESET);
 		add_history(str);
 		line = ft_chara_split(str, base);
-		printf("%s\n", base->lst->read[0]);
 		ft_exec(base);
 		(void)line;
 		//command_line(line, base);
+		free_base(base);
 	}
 }
