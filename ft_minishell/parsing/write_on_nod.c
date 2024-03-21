@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/21 00:59:02 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 12:58:02 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	write_in_file(int i, t_line *tmp, char *str)
 	char	*file;
 
 	i++;
-	
 	file = calloc(1, sizeof(ft_strlen(str)));
 	if (str[i] == '<')
 	{
@@ -106,11 +105,11 @@ int	write_in_file(int i, t_line *tmp, char *str)
 	}
 	j = 0;
 	if (str[i] == '>' || str[i] == '<')
-			return (-1);
+		return (-1);
 	while(str[i] == ' ')
 		i++;
 	if (str[i] == '<' || str[i] == '>')
-			return (-1);
+		return (-1);
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '>' && str[i] != '|')
 		file[j++] = str[i++];
