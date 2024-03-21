@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/19 14:00:48 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:12:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(t_base *base) 
+void	ft_echo(t_base *base) 
 {
 	int	i;
 	int	newline;
@@ -27,8 +27,6 @@ int	ft_echo(t_base *base)
 		while (base->lst->write[i])
 		{
 			fd_out = open_output_file(base, i);
-			//if (*fd_out == -1)
-			// error handling
 			i++;
 			if (base->lst->write[i])
 				ft_close(fd_out, 0);
@@ -47,7 +45,8 @@ int	ft_echo(t_base *base)
 	if (newline)
 		write (fd_out, "\n", 1);
 	ft_close(fd_out, 0);
-	return (0);
+	// free
+	exit(0);
 }
 
 // int main(int argc, char **argv) 
