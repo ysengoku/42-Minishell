@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execve.c                                        :+:      :+:    :+:   */
+/*   execute_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:37:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 16:44:32 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:24:00 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 static char	*get_pathname(t_base *base);
 static char	**extract_path(t_base *base);
 
-void	ft_execve(t_base *base)
+void	execute_command(t_base *base)
 {
 	char	*pathname;
 	// char	*tmp;
 
-// Need to check if base->lst->arg[0] is built in or not ?
+// if base->lst->arg[0] is built in
+	execute_builtin(base);
 /*--- get path ---*/
 	if (access(base->lst->arg[0], X_OK) == 0)
 		pathname = ft_strdup(base->lst->arg[0]);

@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/19 13:57:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:13:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_base *base)
+void	ft_pwd(t_base *base)
 {
 	char	buf[PWD_SIZE];
 	int		fd_out;
@@ -26,11 +26,12 @@ int	ft_pwd(t_base *base)
 	if (getcwd(buf, sizeof(buf)) != 0)
 	{
 		ft_putendl_fd(buf, fd_out);
+		exit(0);
 	}
 	else
 	{
 		// error handling
 		//ft_putendl_fd(2, strerror(errno));
+		//exit(1)
 	}
-	return (0);
 }

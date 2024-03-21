@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 16:05:44 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:26:41 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,37 @@ typedef struct s_base
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/
+/* ft_exec.c */
 int		ft_exec(t_base *base);
+void	execute_builtin(t_base *base);
+// static void	execute_single_command(t_base *base);
+
+/* pipex.c */
+void	pipex(t_base *base);
+// static void		init_pipe(int (*pipefd)[2]);
+// static void		pipe_loop(t_base *base, int *fd_in, int *fd_out);
+// static pid_t	pipe_last_command(t_base *base, int fd_in);
+
+/* execute command */
+void	execute_command(t_base *base);
+// static char	*get_pathname(t_base *base);
+// static char	**extract_path(t_base *base);
+
+/* open_file.c */
 int		open_input_file(t_base *base, int i);
 int		open_output_file(t_base *base, int i);
+void	ft_close(int fd1, int fd2);
+
+/* redirection.c */
 void	check_redirection(t_base *base, int *fd_in, int *fd_out);
-void	init_pipe(int (*pipefd)[2]);
+// static void	check_redirection_in(t_base *base, int *fd_in);
+// static void	check_redirection_out(t_base *base, int *fd_in, int *fd_out);
+
+/* utils_exec.c */
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
-pid_t	ft_fork(int pipe[2]);
-void	ft_execve(t_base *base);
+/* utils */
 void	ft_write(char *st1, char *st2);
-void	ft_close(int fd1, int fd2);
 void	ft_free_arr(char **arr);
 
  // To put into libft ?
@@ -85,7 +105,7 @@ char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
 /*----- Builtin commands -----------------------------------------------------*/
-int		ft_echo(t_base *base);
-int		ft_pwd(t_base *base);
+void	ft_echo(t_base *base);
+void	ft_pwd(t_base *base);
 
 #endif

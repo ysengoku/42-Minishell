@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/20 11:39:11 by yusengok         ###   ########.fr        #
+#    Updated: 2024/03/21 09:25:53 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,10 @@ SRCS =	test_main.c	\
 		ft_echo.c	\
 		ft_pwd.c \
 		ft_exec.c	\
+		pipex.c	\
+		execute_command.c	\
 		open_file.c	\
 		redirection.c	\
-		ft_execve.c	\
 		utils_exec.c	\
 		utils.c
 
