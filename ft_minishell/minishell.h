@@ -19,12 +19,18 @@ typedef struct s_cnt
 	int		nb_in;
 }				t_cnt;
 
+typedef struct s_open_file
+{
+	char	*file;
+	bool	out;
+	bool	append;
+	bool	here_doc;
+}				t_open_file;
+
 typedef struct s_line
 {
-	char 			**read;
-	char 			**write;
-	bool			append;
-	bool			here_doc;
+	t_open_file		*files;
+	int				nb_arg;
 	char			**arg;
 	t_cnt			*count;
 	struct s_line	*next;
