@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 12:55:55 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:19:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void free_base(t_base *base)
  	t_line *current_node;
 	t_line *next_node;
 	
-    if (base && base->lst->next != NULL)
+    if (base)
 	{
 		current_node = base->lst;
         while (current_node)
