@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/21 12:58:02 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 16:04:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	write_simple_quote(int i, t_line *tmp, char *str)
 	tmp->arg[j] = quote;
 	return(i);
 }
+
 int write_double_quote(int i, t_line *tmp, char *str)
 {
 	int	j;
@@ -93,19 +94,20 @@ int	write_out_file(int i, t_line *tmp, char *str)
 
 int	write_in_file(int i, t_line *tmp, char *str)
 {
-	int		j;
-	char	*file;
+	int				j;
+	char			*file;
+	t_open_file		*nod_file;
 
 	i++;
-	file = calloc(1, sizeof(ft_strlen(str)));
+	nod_file = calloc(1, sizeof(ft_strlen(str)));
 	if (str[i] == '<')
 	{
-		tmp->here_doc = true;
+		nod_file->here_doc = true;
 		i++;
 	}
 	j = 0;
 	if (str[i] == '>' || str[i] == '<')
-		return (-1);
+		return (free(nod_file), -1);
 	while(str[i] == ' ')
 		i++;
 	if (str[i] == '<' || str[i] == '>')
