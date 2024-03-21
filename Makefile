@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/21 14:37:58 by yusengok         ###   ########.fr        #
+#    Updated: 2024/03/21 14:48:27 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 #PRINTF_H	= ./lib/ft_libfprintf/ft_printf.h
 #PRINTF		= ./lib/libft_fprintf/libftprintf.a
 
-vpath %c ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
 SRCS =	ft_echo.c	\
 		ft_pwd.c \
 		ft_exit.c	\
@@ -42,7 +42,7 @@ SRCS =	ft_echo.c	\
 		chara_split.c	\
 		count_lst.c	\
 		write_on_nod.c	\
-		test.c	\
+		main.c	\
 		error_handling.c	\
 		ft_free.c	
 
