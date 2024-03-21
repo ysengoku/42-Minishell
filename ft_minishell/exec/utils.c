@@ -6,34 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 09:25:19 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/20 16:33:47 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:56:55 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_write(char *st1, char *st2)
-{
-	write(2, st1, ft_strlen(st1));
-	if (st2)
-	{
-		write(2, ": ", 2);
-		write(2, st2, ft_strlen(st2));
-	}
-	write(2, "\n", 1);
-}
-
-void	ft_free_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-/*--- To add to libft ---*/
+/*--- Add to libft ? ---*/
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
