@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 14:22:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 14:28:55 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	write_in_file(int i, t_line *tmp, char *str)
 		stock->type = INFILE;
 	j = 0;
 	if (str[i] == '>' || str[i] == '<')
-		return (free(nod_file), -1);
+		return (-1);
 	while(str[i] == ' ')
 		i++;
 	if (str[i] == '<' || str[i] == '>')

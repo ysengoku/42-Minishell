@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 14:23:34 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 15:37:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,6 @@
 // 	struct s_env	*next;
 // }	t_env;
 
-/*
-typedef enum
-{
-	INFILE = 1,
-	OUT_TRUNC = 2,
-	OUT_APPEND = 3,
-	HERE_DOC = 4
-}	e_file_type;
-
-typedef struct s_file
-{
-	char 			*filename;
-	e_file_type		type;
-	struct s_file	*next;
-}				t_file;
-*/
-
-typedef struct s_open_file
-{
-	char *files;
-	bool out;
-	bool append;
-	bool here_doc;
-}				t_open_file;
-
-
 typedef enum
 {
     INFILE = 1,
@@ -87,15 +61,6 @@ typedef struct s_file
     e_file_type			type;
     struct s_file		*next;
 }                t_file;
-
-
-typedef struct s_open_file
-{
-	char	*file;
-	bool	out;
-	bool	append;
-	bool	here_doc;
-}				t_open_file;
 
 typedef struct s_line
 {
@@ -129,8 +94,9 @@ void	execute_command(t_base *base);
 // static char	**extract_path(t_base *base);
 
 /* open_file.c */
-int		open_input_file(t_base *base, int i);
-int		open_output_file(t_base *base, int i);
+int		open_infile(t_base *base);
+int		open_outfile_trunc(t_base *base);
+int		open_outfile_append(t_base *base);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
@@ -159,7 +125,8 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
-char	**ft_chara_split(char *s, t_base *base);
+void	ft_chara_split(char *s, t_base **base);
+// char	**ft_chara_split(char *s, t_base *base);
 int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);

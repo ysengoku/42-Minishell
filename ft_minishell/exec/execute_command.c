@@ -20,7 +20,7 @@ void	execute_command(t_base *base)
 	char	*pathname;
 
 	// if base->lst->arg[0] is built in
-	execute_builtin(base);
+	//execute_builtin(base);
 	/*--- get path ---*/
 	if (access(base->lst->arg[0], X_OK) == 0)
 		pathname = ft_strdup(base->lst->arg[0]);
