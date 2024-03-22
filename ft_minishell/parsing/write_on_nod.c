@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/21 14:18:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:22:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	write_simple_quote(int i, t_line *tmp, char *str)
 	tmp->arg[j] = quote;
 	return(i);
 }
+
 int write_double_quote(int i, t_line *tmp, char *str)
 {
 	int	j;
@@ -64,15 +65,20 @@ int write_double_quote(int i, t_line *tmp, char *str)
 int	write_out_file(int i, t_line *tmp, char *str)
 {
 	int		j;
-	char	*file;
-
+	t_file	*stock;
+	t_file	*last;
+	
+	last = tmp->file;
 	i++;
-	file = calloc(1, sizeof(ft_strlen(str)));
+	stock = calloc(1, sizeof(t_file));
+	stock->filename = calloc(ft_strlen(str), sizeof(char));
 	if (str[i] == '>')
 	{
-		tmp->append = true;
+		stock->type = OUT_APPEND;
 		i++;
 	}
+	else
+		stock->type = OUT_TRUNC;
 	j = 0;
 	if (str[i] == '<' || str[i] == '>')
 			return (-1);
@@ -81,43 +87,58 @@ int	write_out_file(int i, t_line *tmp, char *str)
 	if (str[i] == '<' || str[i] == '>')
 			return (-1);
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>')
-		file[j++] = str[i++];
-	file[j] = '\0';
-	j = 0;
-	while (tmp->write[j])
-		j++;
-	tmp->write[j] = file;
+	&& str[i] != '|' && str[i] != '>' && str[i] != 34\
+	&& str[i] != 39)
+		stock->filename[j++] = str[i++];
+	stock->filename[j] = '\0';
+	if (tmp->file == NULL)
+		tmp->file = stock;
+	else
+	{
+		while (last->next != NULL)
+			last = last->next;
+		last->next = stock;
+	}
 	return(i);
 }
 
 int	write_in_file(int i, t_line *tmp, char *str)
 {
 	int		j;
-	char	*file;
-
+	t_file	*stock;
+	t_file	*last;
+	
+	last = tmp->file;
 	i++;
-	file = calloc(1, sizeof(ft_strlen(str)));
+	stock = calloc(1, sizeof(t_file));
+	stock->filename = calloc(ft_strlen(str), sizeof(char));
 	if (str[i] == '<')
 	{
-		tmp->here_doc = true;
+		stock->type = HERE_DOC;
 		i++;
 	}
+	else
+		stock->type = INFILE;
 	j = 0;
 	if (str[i] == '>' || str[i] == '<')
-		return (-1);
+		return (free(nod_file), -1);
 	while(str[i] == ' ')
 		i++;
 	if (str[i] == '<' || str[i] == '>')
 		return (-1);
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|')
-		file[j++] = str[i++];
-	file[j] = '\0';
-	j = 0;
-	while (tmp->read[j])
-		j++;
-	tmp->read[j] = file;
+	&& str[i] != '>' && str[i] != '|' && str[i] != 34\
+	&& str[i] != 39)
+		stock->filename[j++] = str[i++];
+	stock->filename[j] = '\0';
+		if (tmp->file == NULL)
+		tmp->file = stock;
+	else
+	{
+		while (last->next != NULL)
+			last = last->next;
+		last->next = stock;
+	}
 	return(i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 15:36:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:23:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,29 +72,42 @@ typedef struct s_open_file
 	bool here_doc;
 }				t_open_file;
 
-typedef struct s_cnt
+
+typedef enum
 {
-	int		nb_arg;
-	int		nb_out;
-	int		nb_in;
-}				t_cnt;
+    INFILE = 1,
+    OUT_TRUNC = 2,
+    OUT_APPEND = 3,
+    HERE_DOC = 4
+}    e_file_type;
+
+typedef struct s_file
+{
+    char				*filename;
+    e_file_type			type;
+    struct s_file		*next;
+}                t_file;
+
+
+typedef struct s_open_file
+{
+	char	*file;
+	bool	out;
+	bool	append;
+	bool	here_doc;
+}				t_open_file;
 
 typedef struct s_line
 {
-	char 			**read;
-	char 			**write;
-	bool			append;
-	bool			here_doc;
-	// t_open_file		*file;
+	t_file			*file;
 	char			**arg;
-	t_cnt			*count;
+	int				nb_arg;
 	struct s_line	*next;
 }				t_line;
 
 typedef struct s_base
 {
 	char	**env;
-	// t_env	*env;
 	t_line	*lst;
 }			t_base;
 
