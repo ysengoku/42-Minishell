@@ -12,46 +12,46 @@
 
 #include "minishell.h"
 
-int	ft_echo(t_base *base) 
+static int	check_newline(char *s);
+
+int	ft_echo(t_base *base)
 {
 	int	i;
 	int	newline;
-	int	fd_in;
-	int	fd_out;
+	int	fd[2];
 
-	// Need to check all files (in/out) in order
-	// If there is an open error, stop & return (1)
-	// if (base->lst->write[0] == NULL)
-	// 	fd_out = 1;
-	// else
-	// {
-	// 	i = 0;
-	// 	while (base->lst->write[i])
-	// 	{
-	// 		fd_out = open_outfile_trunc(base, i);
-	// 		i++;
-	// 		if (base->lst->write[i])
-	// 			ft_close(fd_out, 0);
-	// 	}
-	// }
-	fd_in = STDIN_FILENO;
-	fd_out = STDOUT_FILENO;
-	if (check_redirection(base, &fd_in, &fd_out) == 1)
-		return (1);
+	fd[IN] = STDIN_FILENO;
+	fd[OUT] = STDOUT_FILENO;
+	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
+		return (EXIT_FAILURE);
 	i = 1;
-	newline = ft_strncmp(base->lst->arg[i], "-n", 2);
+	newline = check_newline(base->lst->arg[i]);
 	if (newline == 0)
 		i++;
 	while (base->lst->arg[i])
 	{
-		write(fd_out, base->lst->arg[i], ft_strlen(base->lst->arg[i]));
+		write(fd[OUT], base->lst->arg[i], ft_strlen(base->lst->arg[i]));
 		if (base->lst->arg[++i])
-			write (fd_out, " ", 1);
+			write (fd[OUT], " ", 1);
 	}
 	if (newline)
-		write (fd_out, "\n", 1);
-	ft_close(fd_out, 0);
+		write (fd[OUT], "\n", 1);
+	ft_close(fd[IN], fd[OUT]);
 	if (base->lst->next)
 		free_base(base);
+	return (0);
+}
+
+static int	check_newline(char *s)
+{
+	if (*s != '-')
+		return (1);
+	s++;
+	while (*s)
+	{
+		if (*s != 'n')
+			return (1);
+		s++;
+	}
 	return (0);
 }

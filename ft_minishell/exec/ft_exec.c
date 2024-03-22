@@ -34,8 +34,8 @@ int	execute_single_command(t_base *base)
 		return (ft_echo(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 	// 	return (ft_env()); // to code
-	// else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-	// 	return (ft_exit()); // to code
+	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
+		ft_exit(base, EXIT_SUCCESS); //-----> This func is coded for temporary use for now
 	// else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 	// 	return (ft_export()); // to code
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
@@ -44,7 +44,7 @@ int	execute_single_command(t_base *base)
 	// 	return (ft_unset()); // to code
 	else
 		return (ft_execve(base));
-	// return (0);
+	return (0);
 }
 
 static int	ft_execve(t_base *base)
