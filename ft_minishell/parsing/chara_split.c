@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/21 14:36:46 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:22:09 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	malloc_string(t_line *line)
 {
-	//printf("arg=%i, in=%i, out=%i\n", line->count->nb_arg, line->count->nb_in, line->count->nb_out);
-	line->arg = calloc(line->count->nb_arg + 1, sizeof(char*));
-	line->read = calloc(line->count->nb_in + 1, sizeof(char*));
-	line->write = calloc(line->count->nb_out + 1, sizeof(char *));
+	printf("arg=%i\n", line->nb_arg);
+	line->arg = calloc(line->nb_arg + 1, sizeof(char*));
 }
 
 void	create_nod(t_line **line, char *str)
@@ -31,6 +29,7 @@ void	create_nod(t_line **line, char *str)
 	nxt = *line;
 	tmp = ft_calloc(1, sizeof(t_line));
 	tmp->next = NULL;
+	tmp->files = NULL;
 	cnt_param(str, tmp);
 	malloc_string(tmp);
 	while (str[i])
@@ -112,28 +111,20 @@ char	**ft_chara_split(char *s, t_base *base)
 		create_nod(&line, srep[i]);
 		i++;
 	}
-	// while (line)
-	// {
-	// 	i = 0;
-	// 	while (line->arg && line->arg[i])
-	// 	{
-	// 		printf("arg[%i] is:%s\n", i, line->arg[i]);
-	// 		i++;
-	// 	}
-	// 	i = 0;
-	// 	while (line->read && line->read[i])
-	// 	{
-	// 		printf("infile[%i] is :%s\n", i, line->read[i]);
-	// 		i++;
-	// 	}
-	// 	i = 0;
-	// 	while (line->write && line->write[i])
-	// 	{
-	// 		printf("outfile[%i] is :%s\n", i, line->write[i]);
-	// 		i++;
-	// 	}
-	// 	line = line->next;
-	// }
-	base->lst = line;
+	while (line)
+	{
+		i = 0;
+		while (line->arg && line->arg[i])
+		{
+			printf("arg[%i] is:%s\n", i, line->arg[i]);
+			i++;
+		}
+		while(line->file)
+		{
+			printf("file: %s, is type %d\n", line->file->filename, line->file->type);
+			line->file = line->file->next;
+		}
+		line = line->next;
+	}
 	return (srep);
 }
