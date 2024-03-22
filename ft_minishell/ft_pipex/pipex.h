@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:17:13 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/18 21:53:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 14:15:04 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*search_exec(char *envp, char *str, char *init);
 char	**create_ar(char *str, t_base *base);
 int		ft_free_all(char **ar, t_base *base, int ret);
 void	ft_free_split(char **srep);
-void	ft_write(char *st1, char *st2);
+void	print_error(char *st1, char *st2);
 void	child_loop(t_base *base, int fd[2], int i);
 void	first_child(t_base *base);
 void	last_child(t_base *base);

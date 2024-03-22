@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 14:16:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 14:22:09 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	malloc_string(t_line *line)
 {
@@ -94,7 +94,7 @@ char	*check_quote(char *s)
 	return (s);
 }
 
-char	**ft_chara_split(char *s)
+char	**ft_chara_split(char *s, t_base *base)
 {
 	char		**srep;
 	int			i;
