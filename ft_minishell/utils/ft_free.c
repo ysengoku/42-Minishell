@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 15:19:42 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:20:55 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ void free_base(t_base *base)
 		current_node = base->lst;
         while (current_node)
 		{
-            if (current_node->read)
-				ft_free_strarr(current_node->read);
-            if (current_node->write)
-                ft_free_strarr(current_node->write);
             if (current_node->arg)
 				ft_free_strarr(current_node->arg);
+			if (current_node->file)
+			{
+				free(current_node->file->filename);
+				free(current_node->file);
+			}
             next_node = current_node->next;
             free(current_node);
             current_node = next_node;

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 15:30:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:09:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	ft_pwd(t_base *base)
 	(void)base;
 	// Need to check all files (in/out) in order
 	// If there is an open error, stop & return (1)
-	check_redirection(base, 0, &fd_out);
+	if (check_redirection(base, 0, &fd_out) == 1)
+		return (EXIT_FAILURE);
 	if (getcwd(buf, sizeof(buf)) == 0)
 	{
 		//error handling 

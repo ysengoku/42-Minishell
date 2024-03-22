@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 13:19:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:49:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_exec(t_base *base)
 	{
 		// if built in
 		return (execute_builtin(base));
-		// else
+		//else
 		return (execute_single_command(base));
 	}
 /*------ if pipe -----*/
@@ -61,15 +61,16 @@ static int	execute_single_command(t_base *base)
 	exit_status = 0;
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
-	check_redirection(base, &fd[IN], &fd[OUT]);
-	printf("in: %d\n", fd[IN]);
-	printf("out: %d\n", fd[OUT]);
+	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
+		return (EXIT_FAILURE);
+	// printf("in: %d\n", fd[IN]);
+	// printf("out: %d\n", fd[OUT]);
 	child_pid = ft_fork(base);
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
 	if (child_pid == 0)
 	{
-		// issue with stdin & stdout
+		// issue with stdin & stdout ??
 		dup_input(fd[IN]);
 		dup_output(fd[OUT]);
 		execute_command(base);

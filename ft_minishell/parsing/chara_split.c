@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 14:22:09 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 15:38:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	malloc_string(t_line *line)
 {
-	printf("arg=%i\n", line->nb_arg);
+	// printf("arg=%i\n", line->nb_arg);
 	line->arg = calloc(line->nb_arg + 1, sizeof(char*));
 }
 
@@ -29,7 +29,7 @@ void	create_nod(t_line **line, char *str)
 	nxt = *line;
 	tmp = ft_calloc(1, sizeof(t_line));
 	tmp->next = NULL;
-	tmp->files = NULL;
+	tmp->file = NULL;
 	cnt_param(str, tmp);
 	malloc_string(tmp);
 	while (str[i])
@@ -44,7 +44,7 @@ void	create_nod(t_line **line, char *str)
 			i = write_double_quote(i, tmp, str);
 		else if (str[i] == 39)
 		{
-			printf("%i\n", i);
+			// printf("%i\n", i);
 			i = write_simple_quote(i, tmp, str);
 		}
 		else
@@ -94,7 +94,42 @@ char	*check_quote(char *s)
 	return (s);
 }
 
-char	**ft_chara_split(char *s, t_base *base)
+// char	**ft_chara_split(char *s, t_base *base)
+// {
+// 	char		**srep;
+// 	int			i;
+// 	t_line		*line;
+
+// 	i = 0;
+// 	line = NULL;
+// 	if (ft_strlen(s) == 0)
+// 		return (ft_calloc(1, sizeof(char *)));
+// 	s = check_quote(s);
+// 	srep = ft_split(s, '|');
+// 	while (srep[i])
+// 	{
+// 		create_nod(&line, srep[i]);
+// 		i++;
+// 	}
+// 	while (line)
+// 	{
+// 		i = 0;
+// 		while (line->arg && line->arg[i])
+// 		{
+// 			printf("arg[%i] is:%s\n", i, line->arg[i]);
+// 			i++;
+// 		}
+// 		while(line->file)
+// 		{
+// 			printf("file: %s, is type %d\n", line->file->filename, line->file->type);
+// 			line->file = line->file->next;
+// 		}
+// 		line = line->next;
+// 	}
+// 	return (srep);
+// }
+
+void	ft_chara_split(char *s, t_base **base)
 {
 	char		**srep;
 	int			i;
@@ -103,7 +138,7 @@ char	**ft_chara_split(char *s, t_base *base)
 	i = 0;
 	line = NULL;
 	if (ft_strlen(s) == 0)
-		return (ft_calloc(1, sizeof(char *)));
+		return ;
 	s = check_quote(s);
 	srep = ft_split(s, '|');
 	while (srep[i])
@@ -111,20 +146,20 @@ char	**ft_chara_split(char *s, t_base *base)
 		create_nod(&line, srep[i]);
 		i++;
 	}
-	while (line)
-	{
-		i = 0;
-		while (line->arg && line->arg[i])
-		{
-			printf("arg[%i] is:%s\n", i, line->arg[i]);
-			i++;
-		}
-		while(line->file)
-		{
-			printf("file: %s, is type %d\n", line->file->filename, line->file->type);
-			line->file = line->file->next;
-		}
-		line = line->next;
-	}
-	return (srep);
+	// while (line)
+	// {
+	// 	i = 0;
+	// 	while (line->arg && line->arg[i])
+	// 	{
+	// 		printf("arg[%i] is:%s\n", i, line->arg[i]);
+	// 		i++;
+	// 	}
+	// 	while(line->file)
+	// 	{
+	// 		printf("file: %s, is type %d\n", line->file->filename, line->file->type);
+	// 		line->file = line->file->next;
+	// 	}
+	// 	line = line->next;
+	// }
+	(*base)->lst = line;
 }
