@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 18:14:16 by dvo               #+#    #+#             */
-/*   Updated: 2024/02/26 11:24:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/21 11:06:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_write(char *st1, char *st2)
+void	print_error(char *st1, char *st2)
 {
 	write(2, st1, ft_strlen(st1));
 	if (st2)
@@ -44,9 +44,9 @@ void	attribute_folder(t_base *base, char *str)
 	ar[1] = NULL;
 	execve(str, ar, base->env);
 	if (ft_strchr(str, '/') == 1)
-		ft_write(strerror(errno), str);
+		print_error(strerror(errno), str);
 	else
-		ft_write("command not found", ar[0]);
+		print_error("command not found", ar[0]);
 	free(ar[0]);
 	exit(ft_free_all(NULL, base, 127));
 }

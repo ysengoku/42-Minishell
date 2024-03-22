@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 14:15:29 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 14:22:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	write_simple_quote(int i, t_line *tmp, char *str)
 {

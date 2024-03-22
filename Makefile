@@ -1,49 +1,87 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
+#    Updated: 2024/03/22 11:39:57 by yusengok         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+RESET = \033[0m
+LIGHT_GREEN = \033[1;32m
+MAGENTA = \033[1;95m
+CYAN = \033[1;36m
+
 NAME = minishell
 
 CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-CFLAGS = -Wall -Wextra -Werror -g
-RDFLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
+LIBFT_DIR	= ./lib/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
+
+PRINTF_DIR	= ./lib/ft_fprintf
+PRINTF		= $(PRINTF_DIR)/libftprintf.a
+
 IFLAGS = ./ft_minishell/minishell.h
+INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
+LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
+LIBS = -lreadline -lft -lftprintf
 
+INC_DIR_MAC = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/opt/readline/include
+LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 
-LIBFT_H        = ./lib/libf/libft.h
-LIBFT        = ./lib/libft/libft.a
-PRINTF_H	= ./lib/ft_fprintf/ft_printf.h
-PRINTF		= ./lib/ft_fprintf/libftprintf.a
-
-SRCS = ./ft_minishell/parsing/test.c \
-		./ft_minishell/parsing/chara_split.c \
-		./ft_minishell/parsing/count_lst.c \
-		./ft_minishell/parsing/write_on_nod.c
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
+SRCS =	main.c	\
+		ft_echo.c	\
+		ft_pwd.c \
+		ft_exit.c	\
+		ft_exec.c	\
+		pipex.c	\
+		execute_command.c	\
+		open_file.c	\
+		redirection.c	\
+		utils_exec.c	\
+		utils.c	\
+		chara_split.c	\
+		count_lst.c	\
+		write_on_nod.c	\
+		error_handling.c	\
+		ft_free.c	
 
 DIR_OBJ := .object/
 
-OBJS = $(patsubst %.c, ${DIR_OBJ}%.o, ${SRCS})
+OBJS = $(patsubst %.c, $(DIR_OBJ)%.o, $(SRCS))
 
 all: mlibft mfprintf $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) -o $(NAME) $(RDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) $(LIB_DIR) $(LIBS) -o $(NAME)
+	@printf "$(LIGHT_GREEN)minishell is ready to launch\n$(RESET)"
+#	$(CC) $(CFLAGS) $(OBJS) $(INC_DIR_MAC) $(LIB_DIR_MAC) $(LIBS) -o $(NAME)
 
-${DIR_OBJ}%.o: %.c $(IFLAGS) Makefile
-	mkdir -p $(shell dirname $@)
-	$(CC) ${CFLAGS} ${RDFLAGS} -c $< -o $@
+$(DIR_OBJ)%.o: %.c $(IFLAGS) Makefile
+	@mkdir -p $(shell dirname $@)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
+#	$(CC) $(CFLAGS) -c $< -o $@ $(INC_DIR_MAC) 
 
 mlibft:
-	make -C ./lib/libft
+	@make -C $(LIBFT_DIR)
 
 mfprintf:
-	make -C ./lib/ft_fprintf
+	@make -C $(PRINTF_DIR)
 	
 clean:
-	@make -C ./lib/libft fclean
-	@make -C ./lib/ft_fprintf fclean
-	rm -f $(MY_OBJECTS)
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(PRINTF_DIR) fclean
+	rm -rf $(DIR_OBJ)
 
 fclean: clean
-	@make -C ./lib/libft fclean
-	@make -C ./lib/ft_fprintf clean
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(PRINTF_DIR) fclean
 	rm -f $(NAME)
 
 re : fclean all
