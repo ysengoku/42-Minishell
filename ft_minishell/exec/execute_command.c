@@ -74,6 +74,7 @@ static char	**extract_path(t_base *base)
 	char	**path_list;
 
 	i = -1;
+	tmp = NULL;
 	while (base->env[++i])
 	{
 		if (ft_strncmp(base->env[i], "PATH=", 5) == 0)

@@ -26,10 +26,7 @@ int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 			else
 			{
 				ft_close(*fd_out, 0);
-				if (base->lst->file->type == OUT_TRUNC)
-					*fd_out = open_outfile_trunc(base);
-				else
-					*fd_out = open_outfile_append(base);
+				*fd_out = open_outfile(base);
 			}
 			if (*fd_in == -1 || *fd_out == -1)
 			{

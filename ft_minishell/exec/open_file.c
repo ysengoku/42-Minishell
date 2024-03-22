@@ -29,7 +29,7 @@ int	open_outfile(t_base *base)
 	if (base->lst->file->type == OUT_TRUNC)
 		fd_out = open(base->lst->file->filename,
 				O_RDWR | O_CREAT | O_TRUNC, 0644);
-	else if (base->lst->file->type == OUT_APPEND)
+	else
 		fd_out = open(base->lst->file->filename,
 				O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd_out == -1)
