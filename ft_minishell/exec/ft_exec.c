@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 11:58:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:19:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	execute_builtin(t_base *base)
 		return (ft_pwd(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	return (ft_unset()); // to code
+	else
+		return (execute_single_command(base));
 	// return (0);
 }
 
