@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/21 15:21:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 14:16:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	malloc_string(t_line *line)
 {
-	printf("arg=%i, in=%i, out=%i\n", line->count->nb_arg, line->count->nb_in, line->count->nb_out);
+	printf("arg=%i\n", line->nb_arg);
 	line->arg = calloc(line->nb_arg + 1, sizeof(char*));
 }
 
@@ -119,17 +119,10 @@ char	**ft_chara_split(char *s)
 			printf("arg[%i] is:%s\n", i, line->arg[i]);
 			i++;
 		}
-		i = 0;
-		while (line->files)
+		while(line->file)
 		{
-			printf("infile[%i] is :%s\n", line->read[i], line->files->);
-			i++;
-		}
-		i = 0;
-		while (line->write && line->write[i])
-		{
-			printf("outfile[%i] is :%s\n", i, line->write[i]);
-			i++;
+			printf("file: %s, is type %d\n", line->file->filename, line->file->type);
+			line->file = line->file->next;
 		}
 		line = line->next;
 	}
