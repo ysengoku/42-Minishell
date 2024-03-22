@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:37:48 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:43:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct s_base
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int		ft_exec(t_base *base);
-int		execute_builtin(t_base *base);
-// static void	execute_single_command(t_base *base);
+int		execute_single_command(t_base *base);
+// static void	ft_execve(t_base *base);
 
 /* pipex.c */
 int		pipex(t_base *base);
@@ -95,14 +95,11 @@ void	execute_command(t_base *base);
 
 /* open_file.c */
 int		open_infile(t_base *base);
-int		open_outfile_trunc(t_base *base);
-int		open_outfile_append(t_base *base);
+int		open_outfile(t_base *base);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
 int	check_redirection(t_base *base, int *fd_in, int *fd_out);
-// static void	check_redirection_in(t_base *base, int *fd_in);
-// static void	check_redirection_out(t_base *base, int *fd_in, int *fd_out);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
@@ -125,8 +122,8 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
+/*----- Parsing --------------------------------------------------------------*/
 void	ft_chara_split(char *s, t_base **base);
-// char	**ft_chara_split(char *s, t_base *base);
 int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);

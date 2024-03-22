@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 16:05:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:12:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ void	dup_output(int fd_out)
 	}
 	ft_close(fd_out, 0);
 }
-
