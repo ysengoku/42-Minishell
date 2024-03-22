@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 16:03:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:17:00 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	main(int ac, char **av, char **env)
 		if (str && *str)
 		{
 			add_history(str);
-			ft_chara_split(str, &base);
-			ft_exec(base);
+			if (ft_chara_split(str, &base) != -1)
+				ft_exec(base);
 		}
 	}
 }

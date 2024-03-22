@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:37:48 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:55:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
-void	ft_chara_split(char *s, t_base **base);
+int		ft_chara_split(char *s, t_base **base);
 // char	**ft_chara_split(char *s, t_base *base);
 int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
