@@ -12,27 +12,34 @@
 # include "../lib/libft/libft.h"
 # include "../lib/ft_fprintf/ft_printf.h"
 
-typedef struct s_cnt
+
+typedef enum
 {
-	int		nb_arg;
-	int		nb_out;
-	int		nb_in;
-}				t_cnt;
+    INFILE = 1,
+    OUT_TRUNC = 2,
+    OUT_APPEND = 3,
+    HERE_DOC = 4
+}    e_file_type;
+
+typedef struct s_file
+{
+    char				*filename;
+    e_file_type			type;
+    struct s_file		*next;
+}                t_file;
+
 
 typedef struct s_line
 {
-	char 			**read;
-	char 			**write;
-	bool			append;
-	bool			here_doc;
+	t_file			*file;
 	char			**arg;
-	t_cnt			*count;
+	int				nb_arg;
 	struct s_line	*next;
 }				t_line;
 
 typedef struct s_base
 {
-	char **env;
+	char	**env;
 	t_line	*lst;
 }			t_base;
 
