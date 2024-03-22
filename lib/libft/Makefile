@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-CC = gcc
+CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -32,11 +32,12 @@ $(NAME) : $(MY_OBJECTS)
 	ar -r $@ $^
 
 ${DIR_OBJ}%.o: %.c ${IFLAGS} Makefile
-	mkdir -p $(shell dirname $@)
+	@mkdir -p $(shell dirname $@)
 	$(CC) ${CFLAGS} -c $< -o $@
 
 clean:
-	rm -f $(MY_OB) $(MY_OBJECTS)
+	$(RM) -r $(DIR_OBJ)
+#	rm -f $(MY_OB) $(MY_OBJECTS)
 
 fclean: clean
 	rm -f $(NAME)
