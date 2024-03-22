@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/21 16:07:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:58:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	ft_exec(t_base *base)
 /*------ if no pipe -----*/
 	if (base->lst->next == NULL)
 	{
+		// if built in
 		return (execute_builtin(base));
-		execute_single_command(base);
+		// else
+		return (execute_single_command(base));
 	}
 /*------ if pipe -----*/
 	return (pipex(base));
@@ -45,7 +47,7 @@ int	execute_builtin(t_base *base)
 		return (ft_pwd(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	return (ft_unset()); // to code
-	return (0);
+	// return (0);
 }
 
 static int	execute_single_command(t_base *base)
@@ -65,6 +67,7 @@ static int	execute_single_command(t_base *base)
 		return (EXIT_FAILURE);
 	if (child_pid == 0)
 	{
+		// issue with stdin & stdout
 		dup_input(fd[IN]);
 		dup_output(fd[OUT]);
 		execute_command(base);
