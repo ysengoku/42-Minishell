@@ -6,31 +6,32 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 18:31:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/22 22:30:40 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	quote_in_file(char *str, int i, t_file *stock)
+int	quote_in_file(int *j, char *str, int i, t_file *stock)
 {
-	int	j;
+	int tmp;
 
-	j = 0;
+	tmp = *j;
 	if (str[i] == 34)
 	{
 		i++;
 		while(str[i] != 34)
-			stock->filename[j++] = str[i++] * -1;
+			stock->filename[tmp++] = str[i++] * -1;
 	}
 	else if(str[i] == 39)
 	{
 		i++;
 		while(str[i] != 39)
-			stock->filename[j++] = str[i++] * -1;
+			stock->filename[tmp++] = str[i++] * -1;
 	}
-	stock->filename[j] = '\0';
+	stock->filename[tmp] = '\0';
 	i++;
+	*j = tmp;
 	return (i);
 }
 
@@ -45,13 +46,16 @@ int	ft_write_file(char *str, int i, t_file *stock)
 	if (str[i] == '<' || str[i] == '>')
 			return (-1);
 	if (str[i] == 34 || str[i] == 39)
-		i = quote_in_file(str, i, stock);
+		i = quote_in_file(&j, str, i, stock);
 	else
 	{
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
-		&& str[i] != '|' && str[i] != '>' && str[i] != 34\
-		&& str[i] != 39)
+		&& str[i] != '|' && str[i] != '>')
+		{
+			if (str[i] == 34 || str[i] == 39)
+				i = quote_in_file(&j, str, i, stock);
 			stock->filename[j++] = str[i++];
+		}
 		stock->filename[j] = '\0';
 	}
 	return (i);
