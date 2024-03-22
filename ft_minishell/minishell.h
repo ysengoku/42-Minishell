@@ -25,9 +25,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include "libft.h"
-//# include "ft_printf.h"
-// # include "../lib/libft/libft.h"
-// # include "../lib/ft_fprintf/ft_printf.h"
+# include "ft_printf.h"
 
 # define PWD_SIZE 1024
 

@@ -30,6 +30,6 @@ int	main(int ac, char **av, char **env)
 		ft_exec(base);
 		(void)line;
 		//command_line(line, base);
-		free_base(base);
+	//	free_base(base);
 	}
 }
