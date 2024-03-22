@@ -6,32 +6,27 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:49:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:17:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		execute_single_command(t_base *base);
+static int		ft_execve(t_base *base);
 static pid_t	ft_fork(t_base *base);
 
 int	ft_exec(t_base *base)
 {
 /*------ if no pipe -----*/
 	if (base->lst->next == NULL)
-	{
-		// if built in
-		return (execute_builtin(base));
-		//else
 		return (execute_single_command(base));
-	}
 /*------ if pipe -----*/
 	return (pipex(base));
 	free_base(base);
 	return (0);
 }
 
-int	execute_builtin(t_base *base)
+int	execute_single_command(t_base *base)
 {
 	// if (ft_strcmp(base->lst->arg[0], CD) == 0)
 	// 	ft_cd(); // to code
@@ -48,11 +43,11 @@ int	execute_builtin(t_base *base)
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	return (ft_unset()); // to code
 	else
-		return (execute_single_command(base));
+		return (ft_execve(base));
 	// return (0);
 }
 
-static int	execute_single_command(t_base *base)
+static int	ft_execve(t_base *base)
 {
 	int		fd[2];
 	int		exit_status;
@@ -63,14 +58,11 @@ static int	execute_single_command(t_base *base)
 	fd[OUT] = STDOUT_FILENO;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
 		return (EXIT_FAILURE);
-	// printf("in: %d\n", fd[IN]);
-	// printf("out: %d\n", fd[OUT]);
 	child_pid = ft_fork(base);
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
 	if (child_pid == 0)
 	{
-		// issue with stdin & stdout ??
 		dup_input(fd[IN]);
 		dup_output(fd[OUT]);
 		execute_command(base);
