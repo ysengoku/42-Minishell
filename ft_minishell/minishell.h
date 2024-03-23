@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 16:55:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/23 19:51:10 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+#include<stdio.h> 
+#include<signal.h> 
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -126,13 +128,11 @@ char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
 
 int		ft_chara_split(char *s, t_base **base);
-// char	**ft_chara_split(char *s, t_base *base);
-int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
-int 	write_double_quote(int i, t_line *tmp, char *str);
-int		write_simple_quote(int i, t_line *tmp, char *str);
+void	write_nod(int i, t_line *tmp, char *str);
+void	ft_display_error(int i);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

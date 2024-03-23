@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 18:31:46 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/23 17:52:48 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	write_simple_quote(int i, t_line *tmp, char *str)
 {
-	int	j;
-	char *quote;
+	int		j;
+	char	*quote;
 
 	i++;
 	j = 0;
@@ -31,18 +31,18 @@ int	write_simple_quote(int i, t_line *tmp, char *str)
 		quote[j] = quote[j] * -1;
 		j++;
 	}
-	i++; 
+	i++;
 	j = 0;
 	while (tmp->arg[j])
 		j++;
 	tmp->arg[j] = quote;
-	return(i);
+	return (i);
 }
 
-int write_double_quote(int i, t_line *tmp, char *str)
+int	write_double_quote(int i, t_line *tmp, char *str)
 {
-	int	j;
-	char *quote;
+	int		j;
+	char	*quote;
 
 	i++;
 	j = 0;
@@ -58,19 +58,19 @@ int write_double_quote(int i, t_line *tmp, char *str)
 		quote[j] = quote[j] * -1;
 		j++;
 	}
-	i++; 
+	i++;
 	j = 0;
 	while (tmp->arg[j])
 		j++;
 	tmp->arg[j] = quote;
-	return(i);
+	return (i);
 }
 
 int	write_char(int i, t_line *tmp, char *str)
 {
-	int	j;
+	int		j;
 	char	*arg_string;
-	int	last_arg;
+	int		last_arg;
 
 	arg_string = calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!arg_string)
@@ -85,5 +85,24 @@ int	write_char(int i, t_line *tmp, char *str)
 	while (tmp->arg[last_arg])
 		last_arg++;
 	tmp->arg[last_arg] = arg_string;
-	return(i);
+	return (i);
+}
+
+void	write_nod(int i, t_line *tmp, char *str)
+{
+	while (str[i])
+	{
+		if (str[i] == '>')
+			i = write_out_file(i, tmp, str);
+		else if (str[i] == '<')
+			i = write_in_file(i, tmp, str);
+		else if (str[i] == ' ')
+			i++;
+		else if (str[i] == 34)
+			i = write_double_quote(i, tmp, str);
+		else if (str[i] == 39)
+			i = write_simple_quote(i, tmp, str);
+		else
+			i = write_char(i, tmp, str);
+	}
 }

@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/22 18:32:32 by dvo              ###   ########.fr        #
+#    Updated: 2024/03/23 17:54:50 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRCS =	main.c	\
 		write_on_nod.c	\
 		error_handling.c	\
 		ft_free.c	\
-		write_file.c
+		write_file.c \
+		error.c
 
 DIR_OBJ := .object/
 
