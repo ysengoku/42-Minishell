@@ -37,6 +37,16 @@ int	open_outfile(t_base *base)
 	return (fd_out);
 }
 
+int	open_heredoc(t_base *base)
+{
+	int	fd_in;
+
+	fd_in = open("here_doc", O_RDONLY);
+	if (fd_in == -1)
+		perror(base->lst->file->filename);
+	return (fd_in);
+}
+
 void	ft_close(int fd1, int fd2)
 {
 	if (fd1 > 2)
