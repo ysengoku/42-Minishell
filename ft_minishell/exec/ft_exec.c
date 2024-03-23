@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:49:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/23 19:51:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	execute_builtin(t_base *base)
 		return (ft_echo(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 	// 	return (ft_env()); // to code
-	// else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-	// 	return (ft_exit()); // to code
+	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
+		ft_exit(base, 0); // to code
 	// else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 	// 	return (ft_export()); // to code
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
@@ -50,6 +50,7 @@ int	execute_builtin(t_base *base)
 	else
 		return (execute_single_command(base));
 	// return (0);
+	return (0);
 }
 
 static int	execute_single_command(t_base *base)
