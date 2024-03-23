@@ -96,6 +96,7 @@ void	execute_command(t_base *base);
 /* open_file.c */
 int		open_infile(t_base *base);
 int		open_outfile(t_base *base);
+int		open_heredoc(t_base *base);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
