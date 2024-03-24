@@ -32,3 +32,9 @@ void	dup_output(int fd_out)
 	}
 	ft_close(fd_out, 0);
 }
+
+void	unlink_heredoc(void)
+{
+	if (access(HEREDOC, F_OK) != -1)
+		unlink(HEREDOC);
+}

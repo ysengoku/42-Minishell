@@ -16,9 +16,18 @@ int	open_infile(t_base *base)
 {
 	int	fd_in;
 
-	fd_in = open(base->lst->file->filename, O_RDONLY);
-	if (fd_in == -1)
-		perror(base->lst->file->filename);
+	if (base->lst->file->type == INFILE)
+	{
+		fd_in = open(base->lst->file->filename, O_RDONLY);
+		if (fd_in == -1)
+			perror(base->lst->file->filename);
+	}
+	else
+	{
+		fd_in = open("here_doc", O_RDONLY);
+		if (fd_in == -1)
+			perror("here_doc");
+	}
 	return (fd_in);
 }
 
@@ -35,16 +44,6 @@ int	open_outfile(t_base *base)
 	if (fd_out == -1)
 		perror(base->lst->file->filename);
 	return (fd_out);
-}
-
-int	open_heredoc(t_base *base)
-{
-	int	fd_in;
-
-	fd_in = open("here_doc", O_RDONLY);
-	if (fd_in == -1)
-		perror(base->lst->file->filename);
-	return (fd_in);
 }
 
 void	ft_close(int fd1, int fd2)

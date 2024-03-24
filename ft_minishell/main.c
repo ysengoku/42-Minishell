@@ -29,6 +29,7 @@ int	main(int ac, char **av, char **env)
 			add_history(str);
 			ft_chara_split(str, &base);
 			ft_exec(base);
+			unlink_heredoc();
 		}
 	}
 }
