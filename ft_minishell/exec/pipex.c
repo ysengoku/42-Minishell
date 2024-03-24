@@ -95,7 +95,7 @@ static int	init_pipe(t_base *base, int (*pipefd)[2])
 {
 	if (pipe((*pipefd)) == -1)
 	{
-		print_error(strerror(errno), "pipe");
+		print_error(strerror(errno), "pipe", 1);
 		if (base->lst->next)
 			free_base(base);
 		return (EXIT_FAILURE);
@@ -112,7 +112,7 @@ static pid_t	ft_fork_pipex(t_base *base, int pipe[2])
 	{
 		close(pipe[IN]);
 		close(pipe[OUT]);
-		print_error(strerror(errno), "fork");
+		print_error(strerror(errno), "fork", 1);
 		if (base->lst->next)
 			free_base(base);
 	}

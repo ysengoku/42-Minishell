@@ -78,7 +78,7 @@ static pid_t	ft_fork(t_base *base)
 	pid = fork();
 	if (pid == -1)
 	{
-		print_error(strerror(errno), "fork");
+		print_error(strerror(errno), "fork", 1);
 		if (base->lst->next == NULL)
 			free_base(base);
 	}
