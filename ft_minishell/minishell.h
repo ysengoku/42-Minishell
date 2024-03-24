@@ -119,11 +119,6 @@ int	print_error(char *s1, char *s2, int exit_status);
 void	ft_free_strarr(char **arr);
 void 	free_base(t_base *base);
 
- // To put into libft ?
-int		ft_strcmp(char *s1, char *s2);
-char	*ft_strcpy(char *dest, char *src);
-char	*ft_strcat(char *dest, char *src);
-
 /*----- Parsing --------------------------------------------------------------*/
 void	ft_chara_split(char *s, t_base **base);
 int		write_char(int i, t_line *tmp, char *str);
