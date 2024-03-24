@@ -45,7 +45,6 @@ SRCS =	main.c	\
 		open_file.c	\
 		redirection.c	\
 		utils_exec.c	\
-		utils.c	\
 		chara_split.c	\
 		count_lst.c	\
 		write_on_nod.c	\
