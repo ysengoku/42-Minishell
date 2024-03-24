@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	print_error(char *s1, char *s2)
+int	print_error(char *s1, char *s2, int exit_status)
 {
+	write(2, "minishell:", 10);
 	write(2, s1, ft_strlen(s1));
 	if (s2)
 	{
@@ -21,4 +22,5 @@ void	print_error(char *s1, char *s2)
 		write(2, s2, ft_strlen(s2));
 	}
 	write(2, "\n", 1);
+	return (exit_status);
 }

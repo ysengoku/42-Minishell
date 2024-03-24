@@ -113,7 +113,7 @@ void	ft_exit(t_base *base, int exit_status);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
-void	print_error(char *st1, char *st2);
+int	print_error(char *s1, char *s2, int exit_status);
 /* free */
 void	ft_free_strarr(char **arr);
 void 	free_base(t_base *base);

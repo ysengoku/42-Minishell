@@ -34,7 +34,7 @@ void	execute_command(t_base *base)
 	}
 	/*--- execute ---*/
 	execve(pathname, base->lst->arg, base->env);
-	print_error(strerror(errno), "execve");
+	print_error(strerror(errno), "execve", 1);
 	free(pathname);
 	exit(EXIT_FAILURE);
 }
@@ -62,7 +62,7 @@ static char	*get_pathname(t_base *base)
 		free(pathname);
 		i++;
 	}
-	print_error(base->lst->arg[0], "command not found");
+	print_error(base->lst->arg[0], "command not found", 1);
 	ft_free_strarr(path_list);
 	exit(EXIT_FAILURE);
 }
