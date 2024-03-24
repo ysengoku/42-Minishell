@@ -27,6 +27,7 @@
 # include "libft.h"
 # include "ft_printf.h"
 
+# define HEREDOC "here_doc"
 # define PWD_SIZE 1024
 
 # define CD "cd"
@@ -96,7 +97,6 @@ void	execute_command(t_base *base);
 /* open_file.c */
 int		open_infile(t_base *base);
 int		open_outfile(t_base *base);
-int		open_heredoc(t_base *base);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
@@ -105,6 +105,7 @@ int	check_redirection(t_base *base, int *fd_in, int *fd_out);
 /* utils_exec.c */
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
+void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_echo(t_base *base);

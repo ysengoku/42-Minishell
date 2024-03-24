@@ -15,6 +15,7 @@
 /* This is a temporary code, should be modified */
 void	ft_exit(t_base *base, int exit_status)
 {
-	free(base);
+	free_base(base);
+	unlink_heredoc();
 	exit(exit_status);	
 }
