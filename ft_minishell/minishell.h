@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 17:43:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 09:11:14 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,28 @@
 # define IN 0
 # define OUT 1
 
-// typedef struct s_env
-// {
-// 	char			*key;
-// 	char			*value;
-// 	struct s_env	*next;
-// }	t_env;
-
-typedef enum
+typedef struct s_env
 {
-    INFILE = 1,
-    OUT_TRUNC = 2,
-    OUT_APPEND = 3,
-    HERE_DOC = 4
-}    e_file_type;
+	char			*key;
+	char			*value;
+	int				order;
+	struct s_env	*next;
+}	t_env;
+
+enum e_file_type
+{
+	INFILE = 1,
+	OUT_TRUNC = 2,
+	OUT_APPEND = 3,
+	HERE_DOC = 4
+};
 
 typedef struct s_file
 {
-    char				*filename;
-    e_file_type			type;
-    struct s_file		*next;
-}                t_file;
+	char				*filename;
+	enum e_file_type	type;
+	struct s_file		*next;
+}				t_file;
 
 typedef struct s_line
 {
@@ -74,6 +75,7 @@ typedef struct s_line
 typedef struct s_base
 {
 	char	**env;
+	t_env	*envn;
 	t_line	*lst;
 }			t_base;
 
@@ -100,7 +102,7 @@ int		open_outfile(t_base *base);
 void	ft_close(int fd1, int fd2);
 
 /* redirection.c */
-int	check_redirection(t_base *base, int *fd_in, int *fd_out);
+int		check_redirection(t_base *base, int *fd_in, int *fd_out);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
@@ -114,10 +116,10 @@ void	ft_exit(t_base *base, int exit_status);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
-int	print_error(char *s1, char *s2, int exit_status);
+int		print_error(char *s1, char *s2, int exit_status);
 /* free */
 void	ft_free_strarr(char **arr);
-void 	free_base(t_base *base);
+void	free_base(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
 void	ft_chara_split(char *s, t_base **base);
@@ -125,7 +127,7 @@ int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
-int 	write_double_quote(int i, t_line *tmp, char *str);
+int		write_double_quote(int i, t_line *tmp, char *str);
 int		write_simple_quote(int i, t_line *tmp, char *str);
 
 # define RED "\033[1;31m"
