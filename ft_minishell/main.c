@@ -33,23 +33,24 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, handle_sigint);
 	while(1)
 	{
-		str = readline(CYAN "minishell >>> " RESET);
+		str = readline(CYAN "minishell >>> " RESET); ////// need to check if it correctly works (prompt with history)
 		if (str && *str)
 		{
 			add_history(str);
 			if (ft_chara_split(str, &base) != -1)
 				ft_exec(base);
-			free(str);	
+			free(str);
 			unlink_heredoc();
 			free_base_content(base);
 		}
-		else
-		{
-			write(1, "\n", 1);
-			exit (0);
-		}
+		//else
+		//{
+		//	write(1, "\n", 1);
+			//exit (0);
+		//}
 	}
-	rl_clear_history();
+//	rl_clear_history();
+	free_envlist(base);
 	free(base);
 	return (0);
 }

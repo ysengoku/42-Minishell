@@ -45,3 +45,21 @@ void	free_base_content(t_base *base)
 		}
 	}
 }
+
+void	free_envlist(t_base *base)
+{
+	t_env	*current_node;
+	t_env	*next_node;
+
+	current_node = base->envn;
+	while (current_node)
+	{
+		if (current_node->key)
+			free(current_node->key);
+		if (current_node->value)
+			free(current_node->value);
+		next_node = current_node->next;
+		free(current_node);
+		current_node = next_node;
+	}
+}
