@@ -6,14 +6,14 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 13:29:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:16:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int		ft_execve(t_base *base);
-static pid_t	ft_fork(t_base *base);
+static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
 {
@@ -22,8 +22,8 @@ int	ft_exec(t_base *base)
 		return (execute_single_command(base));
 /*------ if pipe -----*/
 	return (pipex(base));
-	free_base(base);
-	return (0);
+	// free_base(base);
+	// return (0);
 }
 
 int	execute_single_command(t_base *base)
@@ -35,7 +35,7 @@ int	execute_single_command(t_base *base)
 	// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 	// 	return (ft_env()); // to code
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, EXIT_SUCCESS); //-----> This func is coded for temporary use for now
+		return (ft_exit(base, EXIT_SUCCESS)); //-----> This func is coded for temporary use for now
 	// else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 	// 	return (ft_export()); // to code
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
@@ -58,7 +58,7 @@ static int	ft_execve(t_base *base)
 	fd[OUT] = STDOUT_FILENO;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
 		return (EXIT_FAILURE);
-	child_pid = ft_fork(base);
+	child_pid = ft_fork(fd[IN], fd[OUT]);
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
 	if (child_pid == 0)
@@ -72,7 +72,7 @@ static int	ft_execve(t_base *base)
 	return (WEXITSTATUS(exit_status));
 }
 
-static pid_t	ft_fork(t_base *base)
+static pid_t	ft_fork(int fd_in, int fd_out)
 {
 	pid_t	pid;
 
@@ -80,8 +80,7 @@ static pid_t	ft_fork(t_base *base)
 	if (pid == -1)
 	{
 		print_error(strerror(errno), "fork", 1);
-		if (base->lst->next == NULL)
-			free_base(base);
+		ft_close(fd_in, fd_out);
 	}
 	return (pid);
 }
