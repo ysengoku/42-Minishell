@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:06:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:37:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int	ft_echo(t_base *base)
 	if (newline)
 		write (fd[OUT], "\n", 1);
 	ft_close(fd[IN], fd[OUT]);
-	if (base->lst->next)
-		free_base(base);
 	return (0);
 }
 
