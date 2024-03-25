@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/23 19:51:10 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/25 01:20:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,27 @@
 # define IN 0
 # define OUT 1
 
-// typedef struct s_env
-// {
-// 	char			*key;
-// 	char			*value;
-// 	struct s_env	*next;
-// }	t_env;
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	int		order;
+	struct s_env	*next;
+}	t_env;
 
 typedef enum
 {
-    INFILE = 1,
-    OUT_TRUNC = 2,
-    OUT_APPEND = 3,
-    HERE_DOC = 4
+	INFILE = 1,
+	OUT_TRUNC = 2,
+	OUT_APPEND = 3,
+	HERE_DOC = 4
 }    e_file_type;
 
 typedef struct s_file
 {
-    char				*filename;
-    e_file_type			type;
-    struct s_file		*next;
+	char				*filename;
+	e_file_type			type;
+	struct s_file		*next;
 }                t_file;
 
 typedef struct s_line
@@ -75,6 +76,7 @@ typedef struct s_line
 typedef struct s_base
 {
 	char	**env;
+	t_env   *envn;
 	t_line	*lst;
 }			t_base;
 
@@ -114,6 +116,8 @@ void	dup_output(int fd_out);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 void	ft_exit(t_base *base, int exit_status);
+int		ft_env(t_base *base);
+int		ft_export(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
@@ -133,6 +137,8 @@ int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
 void	write_nod(int i, t_line *tmp, char *str);
 void	ft_display_error(int i);
+int     assign_env (t_base *base, char **env);
+char	*assign_value(char **split);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
