@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/25 09:21:40 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:15:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(str);
 			ft_chara_split(str, &base);
+			free(str);	
 			ft_exec(base);
 			unlink_heredoc();
+			// free_base(base);
 		}
+		free_base_content(base);
 	}
+	free(base);
+	return (0);
 }

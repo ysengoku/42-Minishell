@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 13:30:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:11:54 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_free_strarr(char **arr)
 	free(arr);
 }
 
-void	free_base(t_base *base)
+void	free_base_content(t_base *base)
 {
 	t_line	*current_node;
 	t_line	*next_node;
@@ -43,6 +43,5 @@ void	free_base(t_base *base)
 			free(current_node);
 			current_node = next_node;
 		}
-		free(base);
 	}
 }
