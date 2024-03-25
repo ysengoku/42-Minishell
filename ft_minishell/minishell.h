@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 09:11:14 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:24:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,26 +83,32 @@ typedef struct s_base
 /* ft_exec.c */
 int		ft_exec(t_base *base);
 int		execute_single_command(t_base *base);
-// static void	ft_execve(t_base *base);
+// static void	static int	ft_execve(t_base *base);
+// static pid_t	ft_fork(t_base *base);
 
 /* pipex.c */
 int		pipex(t_base *base);
-// static void		init_pipe(int (*pipefd)[2]);
-// static void		pipe_loop(t_base *base, int *fd_in, int *fd_out);
+// static int		init_pipe(t_base *base, int (*pipefd)[2]);
+// static pid_t	ft_fork_pipex(t_base *base, int pipe[2]);
+// static int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 // static pid_t	pipe_last_command(t_base *base, int fd_in);
 
 /* execute command */
 void	execute_command(t_base *base);
 // static char	*get_pathname(t_base *base);
 // static char	**extract_path(t_base *base);
+// static void	perror_exit(char *message, int exit_status);
 
 /* open_file.c */
 int		open_infile(t_base *base);
 int		open_outfile(t_base *base);
 void	ft_close(int fd1, int fd2);
+void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int		check_redirection(t_base *base, int *fd_in, int *fd_out);
+// static int	check_heredoc(t_base *base);
+// static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
@@ -117,6 +123,7 @@ void	ft_exit(t_base *base, int exit_status);
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
 int		print_error(char *s1, char *s2, int exit_status);
+int		ft_perror(const char *s, int exit_status);
 /* free */
 void	ft_free_strarr(char **arr);
 void	free_base(t_base *base);

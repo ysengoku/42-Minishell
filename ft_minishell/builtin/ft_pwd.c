@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:09:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:37:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,5 @@ int	ft_pwd(t_base *base)
 		return (EXIT_FAILURE);
 	}
 	ft_putendl_fd(buf, fd_out);
-	if (base->lst->next)
-		free_base(base);
 	return (0);
 }

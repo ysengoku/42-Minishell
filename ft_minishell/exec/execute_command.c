@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 17:35:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:17:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	execute_command(t_base *base)
 {
 	char	*pathname;
 
-	// if base->lst->arg[0] is built in
-	// execute builtin
-	/*--- get path ---*/
 	if (access(base->lst->arg[0], X_OK) == 0)
 		pathname = ft_strdup(base->lst->arg[0]);
 	else
@@ -30,12 +27,13 @@ void	execute_command(t_base *base)
 	if (!pathname)
 	{
 		write(2, "malloc failed\n", 14);
+		ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	/*--- execute ---*/
 	execve(pathname, base->lst->arg, base->env);
-	print_error(strerror(errno), "execve", 1);
+	ft_perror("execve", 1);
 	free(pathname);
+	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 	exit(EXIT_FAILURE);
 }
 
@@ -64,6 +62,7 @@ static char	*get_pathname(t_base *base)
 	}
 	print_error(base->lst->arg[0], "command not found", 1);
 	ft_free_strarr(path_list);
+	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 	exit(EXIT_FAILURE);
 }
 
