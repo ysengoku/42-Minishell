@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:16:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:55:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	execute_single_command(t_base *base)
 	// 	ft_cd(); // to code
 	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
 		return (ft_echo(base)); // not complete yet
-	// else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-	// 	return (ft_env()); // to code
+	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
+		return (ft_env(base)); // to code
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		return (ft_exit(base, EXIT_SUCCESS)); //-----> This func is coded for temporary use for now
-	// else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-	// 	return (ft_export()); // to code
+		ft_exit(base, 0); // to code
+	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
+		return (ft_export(base)); // to code
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
 		return (ft_pwd(base)); // not complete yet
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
