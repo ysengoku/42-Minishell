@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:55:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:22:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 /* This is a temporary code, should be modified */
 int	ft_exit(t_base *base, int exit_status)
 {
-	free_base_content(base);
 	unlink_heredoc();
+	rl_clear_history();
+	free_base_content(base);
+	free(base);
 	exit(exit_status);
 	return (0);
 }

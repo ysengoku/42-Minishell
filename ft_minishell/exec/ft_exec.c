@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:55:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:16:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	ft_exec(t_base *base)
 		return (execute_single_command(base));
 /*------ if pipe -----*/
 	return (pipex(base));
-	// free_base(base);
-	// return (0);
 }
 
 int	execute_single_command(t_base *base)

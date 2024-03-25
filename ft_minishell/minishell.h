@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:58:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:03:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include<stdio.h> 
-#include<signal.h> 
+# include <signal.h> 
 # include "libft.h"
 # include "ft_printf.h"
 
