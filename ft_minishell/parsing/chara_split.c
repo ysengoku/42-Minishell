@@ -3,53 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 15:38:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/23 17:54:09 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	malloc_string(t_line *line)
-{
-	// printf("arg=%i\n", line->nb_arg);
-	line->arg = calloc(line->nb_arg + 1, sizeof(char*));
-}
-
-void	create_nod(t_line **line, char *str)
+int	create_nod(t_line **line, char *str)
 {
 	t_line	*tmp;
 	t_line	*nxt;
 	int		i;
-	
-	(void)nxt;
+
 	i = 0;
 	nxt = *line;
 	tmp = ft_calloc(1, sizeof(t_line));
+	if (!tmp)
+		return (-1);
 	tmp->next = NULL;
 	tmp->file = NULL;
-	cnt_param(str, tmp);
-	malloc_string(tmp);
-	while (str[i])
-	{
-		if (str[i] == '>')
-			i = write_out_file(i, tmp, str);
-		else if (str[i] == '<')
-			i = write_in_file(i, tmp, str);
-		else if (str[i] == ' ')
-			i++;
-		else if (str[i] == 34)
-			i = write_double_quote(i, tmp, str);
-		else if (str[i] == 39)
-		{
-			// printf("%i\n", i);
-			i = write_simple_quote(i, tmp, str);
-		}
-		else
-			i = write_char(i, tmp, str);
-	}
+	if (cnt_param(str, tmp) == -1)
+		return (ft_display_error(1), -1);
+	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char*));
+	write_nod(i, tmp, str);
 	if (*line == NULL)
 		*line = tmp;
 	else
@@ -58,6 +37,7 @@ void	create_nod(t_line **line, char *str)
 			nxt = nxt->next;
 		nxt->next = tmp;
 	}
+	return (0);
 }
 
 char	*check_quote(char *s)
@@ -94,42 +74,7 @@ char	*check_quote(char *s)
 	return (s);
 }
 
-// char	**ft_chara_split(char *s, t_base *base)
-// {
-// 	char		**srep;
-// 	int			i;
-// 	t_line		*line;
-
-// 	i = 0;
-// 	line = NULL;
-// 	if (ft_strlen(s) == 0)
-// 		return (ft_calloc(1, sizeof(char *)));
-// 	s = check_quote(s);
-// 	srep = ft_split(s, '|');
-// 	while (srep[i])
-// 	{
-// 		create_nod(&line, srep[i]);
-// 		i++;
-// 	}
-// 	while (line)
-// 	{
-// 		i = 0;
-// 		while (line->arg && line->arg[i])
-// 		{
-// 			printf("arg[%i] is:%s\n", i, line->arg[i]);
-// 			i++;
-// 		}
-// 		while(line->file)
-// 		{
-// 			printf("file: %s, is type %d\n", line->file->filename, line->file->type);
-// 			line->file = line->file->next;
-// 		}
-// 		line = line->next;
-// 	}
-// 	return (srep);
-// }
-
-void	ft_chara_split(char *s, t_base **base)
+int	ft_chara_split(char *s, t_base **base)
 {
 	char		**srep;
 	int			i;
@@ -137,13 +82,12 @@ void	ft_chara_split(char *s, t_base **base)
 
 	i = 0;
 	line = NULL;
-	if (ft_strlen(s) == 0)
-		return ;
 	s = check_quote(s);
 	srep = ft_split(s, '|');
 	while (srep[i])
 	{
-		create_nod(&line, srep[i]);
+		if (create_nod(&line, srep[i]) == -1)
+			return (-1);
 		i++;
 	}
 	// while (line)
@@ -161,5 +105,7 @@ void	ft_chara_split(char *s, t_base **base)
 	// 	}
 	// 	line = line->next;
 	// }
+	// exit(1);
 	(*base)->lst = line;
+	return (0);
 }

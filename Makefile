@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/22 15:40:16 by yusengok         ###   ########.fr        #
+#    Updated: 2024/03/25 03:02:52 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,13 @@ SRCS =	main.c	\
 		count_lst.c	\
 		write_on_nod.c	\
 		error_handling.c	\
-		ft_free.c	
+		ft_free.c	\
+		write_file.c \
+		error.c \
+		assign_env.c \
+		ft_env.c \
+		ft_export.c \
+		translate_dollar.c
 
 DIR_OBJ := .object/
 

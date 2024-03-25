@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:26:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:58:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+#include<stdio.h> 
+#include<signal.h> 
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -119,6 +121,8 @@ void	unlink_heredoc(void);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 int		ft_exit(t_base *base, int exit_status);
+int		ft_env(t_base *base);
+int		ft_export(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
@@ -129,13 +133,17 @@ void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
-void	ft_chara_split(char *s, t_base **base);
+int		ft_chara_split(char *s, t_base **base);
 int		write_char(int i, t_line *tmp, char *str);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
 int		write_double_quote(int i, t_line *tmp, char *str);
 int		write_simple_quote(int i, t_line *tmp, char *str);
+int		assign_env(t_base *base, char **env);
+void	ft_display_error(int i);
+void	write_nod(int i, t_line *tmp, char *str);
+char	*assign_value(char **split);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

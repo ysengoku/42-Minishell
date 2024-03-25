@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:55:26 by yusengok         ###   ########.fr       */
+/*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
+/*   Updated: 2024/03/24 19:59:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* This is a temporary code, should be modified */
-int	ft_exit(t_base *base, int exit_status)
+int	ft_env(t_base *base) 
 {
-	free_base_content(base);
-	unlink_heredoc();
-	exit(exit_status);
-	return (0);
+	t_env	*tmp;
+
+	tmp = base->envn;
+	while (tmp)
+	{
+		printf("%s", tmp->key);
+		if (tmp->value)
+			printf("=%s\n", tmp->value);
+		tmp = tmp->next;
+	}
+	return(0);
 }

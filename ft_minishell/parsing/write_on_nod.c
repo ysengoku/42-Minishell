@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/22 14:28:55 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/23 17:52:48 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	write_simple_quote(int i, t_line *tmp, char *str)
 {
-	int	j;
-	char *quote;
+	int		j;
+	char	*quote;
 
 	i++;
 	j = 0;
 	quote = calloc(1, sizeof(ft_strlen(str)));
+	if (!quote)
+		return (-1);
 	while (str[i] != 39)
 		quote[j++] = str[i++];
 	quote[j] = '\0';
@@ -29,22 +31,24 @@ int	write_simple_quote(int i, t_line *tmp, char *str)
 		quote[j] = quote[j] * -1;
 		j++;
 	}
-	i++; 
+	i++;
 	j = 0;
 	while (tmp->arg[j])
 		j++;
 	tmp->arg[j] = quote;
-	return(i);
+	return (i);
 }
 
-int write_double_quote(int i, t_line *tmp, char *str)
+int	write_double_quote(int i, t_line *tmp, char *str)
 {
-	int	j;
-	char *quote;
+	int		j;
+	char	*quote;
 
 	i++;
 	j = 0;
 	quote = calloc(1, sizeof(ft_strlen(str)));
+	if (!quote)
+		return (-1);
 	while (str[i] != 34)
 		quote[j++] = str[i++];
 	quote[j] = '\0';
@@ -54,114 +58,51 @@ int write_double_quote(int i, t_line *tmp, char *str)
 		quote[j] = quote[j] * -1;
 		j++;
 	}
-	i++; 
+	i++;
 	j = 0;
 	while (tmp->arg[j])
 		j++;
 	tmp->arg[j] = quote;
-	return(i);
-}
-
-int	write_out_file(int i, t_line *tmp, char *str)
-{
-	int		j;
-	t_file	*stock;
-	t_file	*last;
-	
-	last = tmp->file;
-	i++;
-	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str), sizeof(char));
-	if (str[i] == '>')
-	{
-		stock->type = OUT_APPEND;
-		i++;
-	}
-	else
-		stock->type = OUT_TRUNC;
-	j = 0;
-	if (str[i] == '<' || str[i] == '>')
-			return (-1);
-	while(str[i] == ' ')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-			return (-1);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' && str[i] != 34\
-	&& str[i] != 39)
-		stock->filename[j++] = str[i++];
-	stock->filename[j] = '\0';
-	if (tmp->file == NULL)
-		tmp->file = stock;
-	else
-	{
-		while (last->next != NULL)
-			last = last->next;
-		last->next = stock;
-	}
-	return(i);
-}
-
-int	write_in_file(int i, t_line *tmp, char *str)
-{
-	int		j;
-	t_file	*stock;
-	t_file	*last;
-	
-	last = tmp->file;
-	i++;
-	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str), sizeof(char));
-	if (str[i] == '<')
-	{
-		stock->type = HERE_DOC;
-		i++;
-	}
-	else
-		stock->type = INFILE;
-	j = 0;
-	if (str[i] == '>' || str[i] == '<')
-		return (-1);
-	while(str[i] == ' ')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-		return (-1);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && str[i] != 34\
-	&& str[i] != 39)
-		stock->filename[j++] = str[i++];
-	stock->filename[j] = '\0';
-		if (tmp->file == NULL)
-		tmp->file = stock;
-	else
-	{
-		while (last->next != NULL)
-			last = last->next;
-		last->next = stock;
-	}
-	return(i);
+	return (i);
 }
 
 int	write_char(int i, t_line *tmp, char *str)
 {
-	int	j;
+	int		j;
 	char	*arg_string;
-	int	last_arg;
+	int		last_arg;
 
 	arg_string = calloc(ft_strlen(str) + 1, sizeof(char));
+	if (!arg_string)
+		return (-1);
 	j = 0;
 	while (str[i] && str[i] != '<' \
 	&& str[i] != '>' && str[i] != '|' && str[i] != ' '\
 	&& str[i] != 34 && str[i] != 39)
-	{
-		arg_string[j] = str[i];
-		i++;
-		j++;
-	}
+		arg_string[j++] = str[i++];
 	arg_string[j] = '\0';
 	last_arg = 0;
 	while (tmp->arg[last_arg])
 		last_arg++;
 	tmp->arg[last_arg] = arg_string;
-	return(i);
+	return (i);
+}
+
+void	write_nod(int i, t_line *tmp, char *str)
+{
+	while (str[i])
+	{
+		if (str[i] == '>')
+			i = write_out_file(i, tmp, str);
+		else if (str[i] == '<')
+			i = write_in_file(i, tmp, str);
+		else if (str[i] == ' ')
+			i++;
+		else if (str[i] == 34)
+			i = write_double_quote(i, tmp, str);
+		else if (str[i] == 39)
+			i = write_simple_quote(i, tmp, str);
+		else
+			i = write_char(i, tmp, str);
+	}
 }

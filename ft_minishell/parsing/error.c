@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:55:26 by yusengok         ###   ########.fr       */
+/*   Created: 2024/03/23 17:51:23 by dvo               #+#    #+#             */
+/*   Updated: 2024/03/23 17:51:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* This is a temporary code, should be modified */
-int	ft_exit(t_base *base, int exit_status)
+void	ft_display_error(int i)
 {
-	free_base_content(base);
-	unlink_heredoc();
-	exit(exit_status);
-	return (0);
+	if (i == 1)
+		ft_fprintf(2, "syntax error near unexpected token\n");
 }
