@@ -16,8 +16,9 @@
 int	ft_exit(t_base *base, int exit_status)
 {
 	unlink_heredoc();
-	rl_clear_history();
+//	rl_clear_history();
 	free_base_content(base);
+	free_envlist(base);
 	free(base);
 	exit(exit_status);
 	return (0);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int		ft_execve(t_base *base);
+static int		execute_external_command(t_base *base);
 static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
@@ -41,11 +41,11 @@ int	execute_single_command(t_base *base)
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	return (ft_unset()); // to code
 	else
-		return (ft_execve(base));
+		return (execute_external_command(base));
 	return (0);
 }
 
-static int	ft_execve(t_base *base)
+static int	execute_external_command(t_base *base)
 {
 	int		fd[2];
 	int		exit_status;
@@ -77,7 +77,7 @@ static pid_t	ft_fork(int fd_in, int fd_out)
 	pid = fork();
 	if (pid == -1)
 	{
-		print_error(strerror(errno), "fork", 1);
+		ft_perror("fork", EXIT_FAILURE);
 		ft_close(fd_in, fd_out);
 	}
 	return (pid);

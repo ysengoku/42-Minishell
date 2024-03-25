@@ -41,6 +41,7 @@ SRCS =	main.c	\
 		ft_exit.c	\
 		ft_exec.c	\
 		pipex.c	\
+		pipex_loop.c	\
 		execute_command.c	\
 		open_file.c	\
 		redirection.c	\

@@ -84,15 +84,16 @@ typedef struct s_base
 /* ft_exec.c */
 int		ft_exec(t_base *base);
 int		execute_single_command(t_base *base);
-// static void	static int	ft_execve(t_base *base);
+// static void	static int	execute_external_command(t_base *base);
 // static pid_t	ft_fork(int fd_in, int fd_out);
 
-/* pipex.c */
+/* pipex.c & pipex_loop.c */
 int		pipex(t_base *base);
+void	pipe_execute_builtin(t_base *base);
+// static pid_t	pipe_last_command(t_base *base, int fd_in);
+int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 // static int		init_pipe(int (*pipefd)[2]);
 // static pid_t	ft_fork_pipex(int pipe[2]);
-// static int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
-// static pid_t	pipe_last_command(t_base *base, int fd_in);
 
 /* execute command */
 void	execute_command(t_base *base);
@@ -130,6 +131,7 @@ int		ft_perror(const char *s, int exit_status);
 /* free */
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
+void	free_envlist(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);
