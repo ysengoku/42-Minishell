@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/23 19:39:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/24 22:24:19 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(int ac, char **av, char **env)
 	base->env = env;
 	(void) ac;
 	(void) av;
-	signal(SIGINT, handle_sigint); 
+	assign_env(base, env);
+	signal(SIGINT, handle_sigint);
 	while(1)
 	{
 		str = readline(CYAN "minishell >>> " RESET);
