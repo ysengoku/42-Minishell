@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:24:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:46:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int		init_pipe(int (*pipefd)[2]);
 static pid_t	ft_fork_pipex(int pipe[2]);
 static int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 static pid_t	pipe_last_command(t_base *base, int fd_in);
+static void		pipe_child(t_base *base, int pipefd_in, int fd_in, int fd_out);
+static void		execute_pipe_builtin(t_base *base);
 
 int	pipex(t_base *base)
 {
@@ -92,13 +94,7 @@ static int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
 	if (child_pid == 0)
-	{
-		close(pipe[IN]);
-		dup_input(*fd_in);
-		dup_output(*fd_out);
-		// if builtin --> execute builtin_pipex
-		execute_command(base);
-	}
+		pipe_child(base, pipe[IN], *fd_in, *fd_out);
 	close(pipe[OUT]);
 	ft_close(*fd_in, *fd_out);
 	*fd_in = pipe[IN];
@@ -119,14 +115,57 @@ static pid_t	pipe_last_command(t_base *base, int fd_in)
 	if (lastchild_pid == -1)
 		return (EXIT_FAILURE);
 	if (lastchild_pid == 0)
-	{
-		close(pipe[IN]);
-		dup_input(fd_in);
-		dup_output(fd_out);
-		// if builtin --> execute builtin_pipex
-		execute_command(base);
-	}
+		pipe_child(base, pipe[IN], fd_in, fd_out);
 	ft_close(pipe[OUT], pipe[IN]);
 	ft_close(fd_in, fd_out);
 	return (lastchild_pid);
 }
+
+static void	pipe_child(t_base *base, int pipefd_in, int fd_in, int fd_out)
+{
+		close(pipefd_in);
+		dup_input(fd_in);
+		dup_output(fd_out);
+		execute_pipe_builtin(base);
+		execute_command(base);
+}
+
+static void	execute_pipe_builtin(t_base *base) // Need to close before exit : ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
+{
+	int	exit_code;
+	
+	exit_code = 0;
+	// if (ft_strcmp(base->lst->arg[0], CD) == 0)
+	// 	ft_cd(); // to code
+	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
+		exit_code = ft_echo(base); // not complete yet
+	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
+		exit_code = ft_env(base); // to code
+	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
+		ft_exit(base, 0); // to code
+	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
+		exit_code = ft_export(base); // to code
+	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
+		exit_code = ft_pwd(base); // not complete yet
+	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
+	// 	exit (ft_unset()); // to code
+	else
+		return ;
+	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
+	exit(exit_code);
+}
+
+// minishell >>> < in cat | grep Hello > out | echo Finish
+// Finish
+// ==42924== 
+// ==42924== FILE DESCRIPTORS: 2 open at exit.
+// ==42924== Open file descriptor 5:
+// ==42924==    at 0x49C2B4B: pipe (syscall-template.S:78)
+// ==42924==    by 0x401C64: init_pipe (pipex.c:57)
+// ==42924==    by 0x401BB7: pipe_last_command (pipex.c:110)
+// ==42924==    by 0x401A22: pipex (pipex.c:41)
+// ==42924==    by 0x4016F8: ft_exec (ft_exec.c:24)
+// ==42924==    by 0x4013CD: main (main.c:41)
+// ==42924== 
+// ==42924== Open file descriptor 2: /dev/pts/0
+// ==42924==    <inherited from parent>
