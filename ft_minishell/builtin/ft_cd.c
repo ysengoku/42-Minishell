@@ -6,39 +6,11 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 14:55:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:17:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-::::: RELATIVE PATH :::::
-< NAVIGATE TO USER'S HOME >
-cd
-cd ~
-cd ~/
-< NAVIGATE TO ROOT >
-cd /
-< NAVIGATE TO PARENT DIR >
-cd .. 
-< NAVIGATE TO THE PREVIOUR DIR >
-cd -
-------
-e.g.
-If we are in /home/myusername
-relative path to /home/myusername/Documents/42/ = "Documents/42/"
-
-::::: ABSOLUTE PATH :::::
-cd /home/$USER
-cd /home/(username)
-cd $HOME
-
-ERROR MESSAGE
-bash: cd: Doc: No such file or directory
-*/
-
-// int chdir(const char *path);
 
 static char		*get_path(t_base *base, char *destination);
 static char		*get_path_to_parentdir(void);
