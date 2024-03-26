@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 08:25:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:32:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(void * to_free)
+void	ft_free(void *to_free)
 {
 	if (to_free)
 		free(to_free);
