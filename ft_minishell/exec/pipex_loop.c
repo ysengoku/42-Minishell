@@ -24,9 +24,9 @@ int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	if (init_pipe(&pipe) == 1)
 		return (EXIT_FAILURE);
 	*fd_out = pipe[OUT];
-	if (check_redirection(base, fd_in, fd_out) == 1)
+	if (check_redirection(base, fd_in, fd_out) == 1 || !base->lst->arg[0])
 	{
-		ft_close(pipe[OUT], *fd_in);
+		ft_close(pipe[OUT], *fd_in, 0);
 		*fd_in = STDIN_FILENO;
 		return (1);
 	}
@@ -36,7 +36,7 @@ int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	if (child_pid == 0)
 		pipe_child(base, pipe[IN], *fd_in, *fd_out);
 	close(pipe[OUT]);
-	ft_close(*fd_in, *fd_out);
+	ft_close(*fd_in, *fd_out, 0);
 	*fd_in = pipe[IN];
 	return (0);
 }

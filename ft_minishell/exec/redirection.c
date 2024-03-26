@@ -18,24 +18,24 @@ static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 {
 	if (check_heredoc(base) == 1)
-		return (print_error("heredoc", "A problem occured", EXIT_FAILURE));
+		return (print_error("heredoc", "A problem occured", 1));
 	while (base->lst->file)
 	{
 		if (base->lst->file->type == INFILE
 			|| base->lst->file->type == HERE_DOC)
 		{
-			ft_close(*fd_in, 0);
+			ft_close(*fd_in, 0, 0);
 			*fd_in = open_infile(base);
 		}
 		else
 		{
-			ft_close(*fd_out, 0);
+			ft_close(*fd_out, 0, 0);
 			*fd_out = open_outfile(base);
 		}
 		if (*fd_in == -1 || *fd_out == -1)
 		{
-			ft_close(*fd_in, *fd_out);
-			return (EXIT_FAILURE);
+			base->exit_status = 1;
+			return (ft_close(*fd_in, *fd_out, 1));
 		}
 		base->lst->file = base->lst->file->next;
 	}
@@ -56,10 +56,14 @@ static int	check_heredoc(t_base *base)
 			if (fd_heredoc == -1)
 			{
 				perror("heredoc");
-				return (EXIT_FAILURE);
+				base->exit_status = 1;
+				return (1);
 			}
 			if (get_heredoc_lines(current_file->filename, fd_heredoc) == 1)
-				return (EXIT_FAILURE);
+			{
+				base->exit_status = 1;
+				return (1);
+			}
 		}
 		current_file = current_file->next;
 	}
