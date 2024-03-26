@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:01:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:10:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ int	ft_env(t_base *base)
 	tmp = base->envn;
 	while (tmp)
 	{
-		printf("%s", tmp->key);
+		ft_putstr_fd(tmp->key, fd[OUT]);
 		if (tmp->value)
-			printf("=%s\n", tmp->value);
+		{
+			write(fd[OUT], "=", 1);
+			ft_putendl_fd(tmp->value, fd[OUT]);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
