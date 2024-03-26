@@ -8,22 +8,19 @@ Used function
 int chdir(const char *path);
 ```
 ##### Relative path
-NAVIGATE TO USER'S HOME  
 ```bash
+# Navigate to user's home
 - cd
 - cd ~
 - cd ~/
-```
-NAVIGATE TO ROOT  
-```bash
+
+# Navigate to root
 cd /
-```
-NAVIGATE TO PARENT DIR  
-```bash
+
+# Navigate to parent directory
 cd ..
-```
-NAVIGATE TO THE PREVIOUR DIR  
-```bash
+
+# Navigate to the previous directory (OLDPWD)
 cd -
 ```
 
