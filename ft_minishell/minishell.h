@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 14:58:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:17:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	free_base_content(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);
-int		write_char(int i, t_line *tmp, char *str);
+int		write_char(int i, t_line *tmp, char *str, t_base *base);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
@@ -142,8 +142,9 @@ int		write_double_quote(int i, t_line *tmp, char *str);
 int		write_simple_quote(int i, t_line *tmp, char *str);
 int		assign_env(t_base *base, char **env);
 void	ft_display_error(int i);
-void	write_nod(int i, t_line *tmp, char *str);
+void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
+char	*translate_dollar(char *str, t_base *base);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
