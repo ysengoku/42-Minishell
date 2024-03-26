@@ -106,7 +106,7 @@ void	execute_command(t_base *base);
 /* open_file.c */
 int		open_infile(t_base *base);
 int		open_outfile(t_base *base);
-void	ft_close(int fd1, int fd2);
+int		ft_close(int fd1, int fd2, int exit_code);
 void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */

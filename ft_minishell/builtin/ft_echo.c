@@ -36,8 +36,7 @@ int	ft_echo(t_base *base)
 	}
 	if (newline)
 		write (fd[OUT], "\n", 1);
-	ft_close(fd[IN], fd[OUT]);
-	return (0);
+	return (ft_close(fd[IN], fd[OUT], 0));
 }
 
 static int	check_newline(char *s)

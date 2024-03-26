@@ -33,7 +33,9 @@ int	pipex(t_base *base)
 	}
 	lastchild_pid = pipe_last_command(base, fd[IN]);
 	if (lastchild_pid == -1)
-		return (EXIT_FAILURE);
+		return (1);
+	if (lastchild_pid == -2)
+		return (0);
 	count++;
 	waitpid(lastchild_pid, &exit_status, 0);
 	while (count-- > 0)
@@ -47,10 +49,16 @@ static pid_t	pipe_last_command(t_base *base, int fd_in)
 	int		fd_out;
 
 	fd_out = STDOUT_FILENO;
-	check_redirection(base, &fd_in, &fd_out);
+	if (check_redirection(base, &fd_in, &fd_out) == 1)
+		return (ft_close(fd_in, fd_out, -1));
+	if (!base->lst->arg[0])
+		return (ft_close(fd_in, fd_out, -2));
 	lastchild_pid = fork();
 	if (lastchild_pid == -1)
-		return (ft_perror("fork", EXIT_FAILURE));
+	{
+		ft_close(fd_in, fd_out, 1);
+		return (ft_perror("fork", 1));
+	}
 	if (lastchild_pid == 0)
 	{
 		dup_input(fd_in);
@@ -58,8 +66,7 @@ static pid_t	pipe_last_command(t_base *base, int fd_in)
 		pipe_execute_builtin(base);
 		execute_command(base);
 	}
-	ft_close(fd_in, fd_out);
-	return (lastchild_pid);
+	return (ft_close(fd_in, fd_out, lastchild_pid));
 }
 
 void	pipe_execute_builtin(t_base *base)
@@ -67,9 +74,11 @@ void	pipe_execute_builtin(t_base *base)
 	int	exit_code;
 
 	exit_code = 0;
+	if (!base->lst->arg[0])
+		return ;
 	if (ft_strcmp(base->lst->arg[0], CD) == 0)
 		exit_code = ft_cd(base);
-	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
+	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
 		exit_code = ft_echo(base);
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 		exit_code = ft_env(base);
