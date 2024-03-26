@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 10:48:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:25:21 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
 {
-/*------ if no pipe -----*/
 	if (base->lst->next == NULL)
 		return (execute_single_command(base));
-/*------ if pipe -----*/
 	return (pipex(base));
 }
 
@@ -82,3 +80,14 @@ static pid_t	ft_fork(int fd_in, int fd_out)
 	}
 	return (pid);
 }
+
+/*
+exit code
+Success -----> 0
+No such file or directory -----> 1
+command not found -----> 127
+command found but not executable -----> 126
+
+All builtins return an exit status of 2 to indicate incorrect usage, 
+generally invalid options or missing arguments. 
+*/

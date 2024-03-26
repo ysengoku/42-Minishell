@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 14:44:32 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:32:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define EXPORT "export"
 # define PWD "pwd"
 # define UNSET "unset"
+# define EXITSTATUS "$?"
 
 # define IN 0
 # define OUT 1
@@ -78,6 +79,7 @@ typedef struct s_base
 	char	**env;
 	t_env	*envn;
 	t_line	*lst;
+	int		exit_status;
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/
@@ -130,7 +132,7 @@ int		ft_export(t_base *base);
 int		print_error(char *s1, char *s2, int exit_status);
 int		ft_perror(const char *s, int exit_status);
 /* free */
-void	ft_free(void * to_free);
+void	ft_free(void *to_free);
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);

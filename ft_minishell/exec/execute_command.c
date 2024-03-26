@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 13:17:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:15:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*get_pathname(t_base *base)
 	print_error(base->lst->arg[0], "command not found", 1);
 	ft_free_strarr(path_list);
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-	exit(EXIT_FAILURE);
+	exit(127);
 }
 
 static char	**extract_path(t_base *base)
