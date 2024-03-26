@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 08:26:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 10:52:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,11 @@ void	dup_output(int fd_out);
 void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
+int		ft_cd(t_base *base);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
-int		ft_exit(t_base *base, int exit_status);
 int		ft_env(t_base *base);
+int		ft_exit(t_base *base, int exit_status);
 int		ft_export(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/

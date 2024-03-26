@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 08:05:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:44:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ void	pipe_execute_builtin(t_base *base)
 	int	exit_code;
 
 	exit_code = 0;
-	// if (ft_strcmp(base->lst->arg[0], CD) == 0)
-	// 	ft_cd(); // to code
+	if (ft_strcmp(base->lst->arg[0], CD) == 0)
+		exit_code = ft_cd(base);
 	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-		exit_code = ft_echo(base); // not complete yet
+		exit_code = ft_echo(base);
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-		exit_code = ft_env(base); // to code
+		exit_code = ft_env(base);
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, 0); // to code
+		ft_exit(base, 0);
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-		exit_code = ft_export(base); // to code
+		exit_code = ft_export(base);
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
-		exit_code = ft_pwd(base); // not complete yet
+		exit_code = ft_pwd(base);
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	exit (ft_unset()); // to code
 	else

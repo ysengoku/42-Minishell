@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
+#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/25 03:02:52 by dvo              ###   ########.fr        #
+#    Updated: 2024/03/26 10:51:14 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +36,12 @@ LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
 SRCS =	main.c	\
+		ft_cd.c	\
 		ft_echo.c	\
-		ft_pwd.c \
+		ft_env.c \
 		ft_exit.c	\
+		ft_export.c \
+		ft_pwd.c \
 		ft_exec.c	\
 		pipex.c	\
 		pipex_loop.c	\
@@ -49,14 +52,12 @@ SRCS =	main.c	\
 		chara_split.c	\
 		count_lst.c	\
 		write_on_nod.c	\
-		error_handling.c	\
-		ft_free.c	\
 		write_file.c \
 		error.c \
 		assign_env.c \
-		ft_env.c \
-		ft_export.c \
-		translate_dollar.c
+		translate_dollar.c	\
+		error_handling.c	\
+		ft_free.c
 
 DIR_OBJ := .object/
 
