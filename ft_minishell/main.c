@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/25 14:53:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:45:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int ac, char **av, char **env)
 	t_base	*base;
 
 	base = ft_calloc(1, sizeof(t_base));
+	if (!base)
+		return(print_error("malloc", "memory allocation failed", EXIT_FAILURE));
 	base->env = env;
 	(void) ac;
 	(void) av;
@@ -37,17 +39,19 @@ int	main(int ac, char **av, char **env)
 			add_history(str);
 			if (ft_chara_split(str, &base) != -1)
 				ft_exec(base);
-			free(str);	
 			unlink_heredoc();
-			// free_base(base);
+			free_base_content(base);
 		}
-		else
-		{
-			write(1, "\n", 1);
-			exit (0);
-		}
-		free_base_content(base);
+		//else
+		//{
+		//	write(1, "\n", 1);
+			//exit (0);
+		//}
+		ft_free((void *)str);
 	}
+	rl_clear_history();
+	ft_free((void *)str);
+	free_envlist(base);
 	free(base);
 	return (0);
 }
