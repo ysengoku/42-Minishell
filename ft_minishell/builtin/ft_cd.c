@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 14:36:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:55:58 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ bash: cd: Doc: No such file or directory
 
 // int chdir(const char *path);
 
-static char	*get_path(t_base *base, char *destination);
-static char	*get_path_to_parentdir(void);
-static int	ft_chdir(char *path, t_base *base);
+static char		*get_path(t_base *base, char *destination);
+static char		*get_path_to_parentdir(void);
+static int		ft_chdir(char *path, t_base *base);
+static t_env	*find_oldpwd(t_base *base);
 
 int	ft_cd(t_base *base)
 {
@@ -55,7 +56,7 @@ int	ft_cd(t_base *base)
 	else if (ft_strncmp(base->lst->arg[1], "/", 2) == 0)
 		path = ft_strdup("/");
 	else if (ft_strncmp(base->lst->arg[1], "-", 2) == 0)
-		path = get_path(base, "OLDPWD"); // ---------------> Need to update OLDPWD on envn
+		path = get_path(base, "OLDPWD");
 	else if (ft_strncmp(base->lst->arg[1], "..", 3) == 0)
 		path = get_path_to_parentdir();
 	else
@@ -67,13 +68,6 @@ int	ft_cd(t_base *base)
 		free(path);
 		return (EXIT_FAILURE);
 	}
-	// if (chdir(path) == -1)
-	// {
-	// 	free(path);
-	// 	// ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
-	// 	// 	strerror(errno));
-	// 	return (EXIT_FAILURE);
-	// }
 	free(path);
 	return (0);
 }
@@ -132,17 +126,11 @@ static int	ft_chdir(char *path, t_base *base)
 	t_env	*oldpwd;
 	char	*tmp;
 
-	oldpwd = base->envn;
-	while (oldpwd)
-	{
-		if (ft_strcmp(oldpwd->key, "OLDPWD") == 0)
-			break ;
-		oldpwd = oldpwd->next;
-	}
+	oldpwd = find_oldpwd(base);
 	if (oldpwd == NULL)
 		return (print_error(CD, "OLDPWD not found", 1));
 	if (getcwd(next_oldpwd, sizeof(next_oldpwd)) == 0)
-		return (ft_perror("getcwd", EXIT_FAILURE));	
+		return (ft_perror("getcwd", EXIT_FAILURE));
 	if (chdir(path) == -1)
 	{
 		ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
@@ -155,4 +143,18 @@ static int	ft_chdir(char *path, t_base *base)
 		return (ft_perror("malloc", EXIT_FAILURE));
 	free(tmp);
 	return (0);
+}
+
+static t_env	*find_oldpwd(t_base *base)
+{
+	t_env	*oldpwd;
+
+	oldpwd = base->envn;
+	while (oldpwd)
+	{
+		if (ft_strcmp(oldpwd->key, "OLDPWD") == 0)
+			break ;
+		oldpwd = oldpwd->next;
+	}
+	return (oldpwd);
 }
