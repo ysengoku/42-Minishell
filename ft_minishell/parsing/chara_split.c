@@ -6,13 +6,13 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/23 17:54:09 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/25 16:17:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_nod(t_line **line, char *str)
+int	create_nod(t_line **line, char *str, t_base *base)
 {
 	t_line	*tmp;
 	t_line	*nxt;
@@ -28,7 +28,7 @@ int	create_nod(t_line **line, char *str)
 	if (cnt_param(str, tmp) == -1)
 		return (ft_display_error(1), -1);
 	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char*));
-	write_nod(i, tmp, str);
+	write_nod(i, tmp, str, base);
 	if (*line == NULL)
 		*line = tmp;
 	else
@@ -86,7 +86,7 @@ int	ft_chara_split(char *s, t_base **base)
 	srep = ft_split(s, '|');
 	while (srep[i])
 	{
-		if (create_nod(&line, srep[i]) == -1)
+		if (create_nod(&line, srep[i], *base) == -1)
 			return (-1);
 		i++;
 	}

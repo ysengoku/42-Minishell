@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/23 17:52:48 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/25 17:08:10 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	write_simple_quote(int i, t_line *tmp, char *str)
 	return (i);
 }
 
-int	write_double_quote(int i, t_line *tmp, char *str)
+int	write_double_quote(int i, t_line *tmp, char *str, t_base *base)
 {
 	int		j;
 	char	*quote;
@@ -59,6 +59,8 @@ int	write_double_quote(int i, t_line *tmp, char *str)
 		j++;
 	}
 	i++;
+	if (ft_strchr(quote, '$') != NULL)
+		quote = translate_dollar(quote, base);
 	j = 0;
 	while (tmp->arg[j])
 		j++;
@@ -66,7 +68,7 @@ int	write_double_quote(int i, t_line *tmp, char *str)
 	return (i);
 }
 
-int	write_char(int i, t_line *tmp, char *str)
+int	write_char(int i, t_line *tmp, char *str, t_base *base)
 {
 	int		j;
 	char	*arg_string;
@@ -81,6 +83,8 @@ int	write_char(int i, t_line *tmp, char *str)
 	&& str[i] != 34 && str[i] != 39)
 		arg_string[j++] = str[i++];
 	arg_string[j] = '\0';
+	if (ft_strchr(arg_string, '$') != NULL)
+		arg_string = translate_dollar(arg_string, base);
 	last_arg = 0;
 	while (tmp->arg[last_arg])
 		last_arg++;
@@ -88,7 +92,7 @@ int	write_char(int i, t_line *tmp, char *str)
 	return (i);
 }
 
-void	write_nod(int i, t_line *tmp, char *str)
+void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 {
 	while (str[i])
 	{
@@ -99,10 +103,10 @@ void	write_nod(int i, t_line *tmp, char *str)
 		else if (str[i] == ' ')
 			i++;
 		else if (str[i] == 34)
-			i = write_double_quote(i, tmp, str);
+			i = write_double_quote(i, tmp, str, base);
 		else if (str[i] == 39)
 			i = write_simple_quote(i, tmp, str);
 		else
-			i = write_char(i, tmp, str);
+			i = write_char(i, tmp, str, base);
 	}
 }
