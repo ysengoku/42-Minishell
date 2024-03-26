@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 15:03:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:26:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		ft_export(t_base *base);
 int		print_error(char *s1, char *s2, int exit_status);
 int		ft_perror(const char *s, int exit_status);
 /* free */
+void	ft_free(void * to_free);
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);

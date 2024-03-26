@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_loop.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/26 08:05:22 by yusengok          #+#    #+#             */
+/*   Updated: 2024/03/26 08:06:07 by yusengok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int		init_pipe(int (*pipefd)[2]);
@@ -55,9 +67,9 @@ static pid_t	ft_fork_pipex(int pipe[2])
 
 static void	pipe_child(t_base *base, int pipefd_in, int fd_in, int fd_out)
 {
-		close(pipefd_in);
-		dup_input(fd_in);
-		dup_output(fd_out);
-		pipe_execute_builtin(base);
-		execute_command(base);
+	close(pipefd_in);
+	dup_input(fd_in);
+	dup_output(fd_out);
+	pipe_execute_builtin(base);
+	execute_command(base);
 }

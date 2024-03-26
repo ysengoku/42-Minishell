@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/25 15:19:22 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:29:03 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, handle_sigint);
 	while(1)
 	{
-		str = readline(CYAN "minishell >>> " RESET); ////// need to check if it correctly works (prompt with history)
+		str = readline(CYAN "minishell >>> " RESET);
 		if (str && *str)
 		{
 			add_history(str);
 			if (ft_chara_split(str, &base) != -1)
 				ft_exec(base);
-			free(str);
 			unlink_heredoc();
 			free_base_content(base);
 		}
@@ -48,8 +47,10 @@ int	main(int ac, char **av, char **env)
 		//	write(1, "\n", 1);
 			//exit (0);
 		//}
+		ft_free((void *)str);
 	}
-//	rl_clear_history();
+	rl_clear_history();
+	ft_free((void *)str);
 	free_envlist(base);
 	free(base);
 	return (0);
