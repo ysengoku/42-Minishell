@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 15:16:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 10:48:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ int	ft_exec(t_base *base)
 
 int	execute_single_command(t_base *base)
 {
-	// if (ft_strcmp(base->lst->arg[0], CD) == 0)
-	// 	ft_cd(); // to code
+	if (ft_strcmp(base->lst->arg[0], CD) == 0)
+		return (ft_cd(base));
 	if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-		return (ft_echo(base)); // not complete yet
+		return (ft_echo(base));
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-		return (ft_env(base)); // to code
+		return (ft_env(base));
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, 0); // to code
+		ft_exit(base, 0);
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-		return (ft_export(base)); // to code
+		return (ft_export(base));
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
-		return (ft_pwd(base)); // not complete yet
+		return (ft_pwd(base));
 	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 	// 	return (ft_unset()); // to code
 	else
