@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 08:32:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:02:44 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 
 	base = ft_calloc(1, sizeof(t_base));
 	if (!base)
-		return (print_error("malloc", "memory allocation failed", EXIT_FAILURE));
+		return (ft_perror("malloc", 1));
 	base->env = env;
 	base->exit_code = 0;
 	(void) ac;
