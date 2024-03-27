@@ -6,12 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 16:25:21 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:48:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int		execute_single_command(t_base *base);
 static int		execute_external_command(t_base *base);
 static pid_t	ft_fork(int fd_in, int fd_out);
 
@@ -22,7 +23,7 @@ int	ft_exec(t_base *base)
 	return (pipex(base));
 }
 
-int	execute_single_command(t_base *base)
+static int	execute_single_command(t_base *base)
 {
 	if (base->lst->arg[0])
 	{

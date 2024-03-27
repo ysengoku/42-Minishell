@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 09:14:47 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:45:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*get_pathname(t_base *base);
 static char	**extract_path(t_base *base);
-static void	perror_exit(char *message, int exit_status);
 
 void	execute_command(t_base *base)
 {
@@ -98,32 +97,28 @@ static char	*get_pathname(t_base *base)
 
 static char	**extract_path(t_base *base)
 {
-	int		i;
 	char	*tmp;
 	char	**path_list;
+	t_env	*current_node;
 
-	i = -1;
 	tmp = NULL;
-	while (base->env[++i])
+	current_node = base->envn;
+	while (current_node)
 	{
-		if (ft_strncmp(base->env[i], "PATH=", 5) == 0)
+		if (ft_strcmp(current_node->key, "PATH") == 0)
 		{
-			tmp = ft_substr(base->env[i], 5, ft_strlen(base->env[i]) - 5);
+			tmp = ft_strdup(current_node->value);
 			if (!tmp)
-				perror_exit("malloc", EXIT_FAILURE);
+				exit(ft_perror("malloc", 1));
 			break ;
 		}
+		current_node = current_node->next;
 	}
+	if (!tmp)
+		exit(print_error("error message", NULL, 1));
 	path_list = ft_split(tmp, ':');
 	free(tmp);
 	if (!path_list)
-		perror_exit("malloc", EXIT_FAILURE);
+		exit(ft_perror("malloc", 1));
 	return (path_list);
-}
-
-static void	perror_exit(char *message, int exit_status)
-{
-	write(2, "minishell: ", 11);
-	perror(message);
-	exit(exit_status);
 }
