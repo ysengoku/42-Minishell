@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 16:15:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:14:47 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	execute_command(t_base *base)
 	exit(ft_perror("execve", 1));
 }
 
-static char *check_pathname(t_base *base, char **path_list, int i)
+static char	*check_pathname(t_base *base, char **path_list, int i)
 {
-	char *pathname;
+	char	*pathname;
 
 	pathname = ft_calloc(ft_strlen(path_list[i])
-				+ ft_strlen(base->lst->arg[0]) + 2, sizeof(char));
+			+ ft_strlen(base->lst->arg[0]) + 2, sizeof(char));
 	if (!pathname)
 	{
 		ft_free_strarr(path_list);
@@ -63,7 +63,7 @@ static char *check_pathname(t_base *base, char **path_list, int i)
 	{
 		if ((access(pathname, X_OK) == 0))
 			return (pathname);
-		base->exit_status = 126;
+		base->exit_code = 126;
 	}
 	free(pathname);
 	return (NULL);
@@ -76,7 +76,7 @@ static char	*get_pathname(t_base *base)
 	char	*pathname;
 
 	i = 0;
-	base->exit_status = 127;
+	base->exit_code = 127;
 	path_list = extract_path(base);
 	while (path_list[i])
 	{
@@ -85,12 +85,12 @@ static char	*get_pathname(t_base *base)
 		{
 			ft_free_strarr(path_list);
 			return (pathname);
-		}	
+		}
 		i++;
 	}
 	ft_free_strarr(path_list);
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-	if (base->exit_status == 127)
+	if (base->exit_code == 127)
 		exit(print_error(base->lst->arg[0], "command not found", 127));
 	else
 		exit(print_error(base->lst->arg[0], "Permission denied", 126));

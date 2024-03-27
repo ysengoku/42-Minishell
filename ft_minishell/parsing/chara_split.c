@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/25 16:17:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/27 09:11:04 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	ft_chara_split(char *s, t_base **base)
 	// 	line = line->next;
 	// }
 	// exit(1);
+	ft_free_strarr(srep);
 	(*base)->lst = line;
 	return (0);
 }
