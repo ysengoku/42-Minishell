@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 13:58:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:49:14 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	handle_sigint(int sig)
 
 static void	ft_minishell(t_base *base)
 {
-	char *str;
-	
+	char	*str;
+
 	str = readline(CYAN "minishell >>> " RESET);
 	if (str && *str)
 	{
 		add_history(str);
 		if (ft_chara_split(str, &base) != -1)
-			base->exit_code = ft_exec(base); /// Use for $?
+			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 1;
 		printf(RED "exit_code = %d\n" RESET, base->exit_code); ////////////// FOR TEST
