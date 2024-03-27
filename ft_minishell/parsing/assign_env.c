@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/24 23:54:47 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:40:52 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*assign_value(char **split)
 	char	*join2;
 
 	i = 2;
-	join1 = split[1];
+	join1 = ft_strdup(split[1]);
 	while(split[i])
 	{
 		join2 = ft_strjoin_char(join1, split[i]);
@@ -64,6 +64,7 @@ char	*assign_value(char **split)
 		join2 = NULL;
 		i++;
 	}
+	ft_free_strarr(split);
 	return(join1);
 }
 
