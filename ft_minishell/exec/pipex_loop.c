@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:05:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 08:06:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:44:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	{
 		ft_close(pipe[OUT], *fd_in, 0);
 		*fd_in = STDIN_FILENO;
-		return (1);
+		return (-1);
 	}
 	child_pid = ft_fork_pipex(pipe);
 	if (child_pid == -1)
-		return (EXIT_FAILURE);
+		return (-1);
 	if (child_pid == 0)
 		pipe_child(base, pipe[IN], *fd_in, *fd_out);
 	close(pipe[OUT]);

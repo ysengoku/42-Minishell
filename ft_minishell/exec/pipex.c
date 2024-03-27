@@ -6,28 +6,29 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 13:44:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:25:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static pid_t	pipe_last_command(t_base *base, int fd_in);
+static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
 
 int	pipex(t_base *base)
 {
 	int		fd[2];
 	pid_t	lastchild_pid;
-	int		exit_status;
 	int		count;
+	t_line	*head;
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = 0;
 	count = 0;
-	exit_status = 0;
+	head = base->lst;
 	while (base->lst->next)
 	{
-		if (pipe_loop(base, &fd[IN], &fd[OUT]) == 0)
+		if (pipe_loop(base, &fd[IN], &fd[OUT]) != -1)
 			count++;
 		base->lst = base->lst->next;
 	}
@@ -37,10 +38,9 @@ int	pipex(t_base *base)
 	if (lastchild_pid == -2)
 		return (0);
 	count++;
-	waitpid(lastchild_pid, &exit_status, 0);
-	while (count-- > 0)
-		wait(NULL);
-	return (WEXITSTATUS(exit_status));
+	wait_children(base, lastchild_pid, count);
+	base->lst = head;
+	return (WEXITSTATUS(base->exit_code));
 }
 
 static pid_t	pipe_last_command(t_base *base, int fd_in)
@@ -57,7 +57,7 @@ static pid_t	pipe_last_command(t_base *base, int fd_in)
 	if (lastchild_pid == -1)
 	{
 		ft_close(fd_in, fd_out, 1);
-		return (ft_perror("fork", 1));
+		return (ft_perror("fork", -1));
 	}
 	if (lastchild_pid == 0)
 	{
@@ -67,6 +67,13 @@ static pid_t	pipe_last_command(t_base *base, int fd_in)
 		execute_command(base);
 	}
 	return (ft_close(fd_in, fd_out, lastchild_pid));
+}
+
+static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
+{
+	waitpid(lastchild_pid, &base->exit_code, 0);
+	while (count-- > 0)
+		wait(NULL);
 }
 
 void	pipe_execute_builtin(t_base *base)

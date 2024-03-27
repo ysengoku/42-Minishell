@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:10:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:18:56 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_env(t_base *base)
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
-		return (EXIT_FAILURE);
+		return (1);
 	tmp = base->envn;
 	while (tmp)
 	{
@@ -32,5 +32,6 @@ int	ft_env(t_base *base)
 		}
 		tmp = tmp->next;
 	}
+	ft_close(fd[IN], fd[OUT], 0);
 	return (0);
 }
