@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 08:26:59 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:53:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,15 @@ typedef struct s_base
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int		ft_exec(t_base *base);
-int		execute_single_command(t_base *base);
-// static void	static int	execute_external_command(t_base *base);
-// static pid_t	ft_fork(int fd_in, int fd_out);
 
 /* pipex.c & pipex_loop.c */
 int		pipex(t_base *base);
 void	pipe_execute_builtin(t_base *base);
-// static pid_t	pipe_last_command(t_base *base, int fd_in);
+
 int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
-// static int		init_pipe(int (*pipefd)[2]);
-// static pid_t	ft_fork_pipex(int pipe[2]);
 
 /* execute command */
 void	execute_command(t_base *base);
-// static char	*get_pathname(t_base *base);
-// static char	**extract_path(t_base *base);
-// static void	perror_exit(char *message, int exit_status);
 
 /* open_file.c */
 int		open_infile(t_base *base);
@@ -111,8 +103,6 @@ void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int		check_redirection(t_base *base, int *fd_in, int *fd_out);
-// static int	check_heredoc(t_base *base);
-// static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
@@ -124,7 +114,7 @@ int		ft_cd(t_base *base);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 int		ft_env(t_base *base);
-int		ft_exit(t_base *base, int exit_status);
+void	ft_exit(t_base *base, int exit_status);
 int		ft_export(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/
