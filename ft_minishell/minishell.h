@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 16:32:59 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 08:26:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_base
 	char	**env;
 	t_env	*envn;
 	t_line	*lst;
-	int		exit_status;
+	int		exit_code;
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/

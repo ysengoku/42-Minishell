@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 16:32:14 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 08:32:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **env)
 	if (!base)
 		return (print_error("malloc", "memory allocation failed", EXIT_FAILURE));
 	base->env = env;
-	base->exit_status = 0;
+	base->exit_code = 0;
 	(void) ac;
 	(void) av;
 	assign_env(base, env);
@@ -39,8 +39,8 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(str);
 			if (ft_chara_split(str, &base) != -1)
-				base->exit_status = ft_exec(base); /// Use for $?
-			printf(RED "exit_status = %d\n" RESET, base->exit_status); ////////////// FOR TEST
+				base->exit_code = ft_exec(base); /// Use for $?
+			printf(RED "exit_code = %d\n" RESET, base->exit_code); ////////////// FOR TEST
 			unlink_heredoc();
 			free_base_content(base);
 		}

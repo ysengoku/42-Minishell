@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/22 15:54:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:15:16 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 
 int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 {
+	t_file	*current_file;
+
 	if (check_heredoc(base) == 1)
 		return (print_error("heredoc", "A problem occured", 1));
-	while (base->lst->file)
+	current_file = base->lst->file;
+	while (current_file)
 	{
-		if (base->lst->file->type == INFILE
-			|| base->lst->file->type == HERE_DOC)
+		if (current_file->type == INFILE || current_file->type == HERE_DOC)
 		{
 			ft_close(*fd_in, 0, 0);
 			*fd_in = open_infile(base);
@@ -34,10 +36,10 @@ int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 		}
 		if (*fd_in == -1 || *fd_out == -1)
 		{
-			base->exit_status = 1;
+			base->exit_code = 1;
 			return (ft_close(*fd_in, *fd_out, 1));
 		}
-		base->lst->file = base->lst->file->next;
+		current_file = current_file->next;
 	}
 	return (0);
 }
@@ -56,12 +58,12 @@ static int	check_heredoc(t_base *base)
 			if (fd_heredoc == -1)
 			{
 				perror("heredoc");
-				base->exit_status = 1;
+				base->exit_code = 1;
 				return (1);
 			}
 			if (get_heredoc_lines(current_file->filename, fd_heredoc) == 1)
 			{
-				base->exit_status = 1;
+				base->exit_code = 1;
 				return (1);
 			}
 		}
