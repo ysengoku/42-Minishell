@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 14:45:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:56:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	main(int ac, char **av, char **env)
 			unlink_heredoc();
 			free_base_content(base);
 		}
-		//else
-		//{
-		//	write(1, "\n", 1);
-			//exit (0);
-		//}
+		if (!str)
+		{
+			write(1, "\n", 1);
+			exit (0);
+		}
 		ft_free((void *)str);
 	}
 	rl_clear_history();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 14:44:32 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:12:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ enum e_file_type
 	HERE_DOC = 4
 };
 
+enum e_type_char
+{
+	STANDARD,
+	QUOTE,
+	DOUBLE_Q,
+};
+
 typedef struct s_file
 {
 	char				*filename;
@@ -67,10 +74,11 @@ typedef struct s_file
 
 typedef struct s_line
 {
-	t_file			*file;
-	char			**arg;
-	int				nb_arg;
-	struct s_line	*next;
+	t_file				*file;
+	char				**arg;
+	int					nb_arg;
+	enum e_type_char	char_type;
+	struct s_line		*next;
 }				t_line;
 
 typedef struct s_base
@@ -78,6 +86,7 @@ typedef struct s_base
 	char	**env;
 	t_env	*envn;
 	t_line	*lst;
+	int		exit_code;
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/
@@ -141,13 +150,12 @@ int		write_char(int i, t_line *tmp, char *str, t_base *base);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
-int		write_double_quote(int i, t_line *tmp, char *str, t_base *base);
-int		write_simple_quote(int i, t_line *tmp, char *str);
+int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		assign_env(t_base *base, char **env);
 void	ft_display_error(int i);
 void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
-char	*translate_dollar(char *str, t_base *base);
+char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
