@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 13:53:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:20:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		ft_pwd(t_base *base);
 int		ft_env(t_base *base);
 void	ft_exit(t_base *base, int exit_status);
 int		ft_export(t_base *base);
+int		ft_unset(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */

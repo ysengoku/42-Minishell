@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 10:25:35 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:21:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	pipe_execute_builtin(t_base *base)
 		exit_code = ft_export(base);
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
 		exit_code = ft_pwd(base);
-	// else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
-	// 	exit (ft_unset()); // to code
+	else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
+		exit_code = ft_unset(base);
 	else
 		return ;
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
