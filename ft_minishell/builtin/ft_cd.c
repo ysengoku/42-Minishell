@@ -6,14 +6,12 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 15:17:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:31:21 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		*get_path(t_base *base, char *destination);
-static char		*get_path_to_parentdir(void);
 static int		ft_chdir(char *path, t_base *base);
 static t_env	*find_oldpwd(t_base *base);
 
@@ -31,66 +29,32 @@ int	ft_cd(t_base *base)
 		path = get_path(base, "OLDPWD");
 	else if (ft_strncmp(base->lst->arg[1], "..", 3) == 0)
 		path = get_path_to_parentdir();
+	else if (ft_strncmp(base->lst->arg[1], "./", 3) == 0)
+		path = get_pwd();
 	else
 		path = ft_strdup(base->lst->arg[1]);
 	if (!path)
-		return (EXIT_FAILURE);
+		return (1);
 	if (ft_chdir(path, base) == 1)
-	{
-		free(path);
-		return (EXIT_FAILURE);
-	}
-	free(path);
-	return (0);
+		return (ft_free((void *)path, 1));
+	if (ft_strncmp(base->lst->arg[1], "-", 2) == 0)
+		printf("%s\n", path);
+	return (ft_free((void *)path, 0));
 }
 
-static char	*get_path(t_base *base, char *destination)
-{
-	char	*path;
-	t_env	*current_node;
+/*
+yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ pwd
+/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test
 
-	current_node = base->envn;
-	while (current_node)
-	{
-		if (ft_strcmp(current_node->key, destination) == 0)
-		{
-			path = ft_strdup(current_node->value);
-			if (!path)
-			{
-				ft_perror("malloc", 1);
-				return (NULL);
-			}
-			return (path);
-		}
-		current_node = current_node->next;
-	}
-	print_error("cd", "No such file or directory", 1);
-	return (NULL);
-}
+yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ rm -r test
+rm: cannot remove 'test': No such file or directory
+---> delete it on finder
 
-static char	*get_path_to_parentdir(void)
-{
-	char	*path;
-	char	current_path[PWD_SIZE];
-	size_t	end;
+yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ cd ./
 
-	if (getcwd(current_path, sizeof(current_path)) == 0)
-	{
-		ft_perror("getcwd", 1);
-		return (NULL);
-	}
-	end = ft_strlen(current_path) - 1;
-	while (current_path[end] != '/' && end > 0)
-		end --;
-	path = ft_calloc(end + 2, sizeof(char));
-	if (!path)
-	{
-		ft_perror("malloc", 1);
-		return (NULL);
-	}
-	ft_strlcpy(path, current_path, end + 1);
-	return (path);
-}
+yusengok@z1r9p1:~/.local/share/Trash/files/test$ cd -
+bash: cd: /home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test: No such file or directory
+*/
 
 static int	ft_chdir(char *path, t_base *base)
 {

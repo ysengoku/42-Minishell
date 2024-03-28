@@ -6,16 +6,17 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 09:06:51 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:21:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(void *to_free)
+int	ft_free(void *to_free, int exit_status)
 {
 	if (to_free)
 		free(to_free);
+	return (exit_status);
 }
 
 void	ft_free_strarr(char **arr)

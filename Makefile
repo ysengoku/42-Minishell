@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/27 14:23:10 by yusengok         ###   ########.fr        #
+#    Updated: 2024/03/28 08:27:38 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
+		ft_cd_utils.c	\
 		ft_echo.c	\
 		ft_env.c \
 		ft_exit.c	\
