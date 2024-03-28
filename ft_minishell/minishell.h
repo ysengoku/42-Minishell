@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/28 14:58:55 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:42:41 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <signal.h> 
 # include "libft.h"
 # include "ft_printf.h"
+
+# define COMMANDLINE_USAGE "\n./minishell for interactive mode\n\
+./minishell -c \"[commande lines]\" for command-line mode"
 
 # define HEREDOC "here_doc"
 # define PWD_SIZE 1024
