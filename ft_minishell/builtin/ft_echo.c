@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/28 12:46:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:08:00 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_echo(t_base *base)
 	newline = 1;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
 		return (EXIT_FAILURE);
-	check_newline(base->lst->arg, &i, &newline);
+	if (base->lst->arg[i])
+		check_newline(base->lst->arg, &i, &newline);
 	while (base->lst->arg[i])
 	{
 		write(fd[OUT], base->lst->arg[i], ft_strlen(base->lst->arg[i]));
