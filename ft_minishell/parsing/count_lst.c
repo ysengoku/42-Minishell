@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/24 19:54:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/27 20:03:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int skip_file(char *str, int i)
 
 int	cnt_quote(char *str, t_line *line, int i)
 {
-	if (str[i] == 34 || str[i] == 39)
+	if (str[i] == 34)
 	{
 		line->nb_arg++;
 		i++;
@@ -86,7 +86,7 @@ int	cnt_param(char *str, t_line *line)
 		if (str[i] == '<' || str[i] == '>')
 			i = skip_file(str, i);
 		else if (str[i] == 34 || str[i] == 39)
-			cnt_quote(str, line, i);
+			i = cnt_quote(str, line, i);
 		else if (str[i] != ' ' && (str[i - 1] == ' ' || str[i - 1] == 34))
 			line->nb_arg++;
 		if (i == -1)
