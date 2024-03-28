@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 22:59:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 17:56:56 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*assign_value(char **split)
 		join2 = NULL;
 		i++;
 	}
-	//ft_free_strarr(split);
+	ft_free_strarr(split);
 	return(join1);
 }
 
@@ -80,7 +80,7 @@ int	assign_env(t_base *base, char **env)
 	{
 		tmp = ft_calloc(1, sizeof(t_env));
 		split = ft_split(env[i], '=');
-		tmp->key = split[0];
+		tmp->key = ft_strdup(split[0]);
 		tmp->value = assign_value(split);
 		tmp->order = 0;
 		if (!base->envn)

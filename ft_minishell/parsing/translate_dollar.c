@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 23:39:50 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 18:00:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 	free(str);
 	if (find)
 		return(ft_strjoin_mall(before, find->value, last_len));
-	return(NULL);
+	return(ft_strjoin_mall(before, NULL, last_len));
 }
 
 char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
@@ -34,16 +34,16 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	unsigned int	i;
 	unsigned int	j;
 
-	res_len = ft_strlen(s1) + ft_strlen(s2 + last_len);
-	res = malloc(res_len * sizeof(char) + 1);
+	res_len = ft_strlen(s1) + ft_strlen(s2) + last_len;
+	res = ft_calloc(res_len + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 		res[j++] = s1[i++];
 	i = 0;
-	while (s2[i])
+	while (s2 && s2[i])
 		res[j++] = s2[i++];
 	res[j] = '\0';
 	return (res);
@@ -69,8 +69,10 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 	{	
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')
+	{
 		i++;
 		last_len++;
+	}
 	}
 	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));
