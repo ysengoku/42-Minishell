@@ -20,8 +20,11 @@ cd /
 # Navigate to parent directory
 cd ..
 
-# Navigate to the previous directory (OLDPWD)
+# Navigate to the previous working directory (OLDPWD) & print PWD
 cd -
+
+# "Navigate" to the current working directory & update OLDPWD to cwd
+cd ./
 ```
 
 If we are in /home/myusername,  
