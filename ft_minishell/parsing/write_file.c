@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/23 17:33:42 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 18:29:02 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	write_out_file(int i, t_line *tmp, char *str)
 	last = tmp->file;
 	i++;
 	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str), sizeof(char));
+	stock->filename = calloc(ft_strlen(str) + 1, sizeof(char));
 	if (str[i] == '>')
 	{
 		stock->type = OUT_APPEND;
@@ -92,7 +92,7 @@ int	write_in_file(int i, t_line *tmp, char *str)
 	last = tmp->file;
 	i++;
 	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str), sizeof(char));
+	stock->filename = calloc(ft_strlen(str) + 1, sizeof(char));
 	if (str[i] == '<')
 	{
 		stock->type = HERE_DOC;

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 01:37:11 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 16:43:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ int	write_char(int i, t_line *tmp, char *str, t_base *base)
 				j++;
 			i++;
 			while (str[i] && str[i] != ' ' && str[i] != '<' \
-			&& str[i] != '|' && str[i] != '>' && str[i] != '$')
+			&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
+			&& enter_quote_mode(str, i, tmp) == 0)
 				i++;
-			i--;
+			if (str[i] != 34 && str[i] != 39)
+				i--;
 		}
 		else
 		{
