@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 14:20:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:29:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_cd(t_base *base);
+char	*get_path(t_base *base, char *destination);
+char	*get_path_to_parentdir(void);
+char	*get_pwd(void);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 int		ft_env(t_base *base);
@@ -123,7 +126,7 @@ int		ft_unset(t_base *base);
 int		print_error(char *s1, char *s2, int exit_status);
 int		ft_perror(const char *s, int exit_status);
 /* free */
-void	ft_free(void *to_free);
+int		ft_free(void *to_free, int exit_status);
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);
