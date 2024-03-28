@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 14:49:14 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:48:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,34 @@ static void	ft_minishell(t_base *base)
 		write(1, "\n", 1);
 		exit (0);
 	}
-	ft_free((void *)str);
+	ft_free((void *)str, 0);
 }
+
+/*
+bash -c "ls"
+ft_minishell  in  lib  Makefile  README.md
+
+bash -c << EOF 'cat'
+> hello
+> coucou
+> EOF
+hello
+coucou
+
+bash -c < in "cat"
+Hello
+Hello
+Coucou
+Hello
+Coucou
+Bonjour
+
+bash -c "<< EOF cat"
+bash: warning: here-document at line 0 delimited by end-of-file (wanted `EOF')
+
+---> ./minishell -c "command"
+The -c option is used to tell the Bash shell to execute the command that follows it
+*/
 
 int	main(int ac, char **av, char **env)
 {
@@ -58,12 +84,37 @@ int	main(int ac, char **av, char **env)
 		while (1)
 			ft_minishell(base);
 	}
-	else
+	else if (ac > 2 && ft_strcmp(av[1], "-c") == 0)
 	{
-		(void) av;
-		printf(RED "What to do if there is arguments ?\n" RESET);
+		if ((ft_strcmp(av[2], "<") == 0 || (ft_strcmp(av[2], "<<") == 0 && av[3])
+			|| ft_strcmp(av[2], ">") == 0 || ft_strcmp(av[2], ">>") == 0 ) && av[3])
+		{
+			// check redirection (av[3] = file or delimiter)
+			// if (av[4])
+			// execute av[4] with here_doc as infile
+			// else
+			// error "minishell: -c: option requires an argument"
+		}
+		// else
+		// execute av[2] & ignore arguments after av[3]
+	}
+	else // cases without option '-c'
+	{
+		// if av[1] == existing command (e.g. ls): error
+		// "/usr/bin/ls: /usr/bin/ls: cannot execute binary file"
+		
+		// if av[1] == existing file (e.g. in): error 
+		// in: line 1: Hello: command not found
+		// in: line 2: Hello: command not found
+		// in: line 3: Coucou: command not found...
+
+		// if av[1] == non existing file: error
+		// bash: (fine name): No such file or directory
+
+		// arguments after av[2] are ignored
 	}
 	free_envlist(base);
 	free(base);
 	return (0);
 }
+
