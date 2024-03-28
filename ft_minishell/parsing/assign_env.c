@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 22:59:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 15:00:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ char	*ft_strjoin_char(char const *s1, char const *s2)
 
 char	*assign_value(char **split)
 {
-	int	i;
+	int		i;
 	char	*join1;
 	char	*join2;
 
 	i = 2;
 	join1 = ft_strdup(split[1]);
-	while(split[i])
+	while (split[i])
 	{
 		join2 = ft_strjoin_char(join1, split[i]);
 		free(join1);
@@ -64,8 +64,11 @@ char	*assign_value(char **split)
 		join2 = NULL;
 		i++;
 	}
-	//ft_free_strarr(split);
-	return(join1);
+	i = 1;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+	return (join1);
 }
 
 int	assign_env(t_base *base, char **env)

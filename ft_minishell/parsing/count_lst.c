@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 20:03:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 15:00:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int cnt_file(int i, char *str)
+int	cnt_file(int i, char *str)
 {
 	while (str[i] == ' ')
 		i++;
@@ -33,15 +33,15 @@ int cnt_file(int i, char *str)
 	return (i);
 }
 
-int skip_file(char *str, int i)
+int	skip_file(char *str, int i)
 {
 	if (str[i] == '<')
-		{
+	{
+		i++;
+		if (str[i] == '<')
 			i++;
-			if (str[i] == '<')
-				i++;
-			i = cnt_file(i, str);
-		}
+		i = cnt_file(i, str);
+	}
 	else if (str[i] == '>')
 	{
 		i++;
@@ -93,5 +93,5 @@ int	cnt_param(char *str, t_line *line)
 			return (-1);
 		i++;
 	}
- return (0);
+	return (0);
 }
