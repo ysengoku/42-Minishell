@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 02:12:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 01:14:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_file
 typedef struct s_line
 {
 	t_file				*file;
+	char				**out;
+	char				**in;
 	char				**arg;
 	int					nb_arg;
 	enum e_type_char	char_type;

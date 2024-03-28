@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 18:04:08 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/27 23:39:50 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 
 	i = 0;
 	last_len = 0;
-	to_find = ft_calloc(strlen(str), sizeof(char));
+	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' &&  \
 	enter_quote_mode(str, i, tmp) == 0 && str[i] != '$')
@@ -65,12 +65,13 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 		to_find[i] = str[i];
 		i++;
 	}
-	if (str[i] == 39 || str[i] == 34)
-	{
+	if ((str[i] == 39 || str[i] == 34))
+	{	
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')
 		i++;
 		last_len++;
 	}
+	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));
 }

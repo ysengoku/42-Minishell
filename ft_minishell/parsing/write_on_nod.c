@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 03:57:55 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/28 01:37:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	write_char(int i, t_line *tmp, char *str, t_base *base)
 	if (!arg_string)
 		return (-1);
 	j = 0;
-	while (tmp->char_type != STANDARD || (str[i] && str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && str[i] != ' '))
+	while (str[i] && ((str[i] != '<' \
+	&& str[i] != '>' && str[i] != '|' && str[i] != ' ') || tmp->char_type != STANDARD))
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
@@ -54,10 +54,11 @@ int	write_char(int i, t_line *tmp, char *str, t_base *base)
 			j = 0;
 			while (arg_string[j])
 				j++;
-			j--;
+			i++;
 			while (str[i] && str[i] != ' ' && str[i] != '<' \
 			&& str[i] != '|' && str[i] != '>' && str[i] != '$')
 				i++;
+			i--;
 		}
 		else
 		{
