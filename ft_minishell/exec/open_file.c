@@ -46,12 +46,13 @@ int	open_outfile(t_base *base)
 	return (fd_out);
 }
 
-void	ft_close(int fd1, int fd2)
+int	ft_close(int fd1, int fd2, int exit_code)
 {
 	if (fd1 > 2)
 		close (fd1);
 	if (fd2 > 2)
 		close (fd2);
+	return (exit_code);
 }
 
 void	ft_close_in_child(int fd1, int fd2)
