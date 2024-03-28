@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:14:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:08:27 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	export_null(t_base *base)
 		}
 		printf("%s", print->key);
 		if (print->value)
-			printf("=%s\n", print->value);
+			printf("=\"%s\"\n", print->value);
 		print->order = 1;
 	}
 	reset_order(base);
