@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 18:00:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/01 21:54:21 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 		find = find->next;
 	free(str);
 	if (find)
-		return(ft_strjoin_mall(before, find->value, last_len));
-	return(ft_strjoin_mall(before, NULL, last_len));
+		return (ft_strjoin_mall(before, find->value, last_len));
+	return (ft_strjoin_mall(before, NULL, last_len));
 }
 
 char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
@@ -59,20 +59,20 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 	last_len = 0;
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' &&  \
+	&& str[i] != '|' && str[i] != '>' && \
 	enter_quote_mode(str, i, tmp) == 0 && str[i] != '$')
 	{
 		to_find[i] = str[i];
 		i++;
 	}
 	if ((str[i] == 39 || str[i] == 34))
-	{	
+	{
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')
-	{
-		i++;
-		last_len++;
-	}
+		{
+			i++;
+			last_len++;
+		}
 	}
 	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));

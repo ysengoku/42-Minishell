@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:36:45 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/25 16:14:57 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/27 13:01:56 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,3 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
-
-/*
-int	ft_strchr(const char *str, char cch)
-{
-	size_t		i;
-	char		*c;
-
-	i = 0;
-	c = (char *)(str);
-	while (c[i] != cch && c[i] != '\0')
-		i++;
-	if (cch == '\0' && c[i] == '\0')
-		return (1);
-	if (c[i] == '\0')
-		return (0);
-	return (1);
-}
-*/

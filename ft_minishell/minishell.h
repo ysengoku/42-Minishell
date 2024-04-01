@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/28 01:14:25 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/01 22:18:40 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define EXPORT "export"
 # define PWD "pwd"
 # define UNSET "unset"
+# define EXITSTATUS "$?"
 
 # define IN 0
 # define OUT 1
@@ -94,34 +95,24 @@ typedef struct s_base
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int		ft_exec(t_base *base);
-int		execute_single_command(t_base *base);
-// static void	static int	execute_external_command(t_base *base);
-// static pid_t	ft_fork(int fd_in, int fd_out);
 
 /* pipex.c & pipex_loop.c */
 int		pipex(t_base *base);
 void	pipe_execute_builtin(t_base *base);
-// static pid_t	pipe_last_command(t_base *base, int fd_in);
+
 int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
-// static int		init_pipe(int (*pipefd)[2]);
-// static pid_t	ft_fork_pipex(int pipe[2]);
 
 /* execute command */
 void	execute_command(t_base *base);
-// static char	*get_pathname(t_base *base);
-// static char	**extract_path(t_base *base);
-// static void	perror_exit(char *message, int exit_status);
 
 /* open_file.c */
 int		open_infile(t_base *base);
 int		open_outfile(t_base *base);
-void	ft_close(int fd1, int fd2);
+int		ft_close(int fd1, int fd2, int exit_code);
 void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int		check_redirection(t_base *base, int *fd_in, int *fd_out);
-// static int	check_heredoc(t_base *base);
-// static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
@@ -130,25 +121,28 @@ void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_cd(t_base *base);
+char	*get_path(t_base *base, char *destination);
+char	*get_path_to_parentdir(void);
+char	*get_pwd(void);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
 int		ft_env(t_base *base);
-int		ft_exit(t_base *base, int exit_status);
+void	ft_exit(t_base *base, int exit_status);
 int		ft_export(t_base *base);
+int		ft_unset(t_base *base);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
 int		print_error(char *s1, char *s2, int exit_status);
 int		ft_perror(const char *s, int exit_status);
 /* free */
-void	ft_free(void * to_free);
+int		ft_free(void *to_free, int exit_status);
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);
-int		write_char(int i, t_line *tmp, char *str, t_base *base);
 int		write_in_file(int i, t_line *tmp, char *str);
 int		write_out_file(int i, t_line *tmp, char *str);
 int		cnt_param(char *str, t_line *line);
@@ -158,6 +152,7 @@ void	ft_display_error(int i);
 void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before);
+char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

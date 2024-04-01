@@ -6,16 +6,17 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/26 08:25:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:21:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(void * to_free)
+int	ft_free(void *to_free, int exit_status)
 {
 	if (to_free)
 		free(to_free);
+	return (exit_status);
 }
 
 void	ft_free_strarr(char **arr)
@@ -32,6 +33,7 @@ void	free_base_content(t_base *base)
 {
 	t_line	*current_node;
 	t_line	*next_node;
+	t_file	*next_file;
 
 	if (base)
 	{
@@ -40,10 +42,12 @@ void	free_base_content(t_base *base)
 		{
 			if (current_node->arg)
 				ft_free_strarr(current_node->arg);
-			if (current_node->file)
+			while (current_node->file)
 			{
 				free(current_node->file->filename);
+				next_file = current_node->file->next;
 				free(current_node->file);
+				current_node->file = next_file;
 			}
 			next_node = current_node->next;
 			free(current_node);

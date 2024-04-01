@@ -3,26 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/24 19:59:01 by dvo              ###   ########.fr       */
+/*   Updated: 2024/03/27 10:18:56 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_base *base) 
+int	ft_env(t_base *base)
 {
 	t_env	*tmp;
+	int		fd[2];
 
+	fd[IN] = STDIN_FILENO;
+	fd[OUT] = STDOUT_FILENO;
+	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
+		return (1);
 	tmp = base->envn;
 	while (tmp)
 	{
-		printf("%s", tmp->key);
+		ft_putstr_fd(tmp->key, fd[OUT]);
 		if (tmp->value)
-			printf("=%s\n", tmp->value);
+		{
+			write(fd[OUT], "=", 1);
+			ft_putendl_fd(tmp->value, fd[OUT]);
+		}
 		tmp = tmp->next;
 	}
-	return(0);
+	ft_close(fd[IN], fd[OUT], 0);
+	return (0);
 }
