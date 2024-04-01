@@ -6,57 +6,57 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 18:29:02 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/01 22:46:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	quote_in_file(int *j, char *str, int i, t_file *stock)
-{
-	int	tmp;
+// int	quote_in_file(int *j, char *str, int i, t_file *stock)
+// {
+// 	int	tmp;
 
-	tmp = *j;
-	if (str[i] == 34)
-	{
-		i++;
-		while (str[i] != 34)
-			stock->filename[tmp++] = str[i++] * -1;
-	}
-	else if (str[i] == 39)
-	{
-		i++;
-		while (str[i] != 39)
-			stock->filename[tmp++] = str[i++] * -1;
-	}
-	i++;
-	*j = tmp;
-	return (i);
-}
+// 	tmp = *j;
+// 	if (str[i] == 34)
+// 	{
+// 		i++;
+// 		while (str[i] != 34)
+// 			stock->filename[tmp++] = str[i++] * -1;
+// 	}
+// 	else if (str[i] == 39)
+// 	{
+// 		i++;
+// 		while (str[i] != 39)
+// 			stock->filename[tmp++] = str[i++] * -1;
+// 	}
+// 	i++;
+// 	*j = tmp;
+// 	return (i);
+// }
 
-int	ft_write_file(char *str, int i, t_file *stock)
-{
-	int	j;
+// int	ft_write_file(char *str, int *i, t_file *stock)
+// {
+// 	int	j;
 
-	j = 0;
-	if (str[i] == '<' || str[i] == '>')
-		return (-1);
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-		return (-1);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>')
-	{
-		if (str[i] == 34 || str[i] == 39)
-			i = quote_in_file(&j, str, i, stock);
-		stock->filename[j++] = str[i++];
-	}
-	stock->filename[j] = '\0';
-	return (i);
-}
+// 	j = 0;
+// 	if (str[i] == '<' || str[i] == '>')
+// 		return (-1);
+// 	while (str[i] == ' ')
+// 		i++;
+// 	if (str[i] == '<' || str[i] == '>')
+// 		return (-1);
+// 	while (str[i] && str[i] != ' ' && str[i] != '<' \
+// 	&& str[i] != '|' && str[i] != '>')
+// 	{
+// 		if (str[i] == 34 || str[i] == 39)
+// 			i = quote_in_file(&j, str, i, stock);
+// 		stock->filename[j++] = str[i++];
+// 	}
+// 	stock->filename[j] = '\0';
+// 	return (i);
+// }
 
-int	write_out_file(int i, t_line *tmp, char *str)
+int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 {
 	t_file	*stock;
 	t_file	*last;
@@ -64,7 +64,6 @@ int	write_out_file(int i, t_line *tmp, char *str)
 	last = tmp->file;
 	i++;
 	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str) + 1, sizeof(char));
 	if (str[i] == '>')
 	{
 		stock->type = OUT_APPEND;
@@ -72,7 +71,7 @@ int	write_out_file(int i, t_line *tmp, char *str)
 	}
 	else
 		stock->type = OUT_TRUNC;
-	i = ft_write_file(str, i, stock);
+	stock->filename = write_char(&i, tmp, str, base);
 	if (tmp->file == NULL)
 		tmp->file = stock;
 	else
@@ -84,7 +83,7 @@ int	write_out_file(int i, t_line *tmp, char *str)
 	return (i);
 }
 
-int	write_in_file(int i, t_line *tmp, char *str)
+int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 {
 	t_file	*stock;
 	t_file	*last;
@@ -92,7 +91,6 @@ int	write_in_file(int i, t_line *tmp, char *str)
 	last = tmp->file;
 	i++;
 	stock = calloc(1, sizeof(t_file));
-	stock->filename = calloc(ft_strlen(str) + 1, sizeof(char));
 	if (str[i] == '<')
 	{
 		stock->type = HERE_DOC;
@@ -100,7 +98,7 @@ int	write_in_file(int i, t_line *tmp, char *str)
 	}
 	else
 		stock->type = INFILE;
-	i = ft_write_file(str, i, stock);
+	stock->filename = write_char(&i, tmp, str, base);
 	if (tmp->file == NULL)
 		tmp->file = stock;
 	else
