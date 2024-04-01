@@ -19,18 +19,18 @@ void	dup_input(int fd_in)
 		print_error(strerror(errno), "dup2", 1);
 		exit(EXIT_FAILURE);
 	}
-	ft_close(fd_in, 0);
+	ft_close(fd_in, 0, 0);
 }
 
 void	dup_output(int fd_out)
 {
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
-		ft_close(fd_out, 0);
+		ft_close(fd_out, 0, 0);
 		print_error(strerror(errno), "dup2", 1);
 		exit(EXIT_FAILURE);
 	}
-	ft_close(fd_out, 0);
+	ft_close(fd_out, 0, 0);
 }
 
 void	unlink_heredoc(void)

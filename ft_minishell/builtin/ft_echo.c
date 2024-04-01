@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 12:37:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:08:00 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_newline(char *s);
+static void	check_newline(char **s, int *i, int *newline);
 
 int	ft_echo(t_base *base)
 {
@@ -22,12 +22,12 @@ int	ft_echo(t_base *base)
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
+	i = 1;
+	newline = 1;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
 		return (EXIT_FAILURE);
-	i = 1;
-	newline = check_newline(base->lst->arg[i]);
-	if (newline == 0)
-		i++;
+	if (base->lst->arg[i])
+		check_newline(base->lst->arg, &i, &newline);
 	while (base->lst->arg[i])
 	{
 		write(fd[OUT], base->lst->arg[i], ft_strlen(base->lst->arg[i]));
@@ -36,20 +36,33 @@ int	ft_echo(t_base *base)
 	}
 	if (newline)
 		write (fd[OUT], "\n", 1);
-	ft_close(fd[IN], fd[OUT]);
-	return (0);
+	return (ft_close(fd[IN], fd[OUT], 0));
 }
 
-static int	check_newline(char *s)
+static void	check_newline(char **arg, int *i, int *newline)
 {
-	if (*s != '-')
-		return (1);
-	s++;
-	while (*s)
+	int	j;
+
+	j = 0;
+	if (arg[*i][j] != '-')
+		return ;
+	j++;
+	while (arg[*i][j])
 	{
-		if (*s != 'n')
-			return (1);
-		s++;
+		if (arg[*i][j++] != 'n')
+			return ;
 	}
-	return (0);
+	*newline = 0;
+	while (arg[++(*i)])
+	{
+		j = 0;
+		if (arg[*i][j] != '-')
+			return ;
+		j++;
+		while (arg[*i][j])
+		{
+			if (arg[*i][j++] != 'n')
+				return ;
+		}
+	}
 }

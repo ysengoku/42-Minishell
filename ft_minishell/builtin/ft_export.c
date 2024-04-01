@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
+/*   Updated: 2024/03/28 15:08:27 by yusengok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_end(t_base *base)
@@ -19,7 +31,7 @@ void	reset_order(t_base *base)
 	t_env	*reset;
 
 	reset = base->envn;
-	while(reset)
+	while (reset)
 	{
 		reset->order = 0;
 		reset = reset->next;
@@ -47,11 +59,11 @@ int	export_null(t_base *base)
 		}
 		printf("%s", print->key);
 		if (print->value)
-			printf("=%s\n", print->value);
+			printf("=\"%s\"\n", print->value);
 		print->order = 1;
 	}
 	reset_order(base);
-	return(0);
+	return (0);
 }
 
 int	export_add(t_base *base)
@@ -73,11 +85,11 @@ int	export_add(t_base *base)
 	return (0);
 }
 
-int	ft_export(t_base *base) 
+int	ft_export(t_base *base)
 {
 	if (base->lst->arg[1] == NULL)
-		return(export_null(base));
+		return (export_null(base));
 	if (base->lst->arg[1])
-		return(export_add(base));
+		return (export_add(base));
 	return (0);
 }
