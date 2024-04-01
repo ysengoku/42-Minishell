@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/01 22:18:40 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/01 22:46:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ void	free_envlist(t_base *base);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);
-int		write_in_file(int i, t_line *tmp, char *str);
-int		write_out_file(int i, t_line *tmp, char *str);
+int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
+int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
 int		cnt_param(char *str, t_line *line);
 int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		assign_env(t_base *base, char **env);
