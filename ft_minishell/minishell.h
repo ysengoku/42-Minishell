@@ -125,7 +125,8 @@ void	unlink_heredoc(void);
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_cd(t_base *base);
 char	*get_path(t_base *base, char *destination);
-char	*get_path_to_parentdir(void);
+t_env	*find_env_var(t_base *base, char *key);
+char	*get_path_to_parentdir(t_base *base);
 char	*get_pwd(void);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*get_pwd(void)
+char	*get_pwd(void) // Need to review
 {
 	char	*path;
 	char	current_path[PWD_SIZE];
@@ -55,6 +55,45 @@ char	*get_path(t_base *base, char *destination)
 	return (NULL);
 }
 
+t_env	*find_env_var(t_base *base, char *key)
+{
+	t_env	*pwd;
+
+	pwd = base->envn;
+	while (pwd)
+	{
+		if (ft_strcmp(pwd->key, key) == 0)
+			return (pwd);
+		pwd = pwd->next;
+	}
+	print_error(key, " not found", 1);
+	return (NULL);
+}
+
+
+char	*get_path_to_parentdir(t_base *base)
+{
+	char	*path;
+	t_env	*pwd;
+	size_t	end;
+
+	pwd = find_env_var(base, "PWD");
+	if (pwd == NULL)
+		return (NULL);
+
+	end = ft_strlen(pwd->value) - 1;
+	while (pwd->value[end] != '/' && end > 0)
+		end --;
+	path = ft_calloc(end + 2, sizeof(char));
+	if (!path)
+	{
+		ft_perror("malloc", 1);
+		return (NULL);
+	}
+	ft_strlcpy(path, pwd->value, end + 1);
+	return (path);
+}
+/*
 char	*get_path_to_parentdir(void)
 {
 	char	*path;
@@ -78,3 +117,4 @@ char	*get_path_to_parentdir(void)
 	ft_strlcpy(path, current_path, end + 1);
 	return (path);
 }
+*/
