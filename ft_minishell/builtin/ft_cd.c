@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 static int		ft_chdir(char *path, t_base *base);
-static t_env	*find_oldpwd(t_base *base);
 
 int	ft_cd(t_base *base)
 {
@@ -28,7 +27,7 @@ int	ft_cd(t_base *base)
 	else if (ft_strncmp(base->lst->arg[1], "-", 2) == 0)
 		path = get_path(base, "OLDPWD");
 	else if (ft_strncmp(base->lst->arg[1], "..", 3) == 0)
-		path = get_path_to_parentdir();
+		path = get_path_to_parentdir(base);
 	else if (ft_strncmp(base->lst->arg[1], "./", 3) == 0)
 		path = get_pwd();
 	else
@@ -37,60 +36,68 @@ int	ft_cd(t_base *base)
 		return (1);
 	if (ft_chdir(path, base) == 1)
 		return (ft_free((void *)path, 1));
-	if (ft_strncmp(base->lst->arg[1], "-", 2) == 0)
+	if (base->lst->arg[1] && ft_strncmp(base->lst->arg[1], "-", 2) == 0)
 		printf("%s\n", path);
 	return (ft_free((void *)path, 0));
 }
 
 /*
-yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ pwd
-/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test
+bash-3.2$ pwd
+/Users/yukosengoku/Documents/42/42-Minishell
 
-yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ rm -r test
-rm: cannot remove 'test': No such file or directory
----> delete it on finder
+bash-3.2$ mkdir test
+bash-3.2$ cd test
+bash-3.2$ pwd
+/Users/yukosengoku/Documents/42/42-Minishell/test
 
-yusengok@z1r9p1:~/Documents/CommonCore/1-GitHub/42-Minishell/test$ cd ./
+bash-3.2$ rm -rf ../test
+bash-3.2$ pwd
+/Users/yukosengoku/Documents/42/42-Minishell/test
 
-yusengok@z1r9p1:~/.local/share/Trash/files/test$ cd -
-bash: cd: /home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test: No such file or directory
+bash-3.2$ cd ./
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+bash-3.2$ pwd
+/Users/yukosengoku/Documents/42/42-Minishell/test/./
+bash-3.2$ cd ..
+bash-3.2$ pwd
+/Users/yukosengoku/Documents/42/42-Minishell
+*/
+
+/*
+bash-3.2$ env | grep PWD
+PWD=/Users/yukosengoku/Documents/42/42-Minishell/test
+OLDPWD=/Users/yukosengoku/Documents/42/42-Minishell
+bash-3.2$ 
 */
 
 static int	ft_chdir(char *path, t_base *base)
 {
-	char	next_oldpwd[PWD_SIZE];
+	char	cwd[PWD_SIZE];
+	t_env	*pwd;
 	t_env	*oldpwd;
 	char	*tmp;
 
-	oldpwd = find_oldpwd(base);
-	if (oldpwd == NULL)
-		return (print_error(CD, "OLDPWD not found", 1));
-	if (getcwd(next_oldpwd, sizeof(next_oldpwd)) == 0)
-		return (ft_perror("getcwd", EXIT_FAILURE));
 	if (chdir(path) == -1)
 	{
 		ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
-			strerror(errno));
+		strerror(errno));
 		return (EXIT_FAILURE);
 	}
-	tmp = oldpwd->value;
-	oldpwd->value = ft_strdup(next_oldpwd);
-	if (!oldpwd->value)
-		return (ft_perror("malloc", EXIT_FAILURE));
-	free(tmp);
-	return (0);
-}
-
-static t_env	*find_oldpwd(t_base *base)
-{
-	t_env	*oldpwd;
-
-	oldpwd = base->envn;
-	while (oldpwd)
+	pwd = find_env_var(base, "PWD");
+	oldpwd = find_env_var(base, "OLDPWD");
+	tmp = NULL;
+	if (pwd == NULL || oldpwd == NULL)
+		return (1);
+	if (getcwd(cwd, sizeof(cwd)) != 0)
 	{
-		if (ft_strcmp(oldpwd->key, "OLDPWD") == 0)
-			break ;
-		oldpwd = oldpwd->next;
+		tmp = oldpwd->value;
+		oldpwd->value = pwd->value;
+		free(tmp);
+		pwd->value = ft_strdup(cwd);
+		if (!pwd->value)
+			return (ft_perror("malloc", EXIT_FAILURE));
 	}
-	return (oldpwd);
+	else
+		chdir(pwd->value);
+	return (0);
 }

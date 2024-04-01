@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 14:59:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:08:47 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_minishell(t_base *base)
 			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 1;
-		printf(RED "exit_code = %d\n" RESET, base->exit_code); ////////////// FOR TEST
+		printf(RED "exit_code = %d\n" RESET, base->exit_code); /////// FOR TEST
 		unlink_heredoc();
 		free_base_content(base);
 	}
@@ -40,6 +40,86 @@ static void	ft_minishell(t_base *base)
 		exit (0);
 	}
 	ft_free((void *)str, 0);
+}
+
+int	init_base(t_base *base, char **env)
+{
+	base = ft_calloc(1, sizeof(t_base));
+	if (!base)
+		return (ft_perror("malloc", 1));
+	base->env = env;
+	base->exit_code = 0;
+	assign_env(base, env);
+	return (0);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_base	*base;
+	int		exit_code;
+
+	base = NULL;
+	exit_code = 0;
+	if (ac == 1)
+	{
+		// if (init_base(base, env) == 1)
+		// 	return (1);
+		//
+		base = ft_calloc(1, sizeof(t_base));
+		if (!base)
+			return (ft_perror("malloc", 1));
+		base->env = env;
+		base->exit_code = 0;
+		assign_env(base, env);
+		//
+		signal(SIGINT, handle_sigint);
+		while (1)
+			ft_minishell(base);
+	}
+	else if (ac == 3 && ft_strncmp(av[1], "-c", 2) == 0)
+	{
+		/*--- case ./minishell -c "(all commands)" ---*/
+		printf("TEST: It's minishell which executes '%s'\n", av[2]);
+		base = ft_calloc(1, sizeof(t_base));
+		if (!base)
+			return (ft_perror("malloc", 1));
+
+		assign_env(base, env);
+		if (ft_chara_split(av[2], &base) != -1)
+			exit_code = ft_exec(base);
+		else
+			exit_code = 1;
+		unlink_heredoc();
+		free_base_content(base);
+		free_envlist(base);
+		free(base);
+		return (exit_code);
+	}
+	else if (ac > 3 && ft_strncmp(av[1], "-c", 2) == 0 /*&& check redirection syntax == OK*/)
+	{
+		// if (av[3] && (ft_strcmp(av[2], "<") == 0 || ft_strcmp(av[2], "<<") == 0
+		// 		|| ft_strcmp(av[2], ">") == 0 || ft_strcmp(av[2], ">>") == 0))
+		// need to change conditions for multiple redirections
+		base = ft_calloc(1, sizeof(t_base));
+		if (!base)
+			return (ft_perror("malloc", 1));
+		base->env = env;
+		base->exit_code = 0;
+		assign_env(base, env);
+			// check redirection (av[3] = file or delimiter)
+			// if (av[4])
+			// execute av[4] with here_doc as infile
+			// else
+			// error "minishell: -c: option requires an argument"
+		printf("TEST: It's minishell which executes");
+		unlink_heredoc();
+		free_base_content(base);
+		free_envlist(base);
+		free(base);
+		return (exit_code);
+	}
+	else
+		return(print_error("Usage", COMMANDLINE_USAGE, 1));
 }
 
 /*
@@ -65,56 +145,19 @@ bash -c "<< EOF cat"
 bash: warning: here-document at line 0 delimited by end-of-file (wanted `EOF')
 
 ---> ./minishell -c "command"
-The -c option is used to tell the Bash shell to execute the command that follows it
+The -c option is used to tell the Bash to execute the command that follows it
 */
 
-int	main(int ac, char **av, char **env)
-{
-	t_base	*base;
+// cases without option '-c' : e.g. ./minishell
+// if av[1] == existing command (e.g. ls): error
+	// "/usr/bin/ls: /usr/bin/ls: cannot execute binary file"
 
-	base = ft_calloc(1, sizeof(t_base));
-	if (!base)
-		return (ft_perror("malloc", 1));
-	base->env = env;
-	base->exit_code = 0;
-	assign_env(base, env);
-	if (ac == 1)
-	{
-		signal(SIGINT, handle_sigint);
-		while (1)
-			ft_minishell(base);
-	}
-	else if (ac > 2 && ft_strcmp(av[1], "-c") == 0)
-	{
-		if ((ft_strcmp(av[2], "<") == 0 || (ft_strcmp(av[2], "<<") == 0 && av[3])
-			|| ft_strcmp(av[2], ">") == 0 || ft_strcmp(av[2], ">>") == 0 ) && av[3])
-		{
-			// check redirection (av[3] = file or delimiter)
-			// if (av[4])
-			// execute av[4] with here_doc as infile
-			// else
-			// error "minishell: -c: option requires an argument"
-		}
-		// else
-		// execute av[2] & ignore arguments after av[3]
-	}
-	else // cases without option '-c'
-	{
-		// if av[1] == existing command (e.g. ls): error
-		// "/usr/bin/ls: /usr/bin/ls: cannot execute binary file"
-		
-		// if av[1] == existing file (e.g. in): error 
-		// in: line 1: Hello: command not found
-		// in: line 2: Hello: command not found
-		// in: line 3: Coucou: command not found...
+// if av[1] == existing file (e.g. in): error 
+	// in: line 1: Hello: command not found
+	// in: line 2: Hello: command not found
+	// in: line 3: Coucou: command not found...
 
-		// if av[1] == non existing file: error
-		// bash: (fine name): No such file or directory
+// if av[1] == non existing file: error
+	// bash: (fine name): No such file or directory
 
-		// arguments after av[2] are ignored
-	}
-	free_envlist(base);
-	free(base);
-	return (0);
-}
-
+// arguments after av[2] are ignored
