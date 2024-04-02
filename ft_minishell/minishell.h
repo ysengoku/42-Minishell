@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 14:34:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:06:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <dirent.h>
+# include <limits.h>
+# include <linux/limits.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -33,7 +35,6 @@
 ./minishell -c \"[commande lines]\" for command-line mode"
 
 # define HEREDOC "here_doc"
-# define PWD_SIZE 1024
 
 # define CD "cd"
 # define ECHO "echo"
