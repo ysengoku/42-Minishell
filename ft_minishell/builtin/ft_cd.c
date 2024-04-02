@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-static int	ft_chdir(char *path, t_base *base);
-static int	update_pwd(t_env *pwd, t_env *oldpwd);
+//static int	ft_chdir(char *path, t_base *base);
+//static int	update_pwd(t_env *pwd, t_env *oldpwd);
 
+/*
 int	ft_cd(t_base *base)
 {
 	char	*path;
@@ -41,6 +42,7 @@ int	ft_cd(t_base *base)
 		printf("%s\n", path);
 	return (ft_free((void *)path, 0));
 }
+
 
 static int	update_pwd(t_env *pwd, t_env *oldpwd)
 {
@@ -78,3 +80,4 @@ static int	ft_chdir(char *path, t_base *base)
 		return (1);
 	return (0);
 }
+*/

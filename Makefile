@@ -37,6 +37,7 @@ LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
+		ft_cd2.c	\
 		ft_cd_utils.c	\
 		ft_echo.c	\
 		ft_env.c \
