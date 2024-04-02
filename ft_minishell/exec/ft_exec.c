@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 14:20:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:20:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
 {
+	base->exit_code = 0;
 	if (base->lst->next == NULL)
 		return (execute_single_command(base));
 	return (pipex(base));
@@ -56,6 +57,8 @@ static int	execute_external_command(t_base *base)
 	fd[OUT] = STDOUT_FILENO;
 	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
 		return (1);
+	if (fd[OUT] == -1)
+		return (base->exit_code);
 	if (base->lst->arg[0] == NULL)
 		return (1);
 	child_pid = ft_fork(fd[IN], fd[OUT]);
@@ -85,13 +88,11 @@ static pid_t	ft_fork(int fd_in, int fd_out)
 	return (pid);
 }
 
-/*
-exit code
-Success -----> 0
-No such file or directory -----> 1
-command not found -----> 127
-command found but not executable -----> 126
+// exit code
+// Success -----> 0
+// No such file or directory -----> 1
+// command not found -----> 127
+// command found but not executable -----> 126
 
-All builtins return an exit status of 2 to indicate incorrect usage, 
-generally invalid options or missing arguments. 
-*/
+// All builtins return an exit status of 2 to indicate incorrect usage, 
+// generally invalid options or missing arguments. 
