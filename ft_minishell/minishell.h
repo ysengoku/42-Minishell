@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/28 16:42:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:04:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <signal.h> 
+# include <signal.h>
+# include <dirent.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -109,8 +110,9 @@ int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 void	execute_command(t_base *base);
 
 /* open_file.c */
-int		open_infile(t_base *base);
-int		open_outfile(t_base *base);
+int		open_infile(t_file *infile);
+// int		open_outfile(t_file *outfile);
+int		open_outfile(t_file *outfile, t_base *base);
 int		ft_close(int fd1, int fd2, int exit_code);
 void	ft_close_in_child(int fd1, int fd2);
 
