@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/01 23:19:34 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/02 21:34:40 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,5 @@ int	ft_chara_split(char *s, t_base **base)
 	}
 	ft_free_strarr(srep);
 	(*base)->lst = line;
-	// while (line)
-	// {
-	// 	i = 0;
-	// 	while (line->arg[i])
-	// 	{
-	// 		printf("cmd[%i] is %s\n", i, line->arg[i]);
-	// 		i++;
-	// 	}
-	// 	i = 1;
-	// 	while (line->file)
-	// 	{
-	// 		printf("file nbr %i : %s, type : %u\n",i, line->file->filename, line->file->type);
-	// 		i++;
-	// 		line->file = line->file->next;
-	// 	}
-	// 	line = line->next;
-	// }
 	return (0);
 }
