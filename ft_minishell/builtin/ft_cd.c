@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 14:34:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:11:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ int	ft_cd(t_base *base)
 
 static int	update_pwd(t_env *pwd, t_env *oldpwd)
 {
-	char	cwd[PWD_SIZE];
+	char	buf[PATH_MAX];
 	char	*tmp;
 	
-	if (getcwd(cwd, sizeof(cwd)) == 0)
+	if (getcwd(buf, sizeof(buf)) == 0)
 		return (1);
 	tmp = oldpwd->value;
 	oldpwd->value = pwd->value;
 	free(tmp);
-	pwd->value = ft_strdup(cwd);
+	pwd->value = ft_strdup(buf);
 	if (!pwd->value)
 		return (ft_perror("malloc", 1));
 	return (0);
@@ -78,20 +78,3 @@ static int	ft_chdir(char *path, t_base *base)
 		return (1);
 	return (0);
 }
-
-/*
-cd ./
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-
-pwd
-/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test/./
-
-env | grep PWD
-PWD=/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test/./
-OLDPWD=/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test
-
-cd ..
-env | grep PWD
-PWD=/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell
-OLDPWD=/home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/test/./
-*/

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 14:34:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:10:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,17 @@
 
 static char	*retrive_cwd(t_base *base);
 
-// char	*get_pwd(t_base *base) // Need to review
 char	*get_pwd(void)
 {
 	char	*path;
-	char	pwd[PWD_SIZE];
-	// char	*pwd;
+	char	buf[PATH_MAX];
 
-	// pwd = retrive_cwd(base);
-	if (getcwd(pwd, sizeof(pwd)) == 0)
+	if (getcwd(buf, sizeof(buf)) == 0)
 	{
 		ft_perror("getcwd", 1);
 		return (NULL);
 	}
-	path = ft_strdup(pwd);
+	path = ft_strdup(buf);
 	if (!path)
 	{
 		ft_perror("malloc", 1);
@@ -83,14 +80,14 @@ char	*get_path_to_parentdir(t_base *base)
 
 static char	*retrive_cwd(t_base *base)
 {
-	char	pwd[PWD_SIZE];
+	char	buf[PATH_MAX];
 	char	*cwd;
 	t_env	*pwd_node;
 	
 	pwd_node = find_env_var(base, "PWD");
 	if (pwd_node == NULL)
 	{
-		cwd = getcwd(pwd, sizeof(pwd));
+		cwd = getcwd(buf, sizeof(buf));
 		if (!cwd)
 		{
 			ft_perror("cd", 1);

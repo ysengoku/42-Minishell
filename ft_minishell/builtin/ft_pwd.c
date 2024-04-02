@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 13:45:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:06:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_pwd(t_base *base)
 {
-	char	buf[PWD_SIZE];
+	char	buf[PATH_MAX];
 	int		fd[2];
 	t_env	*pwd;
 
