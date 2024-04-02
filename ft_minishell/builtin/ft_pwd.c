@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 10:17:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:45:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,3 @@ int	ft_pwd(t_base *base)
 	ft_close(fd[IN], fd[OUT], 0);
 	return (0);
 }
-
-/*
-bash-3.2$ pwd
-/Users/yukosengoku/Documents/42/42-Minishell/test
-bash-3.2$ rm -rf ../test
-bash-3.2$ pwd
-/Users/yukosengoku/Documents/42/42-Minishell/test
-bash-3.2$ cd ./
-
-*/

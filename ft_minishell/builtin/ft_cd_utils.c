@@ -6,23 +6,28 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/28 08:29:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:34:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_pwd(void) // Need to review
+static char	*retrive_cwd(t_base *base);
+
+// char	*get_pwd(t_base *base) // Need to review
+char	*get_pwd(void)
 {
 	char	*path;
-	char	current_path[PWD_SIZE];
+	char	pwd[PWD_SIZE];
+	// char	*pwd;
 
-	if (getcwd(current_path, sizeof(current_path)) == 0)
+	// pwd = retrive_cwd(base);
+	if (getcwd(pwd, sizeof(pwd)) == 0)
 	{
 		ft_perror("getcwd", 1);
 		return (NULL);
 	}
-	path = ft_strdup(current_path);
+	path = ft_strdup(pwd);
 	if (!path)
 	{
 		ft_perror("malloc", 1);
@@ -55,34 +60,15 @@ char	*get_path(t_base *base, char *destination)
 	return (NULL);
 }
 
-t_env	*find_env_var(t_base *base, char *key)
-{
-	t_env	*pwd;
-
-	pwd = base->envn;
-	while (pwd)
-	{
-		if (ft_strcmp(pwd->key, key) == 0)
-			return (pwd);
-		pwd = pwd->next;
-	}
-	print_error(key, " not found", 1);
-	return (NULL);
-}
-
-
 char	*get_path_to_parentdir(t_base *base)
 {
 	char	*path;
-	t_env	*pwd;
+	char	*current_dir;
 	size_t	end;
 
-	pwd = find_env_var(base, "PWD");
-	if (pwd == NULL)
-		return (NULL);
-
-	end = ft_strlen(pwd->value) - 1;
-	while (pwd->value[end] != '/' && end > 0)
+	current_dir = retrive_cwd(base);
+	end = ft_strlen(current_dir) - 1;
+	while (current_dir[end] != '/' && end > 0)
 		end --;
 	path = ft_calloc(end + 2, sizeof(char));
 	if (!path)
@@ -90,31 +76,28 @@ char	*get_path_to_parentdir(t_base *base)
 		ft_perror("malloc", 1);
 		return (NULL);
 	}
-	ft_strlcpy(path, pwd->value, end + 1);
+	ft_strlcpy(path, current_dir, end + 1);
+	// opendir -> if error, check upper dir until opendir == ok 
 	return (path);
 }
-/*
-char	*get_path_to_parentdir(void)
+
+static char	*retrive_cwd(t_base *base)
 {
-	char	*path;
-	char	current_path[PWD_SIZE];
-	size_t	end;
-
-	if (getcwd(current_path, sizeof(current_path)) == 0)
+	char	pwd[PWD_SIZE];
+	char	*cwd;
+	t_env	*pwd_node;
+	
+	pwd_node = find_env_var(base, "PWD");
+	if (pwd_node == NULL)
 	{
-		ft_perror("getcwd", 1);
-		return (NULL);
+		cwd = getcwd(pwd, sizeof(pwd));
+		if (!cwd)
+		{
+			ft_perror("cd", 1);
+			return (NULL);
+		}
 	}
-	end = ft_strlen(current_path) - 1;
-	while (current_path[end] != '/' && end > 0)
-		end --;
-	path = ft_calloc(end + 2, sizeof(char));
-	if (!path)
-	{
-		ft_perror("malloc", 1);
-		return (NULL);
-	}
-	ft_strlcpy(path, current_path, end + 1);
-	return (path);
+	else
+		cwd = pwd_node->value;
+	return (cwd);
 }
-*/
