@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 10:04:59 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:34:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ int		ft_free(void *to_free, int exit_status);
 void	ft_free_strarr(char **arr);
 void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);
+/* envp */
+t_env	*find_env_var(t_base *base, char *key);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);

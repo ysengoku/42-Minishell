@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/03/28 08:27:38 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/02 13:29:42 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ SRCS =	main.c	\
 		assign_env.c \
 		translate_dollar.c	\
 		error_handling.c	\
-		ft_free.c
+		ft_free.c	\
+		env.c
 
 DIR_OBJ := .object/
 
