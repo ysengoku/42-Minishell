@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 01:37:11 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/02 22:05:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,52 +27,68 @@ int	enter_quote_mode(char *str, int i, t_line *tmp)
 	return (1);
 }
 
-int	write_char(int i, t_line *tmp, char *str, t_base *base)
+int	write_arg(int i, t_line *tmp, char *str, t_base *base)
+{
+	char	*arg;
+	int		last_nod;
+
+	arg = write_char(&i, tmp, str, base);
+	if (!arg)
+		return (-1);
+	last_nod = 0;
+	while (tmp->arg[last_nod])
+		last_nod++;
+	tmp->arg[last_nod] = arg;
+	return (i);
+}
+
+char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 {
 	int		j;
-	char	*arg_string;
-	int		last_arg;
+	char	*res;
+	int		i;
 
-	arg_string = calloc(ft_strlen(str) + 1, sizeof(char));
-	if (!arg_string)
-		return (-1);
+	i = *index;
+	res = calloc(ft_strlen(str) + 1, sizeof(char));
+	if (!res)
+		return (NULL);
 	j = 0;
 	while (str[i] && ((str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && str[i] != ' ') || tmp->char_type != STANDARD))
+	&& str[i] != '>' && str[i] != '|' && \
+	str[i] != ' ') || tmp->char_type != STANDARD))
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
 			if (enter_quote_mode(str, i, tmp) == 0)
 			{
-				arg_string[j] = str[i];
+				res[j] = str[i];
 				j++;
 			}
 		}
 		else if (str[i] == '$' && tmp->char_type != QUOTE)
 		{
-			arg_string = translate_dollar(str + i + 1, base, tmp, arg_string);
+			res = translate_dollar(str + i + 1, base, tmp, res);
 			j = 0;
-			while (arg_string[j])
+			while (res[j])
 				j++;
 			i++;
 			while (str[i] && str[i] != ' ' && str[i] != '<' \
-			&& str[i] != '|' && str[i] != '>' && str[i] != '$')
+			&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
+			&& enter_quote_mode(str, i, tmp) == 0)
 				i++;
-			i--;
+			if (str[i] != 34 && str[i] != 39)
+				i--;
 		}
 		else
 		{
-			arg_string[j] = str[i];
+			res[j] = str[i];
 			j++;
 		}
 		i++;
 	}
-	arg_string[j] = '\0';
-	last_arg = 0;
-	while (tmp->arg[last_arg])
-		last_arg++;
-	tmp->arg[last_arg] = arg_string;
-	return (i);
+	res[j] = '\0';
+	*index = i;
+	return (res);
 }
 
 void	write_nod(int i, t_line *tmp, char *str, t_base *base)
@@ -80,12 +96,12 @@ void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 	while (str[i])
 	{
 		if (str[i] == '>')
-			i = write_out_file(i, tmp, str);
+			i = write_out_file(i, tmp, str, base);
 		else if (str[i] == '<')
-			i = write_in_file(i, tmp, str);
+			i = write_in_file(i, tmp, str, base);
 		else if (str[i] == ' ')
 			i++;
 		else
-			i = write_char(i, tmp, str, base);
+			i = write_arg(i, tmp, str, base);
 	}
 }

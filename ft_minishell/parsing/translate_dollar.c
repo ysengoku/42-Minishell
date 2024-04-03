@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 23:39:50 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/02 22:04:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,34 @@
 
 char	*ft_strjoin_mall(char *s1, char *s2, int last_len);
 
+char	*write_signal(char *str, t_base *base, char *before)
+{
+	char	*res;
+	char	*nbr;
+	int		i;
+
+	i = 0;
+	nbr = ft_itoa(base->exit_code);
+	while (str[i] && str[i] != ' ' && str[i] != '<' \
+	&& str[i] != '|' && str[i] != '>')
+		i++;
+	res = ft_strjoin_mall(before, nbr, i);
+	return (free(nbr), res);
+}
+
 char	*ft_search(char *str, t_base *base, int last_len, char *before)
 {
 	t_env	*find;
 
+	if (str[0] == '?')
+		return (write_signal(str, base, before));
 	find = base->envn;
 	while (find && ft_strncmp(find->key, str, ft_strlen(str)) != 0)
 		find = find->next;
 	free(str);
 	if (find)
-		return(ft_strjoin_mall(before, find->value, last_len));
-	return(NULL);
+		return (ft_strjoin_mall(before, find->value, last_len));
+	return (ft_strjoin_mall(before, NULL, last_len));
 }
 
 char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
@@ -34,16 +51,16 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	unsigned int	i;
 	unsigned int	j;
 
-	res_len = ft_strlen(s1) + ft_strlen(s2 + last_len);
-	res = malloc(res_len * sizeof(char) + 1);
+	res_len = ft_strlen(s1) + ft_strlen(s2) + last_len;
+	res = ft_calloc(res_len + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 		res[j++] = s1[i++];
 	i = 0;
-	while (s2[i])
+	while (s2 && s2[i])
 		res[j++] = s2[i++];
 	res[j] = '\0';
 	return (res);
@@ -59,18 +76,20 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 	last_len = 0;
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' &&  \
+	&& str[i] != '|' && str[i] != '>' && \
 	enter_quote_mode(str, i, tmp) == 0 && str[i] != '$')
 	{
 		to_find[i] = str[i];
 		i++;
 	}
 	if ((str[i] == 39 || str[i] == 34))
-	{	
+	{
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')
-		i++;
-		last_len++;
+		{
+			i++;
+			last_len++;
+		}
 	}
 	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));
