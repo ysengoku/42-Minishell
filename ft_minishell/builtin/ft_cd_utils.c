@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 15:10:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:13:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*get_path_to_parentdir(t_base *base)
 		return (NULL);
 	}
 	ft_strlcpy(path, current_dir, end + 1);
-	// opendir -> if error, check upper dir until opendir == ok 
 	return (path);
 }
 
@@ -83,7 +82,7 @@ static char	*retrive_cwd(t_base *base)
 	char	buf[PATH_MAX];
 	char	*cwd;
 	t_env	*pwd_node;
-	
+
 	pwd_node = find_env_var(base, "PWD");
 	if (pwd_node == NULL)
 	{
