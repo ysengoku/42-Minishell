@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 15:10:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:07:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static char	**extract_path(t_base *base)
 		current_node = current_node->next;
 	}
 	if (!tmp)
-		exit(print_error("No environment variables", "cannot execute binary file", 126));
+		exit(print_error(base->lst->arg[0], "command not found", 127));
 	path_list = ft_split(tmp, ':');
 	free(tmp);
 	if (!path_list)
