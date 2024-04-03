@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/02 22:08:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:27:46 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	}
 	else
 		stock->type = OUT_TRUNC;
+	while (str[i] == ' ')
+		i++;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (tmp->file == NULL)
 		tmp->file = stock;
@@ -54,6 +56,8 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 	}
 	else
 		stock->type = INFILE;
+	while (str[i] == ' ')
+		i++;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (tmp->file == NULL)
 		tmp->file = stock;
