@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_exec.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 08:39:29 by yusengok         ###   ########.fr       */
+/*   Created: 2024/04/02 13:29:19 by yusengok          #+#    #+#             */
+/*   Updated: 2024/04/02 13:29:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dup_input(int fd_in)
+t_env	*find_env_var(t_base *base, char *key)
 {
-	if (dup2(fd_in, STDIN_FILENO) == -1)
-	{
-		print_error(strerror(errno), "dup2", 1);
-		exit(EXIT_FAILURE);
-	}
-	ft_close(fd_in, 0, 0);
-}
+	t_env	*pwd_node;
 
-void	dup_output(int fd_out)
-{
-	if (dup2(fd_out, STDOUT_FILENO) == -1)
+	pwd_node = base->envn;
+	while (pwd_node)
 	{
-		ft_close(fd_out, 0, 0);
-		print_error(strerror(errno), "dup2", 1);
-		exit(EXIT_FAILURE);
+		if (ft_strcmp(pwd_node->key, key) == 0)
+			return (pwd_node);
+		pwd_node = pwd_node->next;
 	}
-	ft_close(fd_out, 0, 0);
-}
-
-void	unlink_heredoc(void)
-{
-	if (access(HEREDOC, F_OK) != -1)
-		unlink(HEREDOC);
+	print_error(key, " not found", 1);
+	return (NULL);
 }

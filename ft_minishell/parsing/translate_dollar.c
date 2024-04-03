@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/02 21:32:54 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/02 22:04:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 	&& str[i] != '|' && str[i] != '>')
 		i++;
 	res = ft_strjoin_mall(before, nbr, i);
-	return(free(nbr), res);
+	return (free(nbr), res);
 }
 
 char	*ft_search(char *str, t_base *base, int last_len, char *before)
@@ -34,7 +34,7 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 	t_env	*find;
 
 	if (str[0] == '?')
-		return(write_signal(str, base, before));
+		return (write_signal(str, base, before));
 	find = base->envn;
 	while (find && ft_strncmp(find->key, str, ft_strlen(str)) != 0)
 		find = find->next;

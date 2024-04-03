@@ -6,21 +6,21 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/25 13:15:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:20:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_infile(t_base *base)
+int	open_infile(t_file *infile)
 {
 	int	fd_in;
 
-	if (base->lst->file->type == INFILE)
+	if (infile->type == INFILE)
 	{
-		fd_in = open(base->lst->file->filename, O_RDONLY);
+		fd_in = open(infile->filename, O_RDONLY);
 		if (fd_in == -1)
-			ft_perror(base->lst->file->filename, 1);
+			ft_perror(infile->filename, 1);
 	}
 	else
 	{
@@ -31,18 +31,27 @@ int	open_infile(t_base *base)
 	return (fd_in);
 }
 
-int	open_outfile(t_base *base)
+int	open_outfile(t_file *outfile, t_base *base)
 {
 	int	fd_out;
+	DIR	*dir;
 
-	if (base->lst->file->type == OUT_TRUNC)
-		fd_out = open(base->lst->file->filename,
+	if (outfile->type == OUT_TRUNC)
+		fd_out = open(outfile->filename,
 				O_RDWR | O_CREAT | O_TRUNC, 0644);
 	else
-		fd_out = open(base->lst->file->filename,
+		fd_out = open(outfile->filename,
 				O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd_out == -1)
-		ft_perror(base->lst->file->filename, 1);
+	{
+		dir = opendir(outfile->filename);
+		if (dir)
+		{
+			print_error(outfile->filename, "Is a directory", 0);
+			base->exit_code = 1;
+		}
+		closedir(dir);
+	}
 	return (fd_out);
 }
 

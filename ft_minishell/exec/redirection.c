@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 09:15:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:22:40 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,14 @@ int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 		if (current_file->type == INFILE || current_file->type == HERE_DOC)
 		{
 			ft_close(*fd_in, 0, 0);
-			*fd_in = open_infile(base);
+			*fd_in = open_infile(current_file);
+			if (*fd_in == -1)
+				return (ft_close(*fd_in, *fd_out, 1));
 		}
 		else
 		{
 			ft_close(*fd_out, 0, 0);
-			*fd_out = open_outfile(base);
-		}
-		if (*fd_in == -1 || *fd_out == -1)
-		{
-			base->exit_code = 1;
-			return (ft_close(*fd_in, *fd_out, 1));
+			*fd_out = open_outfile(current_file, base);
 		}
 		current_file = current_file->next;
 	}
