@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 14:19:47 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:11:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static pid_t	pipe_last_command(t_base *base, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
+static void		free_all_in_child(t_base *base);
 
 int	pipex(t_base *base)
 {
@@ -76,6 +77,13 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		wait(NULL);
 }
 
+static void	free_all_in_child(t_base *base)
+{
+	free_base_content(base);
+	free_envlist(base);
+	free(base);
+}
+
 void	pipe_execute_builtin(t_base *base)
 {
 	int	exit_code;
@@ -100,8 +108,6 @@ void	pipe_execute_builtin(t_base *base)
 	else
 		return ;
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-	free_base_content(base);
-	free_envlist(base);
-	free(base);
+	free_all_in_child(base);
 	exit(exit_code);
 }
