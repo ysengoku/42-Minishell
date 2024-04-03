@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 15:08:27 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/02 23:47:23 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,17 @@ int	export_add(t_base *base)
 	if (!tmp)
 		return (-1);
 	split = ft_split(base->lst->arg[1], '=');
-	tmp->key = split[0];
+	tmp->key = ft_strdup(split[0]);
 	tmp->value = assign_value(split);
 	last = base->envn;
-	while (last->next)
-		last = last->next;
-	last->next = tmp;
+	if (!base->envn)
+		base->envn = tmp;
+	else
+	{
+		while (last->next)
+			last = last->next;
+		last->next = tmp;
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/01 22:45:50 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/02 22:05:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 {
 	char	*arg;
 	int		last_nod;
-	
+
 	arg = write_char(&i, tmp, str, base);
 	if (!arg)
 		return (-1);
@@ -54,7 +54,8 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 		return (NULL);
 	j = 0;
 	while (str[i] && ((str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && str[i] != ' ') || tmp->char_type != STANDARD))
+	&& str[i] != '>' && str[i] != '|' && \
+	str[i] != ' ') || tmp->char_type != STANDARD))
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
@@ -102,5 +103,5 @@ void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 			i++;
 		else
 			i = write_arg(i, tmp, str, base);
-		}
+	}
 }
