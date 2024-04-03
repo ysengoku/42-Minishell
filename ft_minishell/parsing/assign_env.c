@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 19:26:52 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 19:13:36 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ char	*assign_value(char **split)
 		join2 = NULL;
 		i++;
 	}
-	i = 1;
-	while (split[i])
-		free(split[i++]);
-	free(split);
+	ft_free_strarr(split);
 	return (join1);
 }
 
