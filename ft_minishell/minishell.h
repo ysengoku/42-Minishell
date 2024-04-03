@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 15:23:56 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 17:02:40 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int		assign_env(t_base *base, char **env);
 void	ft_display_error(int i);
 void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
-char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before);
+char	*translate_dollar(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 
 # define RED "\033[1;31m"
