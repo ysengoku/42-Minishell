@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 15:00:27 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:28:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	create_nod(t_line **line, char *str, t_base *base)
 	tmp->char_type = STANDARD;
 	if (cnt_param(str, tmp) == -1)
 		return (ft_display_error(1), -1);
-	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char*));
+	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
 	write_nod(i, tmp, str, base);
 	if (*line == NULL)
 		*line = tmp;
@@ -43,7 +43,7 @@ int	create_nod(t_line **line, char *str, t_base *base)
 
 char	*check_quote(char *s)
 {
-	int	i;
+	int			i;
 	t_line		line;
 
 	ft_bzero(&line, sizeof(t_line));
@@ -77,22 +77,6 @@ int	ft_chara_split(char *s, t_base **base)
 			return (-1);
 		i++;
 	}
-	// while (line)
-	// {
-	// 	i = 0;
-	// 	while (line->arg && line->arg[i])
-	// 	{
-	// 		printf("arg[%i] is:%s\n", i, line->arg[i]);
-	// 		i++;
-	// 	}
-	// 	while(line->file)
-	// 	{
-	// 		printf("file: %s, is type %d\n", line->file->filename, line->file->type);
-	// 		line->file = line->file->next;
-	// 	}
-	// 	line = line->next;
-	// }
-	// exit(1);
 	ft_free_strarr(srep);
 	(*base)->lst = line;
 	return (0);
