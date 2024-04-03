@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 15:08:27 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:57:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,14 @@ int	export_add(t_base *base)
 	tmp->key = split[0];
 	tmp->value = assign_value(split);
 	last = base->envn;
-	while (last->next)
-		last = last->next;
-	last->next = tmp;
+	if (!base->envn)
+		base->envn = tmp;
+	else
+	{
+		while (last->next)
+			last = last->next;
+		last->next = tmp;
+	}
 	return (0);
 }
 
