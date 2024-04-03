@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/02 23:47:23 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:51:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,36 @@ int	export_null(t_base *base)
 	return (0);
 }
 
+void	export_add_on_nod(t_base *base, t_env *tmp)
+{
+	t_env	*last;
+	
+	last = base->envn;
+	if (!base->envn)
+		base->envn = tmp;
+	else
+	{
+		while (last->next)
+		{
+			if (ft_strcmp(last->next->key, tmp->key) == 0)
+			{
+				tmp->next = last->next->next;
+				free(last->next->key);
+				free(last->next->value);
+				free(last->next);
+				last->next = tmp;
+				return ;
+			}
+			last = last->next;
+		}
+		last->next = tmp;
+	}
+	return ;
+}
+
 int	export_add(t_base *base)
 {
 	t_env	*tmp;
-	t_env	*last;
 	char	**split;
 
 	tmp = ft_calloc(1, sizeof(t_env));
@@ -78,15 +104,7 @@ int	export_add(t_base *base)
 	split = ft_split(base->lst->arg[1], '=');
 	tmp->key = ft_strdup(split[0]);
 	tmp->value = assign_value(split);
-	last = base->envn;
-	if (!base->envn)
-		base->envn = tmp;
-	else
-	{
-		while (last->next)
-			last = last->next;
-		last->next = tmp;
-	}
+	export_add_on_nod(base, tmp);
 	return (0);
 }
 
