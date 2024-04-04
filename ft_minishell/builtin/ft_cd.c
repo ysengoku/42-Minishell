@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 10:57:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:00:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_chdir(char *curpath, t_base *base)
 		return (1);
 	if (chdir(curpath) == -1)
 	{
-		if (ft_strcmp(base->lst->arg[1], "./") == 0)	
+		if (ft_strcmp(base->lst->arg[1], "./") == 0)
 			return (retry_cwd(base));
 		ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
 			strerror(errno));
@@ -150,7 +150,7 @@ static int	retry_cwd(t_base *base)
 					ft_strcat(pwd->value, "/");
 				ft_strcat(pwd->value, base->lst->arg[1]);
 				free(tmp);
-			}	
+			}
 		}
 		return (print_error("cd", DELETED_CWD, 1));
 	}

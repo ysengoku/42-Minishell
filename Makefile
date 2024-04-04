@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/03 13:29:50 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/04 11:16:54 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS =	main.c	\
 		ft_unset.c	\
 		ft_exec.c	\
 		pipex.c	\
-		pipex_loop.c	\
+		pipex_utils.c	\
 		execute_command.c	\
 		open_file.c	\
 		redirection.c	\
