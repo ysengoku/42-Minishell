@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 12:09:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:48:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void	unlink_heredoc(void);
 int		ft_cd(t_base *base);
 char	*get_path(t_base *base, char *destination);
 t_env	*find_env_var(t_base *base, char *key);
-char	*get_path_to_parentdir(t_base *base);
 char	*get_pwd(void);
 int		ft_echo(t_base *base);
 int		ft_pwd(t_base *base);
