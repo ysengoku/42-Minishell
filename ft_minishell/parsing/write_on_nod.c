@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/02 22:05:17 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 17:18:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,20 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 		}
 		else if (str[i] == '$' && tmp->char_type != QUOTE)
 		{
-			res = translate_dollar(str + i + 1, base, tmp, res);
+			res = translate_dollar(str + i + 1, base, res);
 			j = 0;
 			while (res[j])
 				j++;
 			i++;
-			while (str[i] && str[i] != ' ' && str[i] != '<' \
-			&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
-			&& enter_quote_mode(str, i, tmp) == 0)
-				i++;
-			if (str[i] != 34 && str[i] != 39)
-				i--;
+			if (str[i] != '?')
+			{
+				while (str[i] && str[i] != ' ' && str[i] != '<' \
+				&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
+				&& str[i] != 34 && str[i] != 39)
+					i++;
+				if (enter_quote_mode(str, i, tmp) == 0 && (str[i] != 34 || str[i] != 39))
+					i--;
+			}
 		}
 		else
 		{
