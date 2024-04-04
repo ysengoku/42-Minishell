@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 17:18:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/04 12:18:47 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	int		i;
 
 	i = *index;
-	res = calloc(ft_strlen(str) + 1, sizeof(char));
+	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	j = 0;
