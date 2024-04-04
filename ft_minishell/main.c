@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 15:27:38 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:57:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_minishell(t_base *base)
 			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 1;
-		printf(RED "exit_code = %d\n" RESET, base->exit_code); /////// FOR TEST
+		// printf(RED "exit_code = %d\n" RESET, base->exit_code);
 		unlink_heredoc();
 		free_base_content(base);
 	}
