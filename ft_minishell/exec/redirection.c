@@ -6,22 +6,22 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 10:22:40 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:20:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_heredoc(t_base *base);
+static int	check_heredoc(t_base *base, t_line *node);
 static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
 
-int	check_redirection(t_base *base, int *fd_in, int *fd_out)
+int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
 	t_file	*current_file;
 
-	if (check_heredoc(base) == 1)
+	if (check_heredoc(base, node) == 1)
 		return (print_error("heredoc", "A problem occured", 1));
-	current_file = base->lst->file;
+	current_file = node->file;
 	while (current_file)
 	{
 		if (current_file->type == INFILE || current_file->type == HERE_DOC)
@@ -41,12 +41,12 @@ int	check_redirection(t_base *base, int *fd_in, int *fd_out)
 	return (0);
 }
 
-static int	check_heredoc(t_base *base)
+static int	check_heredoc(t_base *base, t_line *node)
 {
 	int		fd_heredoc;
 	t_file	*current_file;
 
-	current_file = base->lst->file;
+	current_file = node->file;
 	while (current_file)
 	{
 		if (current_file->type == HERE_DOC)

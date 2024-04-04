@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 15:06:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:38:32 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_base *base)
+int	ft_pwd(t_base *base, t_line *node)
 {
 	char	buf[PATH_MAX];
 	int		fd[2];
@@ -20,7 +20,7 @@ int	ft_pwd(t_base *base)
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
+	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1)
 		return (1);
 	pwd = find_env_var(base, "PWD");
 	if (pwd == NULL)

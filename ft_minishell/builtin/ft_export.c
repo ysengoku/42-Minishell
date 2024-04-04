@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 15:56:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/04 16:55:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_end(t_base *base)
+int	check_end(t_base *base) // need to handle redirection ??
 {
 	t_env	*check;
 
@@ -69,7 +69,7 @@ int	export_null(t_base *base)
 void	export_add_on_nod(t_base *base, t_env *tmp)
 {
 	t_env	*last;
-	
+
 	last = base->envn;
 	if (!base->envn)
 		base->envn = tmp;

@@ -6,14 +6,14 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 08:05:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:54:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int		execute_single_command(t_base *base);
-static int		execute_external_command(t_base *base);
+static int		execute_external_command(t_base *base, t_line *node);
 static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
@@ -31,22 +31,22 @@ static int	execute_single_command(t_base *base)
 		if (ft_strcmp(base->lst->arg[0], CD) == 0)
 			return (ft_cd(base));
 		if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-			return (ft_echo(base));
+			return (ft_echo(base, base->lst));
 		else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-			return (ft_env(base));
+			return (ft_env(base, base->lst));
 		else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
 			ft_exit(base, 0);
 		else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 			return (ft_export(base));
 		else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
-			return (ft_pwd(base));
+			return (ft_pwd(base, base->lst));
 		else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
 			return (ft_unset(base));
 	}
-	return (execute_external_command(base));
+	return (execute_external_command(base, base->lst));
 }
 
-static int	execute_external_command(t_base *base)
+static int	execute_external_command(t_base *base, t_line *node)
 {
 	int		fd[2];
 	int		exit_status;
@@ -55,7 +55,7 @@ static int	execute_external_command(t_base *base)
 	exit_status = 0;
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
+	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1)
 		return (1);
 	if (fd[OUT] == -1)
 		return (base->exit_code);
@@ -68,7 +68,7 @@ static int	execute_external_command(t_base *base)
 	{
 		dup_input(fd[IN]);
 		dup_output(fd[OUT]);
-		execute_command(base);
+		execute_command(base, base->lst);
 	}
 	ft_close(fd[IN], fd[OUT], 0);
 	waitpid(child_pid, &exit_status, 0);

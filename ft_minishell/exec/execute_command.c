@@ -6,38 +6,38 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 08:52:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:57:13 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_pathname(t_base *base);
-static char	**extract_path(t_base *base);
-static char	*check_pathname(t_base *base, char **path_list, int i);
+static char	*get_pathname(t_base *base, t_line *node);
+static char	**extract_path(t_base *base, t_line *node);
+static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
 static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
-void	execute_command(t_base *base)
+void	execute_command(t_base *base, t_line *node)
 {
 	char	*pathname;
 
-	if (access(base->lst->arg[0], F_OK) == 0)
+	if (access(node->arg[0], F_OK) == 0)
 	{
-		if (access(base->lst->arg[0], X_OK) == -1)
-			exit(error_in_child(base, 126, base->lst->arg[0],
+		if (access(node->arg[0], X_OK) == -1)
+			exit(error_in_child(base, 126, node->arg[0],
 					"Permission denied"));
-		pathname = ft_strdup(base->lst->arg[0]);
+		pathname = ft_strdup(node->arg[0]);
 		if (!pathname)
 			exit(error_in_child(base, 1, strerror(errno), NULL));
 	}
 	else
-		pathname = get_pathname(base);
-	execve(pathname, base->lst->arg, base->env);
+		pathname = get_pathname(base, node);
+	execve(pathname, node->arg, base->env);
 	free(pathname);
 	exit(error_in_child(base, 1, strerror(errno), NULL));
 }
 
-static char	*get_pathname(t_base *base)
+static char	*get_pathname(t_base *base, t_line *node)
 {
 	int		i;
 	char	**path_list;
@@ -45,10 +45,10 @@ static char	*get_pathname(t_base *base)
 
 	i = 0;
 	base->exit_code = 127;
-	path_list = extract_path(base);
+	path_list = extract_path(base, node);
 	while (path_list[i])
 	{
-		pathname = check_pathname(base, path_list, i);
+		pathname = check_path(base, node, path_list, i);
 		if (pathname != NULL)
 		{
 			ft_free_strarr(path_list);
@@ -59,12 +59,12 @@ static char	*get_pathname(t_base *base)
 	ft_free_strarr(path_list);
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 	if (base->exit_code == 127)
-		exit(error_in_child(base, 127, base->lst->arg[0], "command not found"));
+		exit(error_in_child(base, 127, node->arg[0], "command not found"));
 	else
-		exit(error_in_child(base, 126, base->lst->arg[0], "Permission denied"));
+		exit(error_in_child(base, 126, node->arg[0], "Permission denied"));
 }
 
-static char	**extract_path(t_base *base)
+static char	**extract_path(t_base *base, t_line *node)
 {
 	char	*tmp;
 	char	**path_list;
@@ -84,7 +84,7 @@ static char	**extract_path(t_base *base)
 		current_node = current_node->next;
 	}
 	if (!tmp)
-		exit(error_in_child(base, 127, base->lst->arg[0], "command not found"));
+		exit(error_in_child(base, 127, node->arg[0], "command not found"));
 	path_list = ft_split(tmp, ':');
 	free(tmp);
 	if (!path_list)
@@ -92,12 +92,12 @@ static char	**extract_path(t_base *base)
 	return (path_list);
 }
 
-static char	*check_pathname(t_base *base, char **path_list, int i)
+static char	*check_path(t_base *base, t_line *node, char **path_list, int i)
 {
 	char	*pathname;
 
 	pathname = ft_calloc(ft_strlen(path_list[i])
-			+ ft_strlen(base->lst->arg[0]) + 2, sizeof(char));
+			+ ft_strlen(node->arg[0]) + 2, sizeof(char));
 	if (!pathname)
 	{
 		ft_free_strarr(path_list);
@@ -106,7 +106,7 @@ static char	*check_pathname(t_base *base, char **path_list, int i)
 	ft_strcpy(pathname, path_list[i]);
 	if (pathname[ft_strlen(path_list[i]) - 1] != '/')
 		ft_strcat(pathname, "/");
-	ft_strcat(pathname, base->lst->arg[0]);
+	ft_strcat(pathname, node->arg[0]);
 	if (access(pathname, F_OK) == 0)
 	{
 		if ((access(pathname, X_OK) == 0))
