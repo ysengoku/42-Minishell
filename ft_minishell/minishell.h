@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 15:23:56 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/04 10:47:26 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 # define COMMANDLINE_USAGE "\n./minishell for interactive mode\n\
 ./minishell -c \"[commande lines]\" for command-line mode"
+# define DELETED_CWD "error retrieving current directory: getcwd:\
+ cannot access parent directories: No such file or director"
 
 # define HEREDOC "here_doc"
 
