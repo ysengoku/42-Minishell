@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/04 12:18:47 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:58:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 				&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
 				&& str[i] != 34 && str[i] != 39)
 					i++;
-				if (enter_quote_mode(str, i, tmp) == 0 && (str[i] != 34 || str[i] != 39))
+				if (enter_quote_mode(str, i, tmp) == 0 && str[i] != 34 && str[i] != 39)
 					i--;
 			}
 		}
