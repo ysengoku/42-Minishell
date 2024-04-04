@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 10:20:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 08:05:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,3 @@ static pid_t	ft_fork(int fd_in, int fd_out)
 	}
 	return (pid);
 }
-
-// exit code
-// Success -----> 0
-// No such file or directory -----> 1
-// command not found -----> 127
-// command found but not executable -----> 126
-
-// All builtins return an exit status of 2 to indicate incorrect usage, 
-// generally invalid options or missing arguments. 

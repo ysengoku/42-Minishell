@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 16:07:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 08:52:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static char	*get_pathname(t_base *base);
 static char	**extract_path(t_base *base);
+static char	*check_pathname(t_base *base, char **path_list, int i);
+static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 void	execute_command(t_base *base)
 {
@@ -22,50 +24,17 @@ void	execute_command(t_base *base)
 	if (access(base->lst->arg[0], F_OK) == 0)
 	{
 		if (access(base->lst->arg[0], X_OK) == -1)
-		{
-			ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-			exit(print_error(base->lst->arg[0], "Permission denied", 126));
-		}
+			exit(error_in_child(base, 126, base->lst->arg[0],
+					"Permission denied"));
 		pathname = ft_strdup(base->lst->arg[0]);
+		if (!pathname)
+			exit(error_in_child(base, 1, strerror(errno), NULL));
 	}
 	else
 		pathname = get_pathname(base);
-	if (!pathname)
-	{
-		write(2, "malloc failed\n", 14);
-		ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-		exit(EXIT_FAILURE);
-	}
 	execve(pathname, base->lst->arg, base->env);
 	free(pathname);
-	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-	exit(ft_perror("execve", 1));
-}
-
-static char	*check_pathname(t_base *base, char **path_list, int i)
-{
-	char	*pathname;
-
-	pathname = ft_calloc(ft_strlen(path_list[i])
-			+ ft_strlen(base->lst->arg[0]) + 2, sizeof(char));
-	if (!pathname)
-	{
-		ft_free_strarr(path_list);
-		ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-		exit(ft_perror("malloc", 1));
-	}
-	ft_strcpy(pathname, path_list[i]);
-	if (pathname[ft_strlen(path_list[i]) - 1] != '/')
-		ft_strcat(pathname, "/");
-	ft_strcat(pathname, base->lst->arg[0]);
-	if (access(pathname, F_OK) == 0)
-	{
-		if ((access(pathname, X_OK) == 0))
-			return (pathname);
-		base->exit_code = 126;
-	}
-	free(pathname);
-	return (NULL);
+	exit(error_in_child(base, 1, strerror(errno), NULL));
 }
 
 static char	*get_pathname(t_base *base)
@@ -90,9 +59,9 @@ static char	*get_pathname(t_base *base)
 	ft_free_strarr(path_list);
 	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 	if (base->exit_code == 127)
-		exit(print_error(base->lst->arg[0], "command not found", 127));
+		exit(error_in_child(base, 127, base->lst->arg[0], "command not found"));
 	else
-		exit(print_error(base->lst->arg[0], "Permission denied", 126));
+		exit(error_in_child(base, 126, base->lst->arg[0], "Permission denied"));
 }
 
 static char	**extract_path(t_base *base)
@@ -109,16 +78,50 @@ static char	**extract_path(t_base *base)
 		{
 			tmp = ft_strdup(current_node->value);
 			if (!tmp)
-				exit(ft_perror("malloc", 1));
+				exit(error_in_child(base, 1, strerror(errno), NULL));
 			break ;
 		}
 		current_node = current_node->next;
 	}
 	if (!tmp)
-		exit(print_error(base->lst->arg[0], "command not found", 127));
+		exit(error_in_child(base, 127, base->lst->arg[0], "command not found"));
 	path_list = ft_split(tmp, ':');
 	free(tmp);
 	if (!path_list)
-		exit(ft_perror("malloc", 1));
+		exit(error_in_child(base, 1, strerror(errno), NULL));
 	return (path_list);
+}
+
+static char	*check_pathname(t_base *base, char **path_list, int i)
+{
+	char	*pathname;
+
+	pathname = ft_calloc(ft_strlen(path_list[i])
+			+ ft_strlen(base->lst->arg[0]) + 2, sizeof(char));
+	if (!pathname)
+	{
+		ft_free_strarr(path_list);
+		exit(error_in_child(base, 1, strerror(errno), NULL));
+	}
+	ft_strcpy(pathname, path_list[i]);
+	if (pathname[ft_strlen(path_list[i]) - 1] != '/')
+		ft_strcat(pathname, "/");
+	ft_strcat(pathname, base->lst->arg[0]);
+	if (access(pathname, F_OK) == 0)
+	{
+		if ((access(pathname, X_OK) == 0))
+			return (pathname);
+		base->exit_code = 126;
+	}
+	free(pathname);
+	return (NULL);
+}
+
+static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
+{
+	print_error(s1, s2, exit_code);
+	free_base_content(base);
+	free_envlist(base);
+	free(base);
+	return (exit_code);
 }
