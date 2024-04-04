@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/28 15:00:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:14:32 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	cnt_param(char *str, t_line *line)
 	i = 0;
 	if (str[i] != '<' && str[i] != '>' && str[i] != ' ')
 	{
+		if (str[i] == 34 || str[i] == 39)
+			i = cnt_quote(str, line, i);
 		line->nb_arg++;
 		i++;
 	}

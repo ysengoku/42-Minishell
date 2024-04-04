@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/02 22:04:39 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/03 17:02:32 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 	if (str[0] == '?')
 		return (write_signal(str, base, before));
 	find = base->envn;
-	while (find && ft_strncmp(find->key, str, ft_strlen(str)) != 0)
+	while (find && ft_strcmp(find->key, str) != 0)
 		find = find->next;
 	free(str);
 	if (find)
@@ -66,7 +66,7 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	return (res);
 }
 
-char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
+char	*translate_dollar(char *str, t_base *base, char *before)
 {
 	char	*to_find;
 	int		i;
@@ -77,7 +77,7 @@ char	*translate_dollar(char *str, t_base *base, t_line *tmp, char *before)
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && \
-	enter_quote_mode(str, i, tmp) == 0 && str[i] != '$')
+	str[i] != 34 && str[i] != 39 && str[i] != '$')
 	{
 		to_find[i] = str[i];
 		i++;
