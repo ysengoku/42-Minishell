@@ -6,15 +6,15 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 16:11:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:24:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
 static pid_t	pipe_last_command(t_base *base, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
-static void		free_all_in_child(t_base *base);
 
 int	pipex(t_base *base)
 {
@@ -42,6 +42,31 @@ int	pipex(t_base *base)
 	wait_children(base, lastchild_pid, count);
 	base->lst = head;
 	return (WEXITSTATUS(base->exit_code));
+}
+
+static int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
+{
+	pid_t	child_pid;
+	int		pipe[2];
+
+	if (init_pipe(&pipe) == 1)
+		return (EXIT_FAILURE);
+	*fd_out = pipe[OUT];
+	if (check_redirection(base, fd_in, fd_out) == 1 || !base->lst->arg[0])
+	{
+		ft_close(pipe[OUT], *fd_in, 0);
+		*fd_in = STDIN_FILENO;
+		return (-1);
+	}
+	child_pid = ft_fork_pipex(pipe);
+	if (child_pid == -1)
+		return (-1);
+	if (child_pid == 0)
+		pipe_child(base, pipe[IN], *fd_in, *fd_out);
+	close(pipe[OUT]);
+	ft_close(*fd_in, *fd_out, 0);
+	*fd_in = pipe[IN];
+	return (0);
 }
 
 static pid_t	pipe_last_command(t_base *base, int fd_in)
@@ -75,39 +100,4 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 	waitpid(lastchild_pid, &base->exit_code, 0);
 	while (count-- > 0)
 		wait(NULL);
-}
-
-static void	free_all_in_child(t_base *base)
-{
-	free_base_content(base);
-	free_envlist(base);
-	free(base);
-}
-
-void	pipe_execute_builtin(t_base *base)
-{
-	int	exit_code;
-
-	exit_code = 0;
-	if (!base->lst->arg[0])
-		return ;
-	if (ft_strcmp(base->lst->arg[0], CD) == 0)
-		exit_code = ft_cd(base);
-	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
-		exit_code = ft_echo(base);
-	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-		exit_code = ft_env(base);
-	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, 0);
-	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-		exit_code = ft_export(base);
-	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
-		exit_code = ft_pwd(base);
-	else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
-		exit_code = ft_unset(base);
-	else
-		return ;
-	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
-	free_all_in_child(base);
-	exit(exit_code);
 }

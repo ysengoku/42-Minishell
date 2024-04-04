@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 10:47:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:23:46 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,13 @@ typedef struct s_base
 /* ft_exec.c */
 int		ft_exec(t_base *base);
 
-/* pipex.c & pipex_loop.c */
+/* pipex.c & pipex_utils.c */
 int		pipex(t_base *base);
+int		init_pipe(int (*pipefd)[2]);
+pid_t	ft_fork_pipex(int pipe[2]);
+void	pipe_child(t_base *base, int pipefd_in, int fd_in, int fd_out);
 void	pipe_execute_builtin(t_base *base);
-
-int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
+void	free_all_in_child(t_base *base);
 
 /* execute command */
 void	execute_command(t_base *base);
