@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 13:29:19 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 13:29:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:53:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ t_env	*find_env_var(t_base *base, char *key)
 			return (pwd_node);
 		pwd_node = pwd_node->next;
 	}
-	print_error(key, " not found", 1);
 	return (NULL);
 }

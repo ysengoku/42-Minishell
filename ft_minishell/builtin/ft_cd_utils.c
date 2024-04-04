@@ -6,13 +6,11 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/03 13:13:48 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:49:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*retrive_cwd(t_base *base);
 
 char	*get_pwd(void)
 {
@@ -36,64 +34,19 @@ char	*get_pwd(void)
 char	*get_path(t_base *base, char *destination)
 {
 	char	*path;
-	t_env	*current_node;
+	t_env	*to_find;
 
-	current_node = base->envn;
-	while (current_node)
+	to_find = find_env_var(base, destination);
+	if (to_find == NULL)
 	{
-		if (ft_strcmp(current_node->key, destination) == 0)
-		{
-			path = ft_strdup(current_node->value);
-			if (!path)
-			{
-				ft_perror("malloc", 1);
-				return (NULL);
-			}
-			return (path);
-		}
-		current_node = current_node->next;
+		ft_fprintf(2, "minishell: cd: %s not set\n", destination);
+		return (NULL);
 	}
-	print_error("cd", "No such file or directory", 1);
-	return (NULL);
-}
-
-char	*get_path_to_parentdir(t_base *base)
-{
-	char	*path;
-	char	*current_dir;
-	size_t	end;
-
-	current_dir = retrive_cwd(base);
-	end = ft_strlen(current_dir) - 1;
-	while (current_dir[end] != '/' && end > 0)
-		end --;
-	path = ft_calloc(end + 2, sizeof(char));
+	path = ft_strdup(to_find->value);
 	if (!path)
 	{
 		ft_perror("malloc", 1);
 		return (NULL);
 	}
-	ft_strlcpy(path, current_dir, end + 1);
 	return (path);
-}
-
-static char	*retrive_cwd(t_base *base)
-{
-	char	buf[PATH_MAX];
-	char	*cwd;
-	t_env	*pwd_node;
-
-	pwd_node = find_env_var(base, "PWD");
-	if (pwd_node == NULL)
-	{
-		cwd = getcwd(buf, sizeof(buf));
-		if (!cwd)
-		{
-			ft_perror("cd", 1);
-			return (NULL);
-		}
-	}
-	else
-		cwd = pwd_node->value;
-	return (cwd);
 }

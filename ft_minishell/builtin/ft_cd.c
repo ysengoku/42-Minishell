@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 11:00:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:52:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,11 @@ static int	ft_chdir(char *curpath, t_base *base)
 	char	*tmp;
 
 	pwd = find_env_var(base, "PWD");
+	if (pwd == NULL)
+		return (print_error("cd:", "PWD not set", 1));
 	oldpwd = find_env_var(base, "OLDPWD");
-	if (pwd == NULL || oldpwd == NULL)
-		return (1);
+	if (oldpwd == NULL)
+		return (print_error("cd:", "OLDPWD not set", 1));
 	if (chdir(curpath) == -1)
 	{
 		if (ft_strcmp(base->lst->arg[1], "./") == 0)
