@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 16:54:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:23:02 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,13 @@
 
 static void	check_newline(char **s, int *i, int *newline);
 
-int	ft_echo(t_base *base, t_line *node)
+int	ft_echo(t_line *node, int fd[2])
 {
 	int	i;
 	int	newline;
-	int	fd[2];
 
-	fd[IN] = STDIN_FILENO;
-	fd[OUT] = STDOUT_FILENO;
 	i = 1;
 	newline = 1;
-	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1)
-		return (EXIT_FAILURE);
 	if (node->arg[i])
 		check_newline(node->arg, &i, &newline);
 	while (node->arg[i])

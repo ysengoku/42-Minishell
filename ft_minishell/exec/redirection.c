@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 16:20:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:35:04 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 			ft_close(*fd_in, 0, 0);
 			*fd_in = open_infile(current_file);
 			if (*fd_in == -1)
+			{
+				base->exit_code = 1;
 				return (ft_close(*fd_in, *fd_out, 1));
+			}
 		}
 		else
 		{

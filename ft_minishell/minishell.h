@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 16:53:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 10:19:14 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		pipex(t_base *base);
 int		init_pipe(int (*pipefd)[2]);
 pid_t	ft_fork_pipex(int pipe[2]);
 void	pipe_child(t_base *base, t_line *node, int fd_in, int fd_out);
-void	pipe_execute_builtin(t_base *base, t_line *node);
+void	pipe_execute_builtin(t_base *base, t_line *node, int fd[2]);
 void	free_all_in_child(t_base *base);
 
 /* execute command */
@@ -129,16 +129,15 @@ void	dup_output(int fd_out);
 void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
-int		ft_cd(t_base *base);
+int		ft_cd(t_base *base, int fd[2]);
 char	*get_path(t_base *base, char *destination);
-t_env	*find_env_var(t_base *base, char *key);
 char	*get_pwd(void);
-int		ft_echo(t_base *base, t_line *node);
-int		ft_pwd(t_base *base, t_line *node);
-int		ft_env(t_base *base, t_line *node);
-void	ft_exit(t_base *base, int exit_status);
-int		ft_export(t_base *base);
-int		ft_unset(t_base *base);
+int		ft_echo(t_line *node, int fd[2]);
+int		ft_pwd(t_base *base, int fd[2]);
+int		ft_env(t_base *base, int fd[2]);
+void	ft_exit(t_base *base, int exit_status, int fd[2]);
+int		ft_export(t_base *base, int fd[2]);
+int		ft_unset(t_base *base, int fd[2]);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */

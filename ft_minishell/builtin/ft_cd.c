@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 14:52:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 10:12:13 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ static char	*concatenate_path(t_base *base, char *curpath);
 static void	canonicalize_path(char *curpath);
 static int	retry_cwd(t_base *base);
 
-int	ft_cd(t_base *base)
+int	ft_cd(t_base *base, int fd[2])
 {
 	char	*curpath;
 
+	ft_close(fd[IN], fd[OUT], 0);
 	if (base->lst->arg[1] == NULL || ft_strncmp(base->lst->arg[1], ".", 2) == 0
 		|| ft_strncmp(base->lst->arg[1], "~", 2) == 0
 		|| ft_strncmp(base->lst->arg[1], "~/", 3) == 0)
