@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 10:19:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:15:26 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 		return (ft_env(base, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, 0, fd);
+		ft_exit(base, node, fd);
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 		return (ft_export(base, fd));
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
