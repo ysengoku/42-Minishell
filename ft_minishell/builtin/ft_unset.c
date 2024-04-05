@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 19:09:07 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 13:56:54 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(t_base *base)
+int	ft_unset(t_base *base, int fd[2])
 {
 	t_env	*current_node;
 	t_env	*previous_node;
 
+	ft_close(fd[IN], fd[OUT], 0);
 	current_node = base->envn;
 	previous_node = NULL;
 	if (!base->lst->arg[1])
