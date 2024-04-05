@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 13:56:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:00:08 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	handle_sigint(int sig)
 {
 	(void) sig;
-	rl_replace_line("" , 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -24,6 +24,7 @@ static void	ft_minishell(t_base *base)
 {
 	char	*str;
 	int		i;
+
 	str = readline(CYAN "minishell >>> " RESET);
 	if (str && *str)
 	{
@@ -65,6 +66,7 @@ static int	command_line_mode(t_base *base, char *av2)
 int	main(int ac, char **av, char **env)
 {
 	t_base	*base;
+
 	base = NULL;
 	if (ac == 1)
 	{

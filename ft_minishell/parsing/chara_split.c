@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/04 23:41:19 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:43:49 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_chara_split(char *s, t_base **base)
 	char		**srep;
 	int			i;
 	t_line		*line;
-	
+
 	i = 0;
 	line = NULL;
 	s = check_quote(s, *base);

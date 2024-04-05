@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 13:57:22 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:57:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
 		return (ft_echo(base->lst, fd));
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
-		return (ft_env(base, fd));
+		return (ft_env(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
 		ft_exit(base, node, fd);
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
@@ -48,7 +48,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
 		return (ft_pwd(base, fd));
 	else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
-		return (ft_unset(base, fd));
+		return (ft_unset(base, node, fd));
 	return (execute_external_command(base, fd));
 }
 
