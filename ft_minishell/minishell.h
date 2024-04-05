@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 14:56:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:26:50 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,11 @@ void	dup_output(int fd_out);
 void	unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
-int		ft_cd(t_base *base, int fd[2]);
+int		ft_cd(t_base *base, t_line *node, int fd[2]);
 char	*get_path(t_base *base, char *destination);
 char	*get_pwd(void);
+char	*concatenate_path(t_base *base, char *curpath);
+void	canonicalize_path(char *curpath);
 int		ft_echo(t_line *node, int fd[2]);
 int		ft_pwd(t_base *base, int fd[2]);
 int		ft_env(t_base *base, t_line *node, int fd[2]);
