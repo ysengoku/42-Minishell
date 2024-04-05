@@ -6,22 +6,17 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 15:06:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:51:46 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_base *base)
+int	ft_pwd(t_base *base, int fd[2])
 {
 	char	buf[PATH_MAX];
-	int		fd[2];
 	t_env	*pwd;
 
-	fd[IN] = STDIN_FILENO;
-	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
-		return (1);
 	pwd = find_env_var(base, "PWD");
 	if (pwd == NULL)
 	{
