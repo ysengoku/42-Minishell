@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 19:04:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:42:54 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_base_content(t_base *base)
 		while (current_node)
 		{
 			if (current_node->arg)
-							ft_free_strarr(current_node->arg);
+				ft_free_strarr(current_node->arg);
 			while (current_node->file)
 			{
 				free(current_node->file->filename);
