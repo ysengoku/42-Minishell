@@ -6,21 +6,16 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/03/27 10:18:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:23:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_base *base)
+int	ft_env(t_base *base, int fd[2])
 {
 	t_env	*tmp;
-	int		fd[2];
 
-	fd[IN] = STDIN_FILENO;
-	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, &fd[IN], &fd[OUT]) == 1)
-		return (1);
 	tmp = base->envn;
 	while (tmp)
 	{

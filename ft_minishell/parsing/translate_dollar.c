@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 17:02:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:11:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 	&& str[i] != '|' && str[i] != '>')
 		i++;
 	res = ft_strjoin_mall(before, nbr, i);
+	free(str);
 	return (free(nbr), res);
 }
 
@@ -63,6 +64,7 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	while (s2 && s2[i])
 		res[j++] = s2[i++];
 	res[j] = '\0';
+	free(s1);
 	return (res);
 }
 

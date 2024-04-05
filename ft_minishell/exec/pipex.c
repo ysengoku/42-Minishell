@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 15:18:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 13:57:41 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		pipe_loop(t_base *base, int *fd_in, int *fd_out);
-static pid_t	pipe_last_command(t_base *base, int fd_in);
+static int		pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out);
+static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
 
 int	pipex(t_base *base)
@@ -21,30 +21,29 @@ int	pipex(t_base *base)
 	int		fd[2];
 	pid_t	lastchild_pid;
 	int		count;
-	t_line	*head;
+	t_line	*current_node;
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = 0;
 	count = 0;
-	head = base->lst;
-	while (base->lst->next)
+	current_node = base->lst;
+	while (current_node->next)
 	{
-		if (pipe_loop(base, &fd[IN], &fd[OUT]) != -1)
+		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
 			count++;
-		base->lst = base->lst->next;
+		current_node = current_node->next;
 	}
-	lastchild_pid = pipe_last_command(base, fd[IN]);
+	lastchild_pid = pipe_last_command(base, current_node, fd[IN]);
 	if (lastchild_pid == -1)
-		return (1);
+		return (base->exit_code);
 	if (lastchild_pid == -2)
 		return (0);
 	count++;
 	wait_children(base, lastchild_pid, count);
-	base->lst = head;
 	return (WEXITSTATUS(base->exit_code));
 }
 
-static int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
+static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
 	pid_t	child_pid;
 	int		pipe[2];
@@ -52,7 +51,8 @@ static int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	if (init_pipe(&pipe) == 1)
 		return (EXIT_FAILURE);
 	*fd_out = pipe[OUT];
-	if (check_redirection(base, fd_in, fd_out) == 1 || !base->lst->arg[0])
+	if (check_redirection(base, node, fd_in, fd_out) == 1 || !node->arg[0]
+		|| pipe[OUT] == -1)
 	{
 		ft_close(pipe[OUT], *fd_in, 0);
 		*fd_in = STDIN_FILENO;
@@ -62,37 +62,41 @@ static int	pipe_loop(t_base *base, int *fd_in, int *fd_out)
 	if (child_pid == -1)
 		return (-1);
 	if (child_pid == 0)
-		pipe_child(base, pipe[IN], *fd_in, *fd_out);
+	{
+		close(pipe[IN]);
+		pipe_child(base, node, *fd_in, *fd_out);
+	}
 	close(pipe[OUT]);
 	ft_close(*fd_in, *fd_out, 0);
 	*fd_in = pipe[IN];
 	return (0);
 }
 
-static pid_t	pipe_last_command(t_base *base, int fd_in)
+static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 {
 	pid_t	lastchild_pid;
-	int		fd_out;
+	int		fd[2];
 
-	fd_out = STDOUT_FILENO;
-	if (check_redirection(base, &fd_in, &fd_out) == 1)
-		return (ft_close(fd_in, fd_out, -1));
+	fd[OUT] = STDOUT_FILENO;
+	if (check_redirection(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
+		return (ft_close(fd_in, fd[OUT], -1));
 	if (!base->lst->arg[0])
-		return (ft_close(fd_in, fd_out, -2));
+		return (ft_close(fd_in, fd[OUT], -2));
+	fd[IN] = fd_in;
 	lastchild_pid = fork();
 	if (lastchild_pid == -1)
 	{
-		ft_close(fd_in, fd_out, 1);
+		ft_close(fd_in, fd[OUT], 1);
 		return (ft_perror("fork", -1));
 	}
 	if (lastchild_pid == 0)
 	{
+		pipe_execute_builtin(base, node, fd);
 		dup_input(fd_in);
-		dup_output(fd_out);
-		pipe_execute_builtin(base);
-		execute_command(base);
+		dup_output(fd[OUT]);
+		execute_command(base, node);
 	}
-	return (ft_close(fd_in, fd_out, lastchild_pid));
+	return (ft_close(fd_in, fd[OUT], lastchild_pid));
 }
 
 static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
