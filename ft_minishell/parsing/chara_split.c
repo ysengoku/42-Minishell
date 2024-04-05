@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chara_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 14:43:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:02:07 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*check_quote(char *s, t_base *base)
 		if (s[i] == '|' && line.char_type == STANDARD)
 		{
 			i++;
-			while (s[i] == ' ')
+			while (s[i] == ' ' || s[i] == 9)
 				i++;
 			if (s[i] == '|' || s[i] == '\0')
 				return (ft_display_error(3, base), NULL);
@@ -89,5 +89,9 @@ int	ft_chara_split(char *s, t_base **base)
 	}
 	ft_free_strarr(srep);
 	(*base)->lst = line;
+	// printf("%s\n", line->arg[0]);
+	// printf("%s\n", line->arg[1]);
+	// printf("%s\n", line->arg[2]);
+	// return (-1);
 	return (0);
 }
