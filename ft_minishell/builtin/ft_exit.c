@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 13:43:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 13:50:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_exit(t_base *base, t_line *node, int fd[2])
 	if (node->arg[1])
 		exit_code = convert_exitcode(node->arg[1]) % 256;
 	else
-		exit_code = 0;
+		exit_code = base->exit_code;
 	ft_close(fd[IN], fd[OUT], 0);
 	unlink_heredoc();
 	rl_clear_history();

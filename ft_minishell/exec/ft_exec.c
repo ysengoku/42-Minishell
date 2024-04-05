@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 11:15:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 13:52:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
 {
-	base->exit_code = 0;
+	if (ft_strcmp(base->lst->arg[0], EXIT) != 0)
+		base->exit_code = 0;
 	if (base->lst->next == NULL)
 		return (execute_single_command(base, base->lst));
 	return (pipex(base));
