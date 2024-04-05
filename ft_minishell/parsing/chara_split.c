@@ -74,6 +74,7 @@ int	ft_chara_split(char *s, t_base **base)
 	int			i;
 	t_line		*line;
 	
+	
 	i = 0;
 	line = NULL;
 	s = check_quote(s, *base);
