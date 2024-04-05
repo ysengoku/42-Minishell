@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/03/27 14:45:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 19:09:07 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_unset(t_base *base)
 
 	current_node = base->envn;
 	previous_node = NULL;
+	if (!base->lst->arg[1])
+		return (0);
 	while (current_node)
 	{
 		if (strcmp(current_node->key, base->lst->arg[1]) == 0)

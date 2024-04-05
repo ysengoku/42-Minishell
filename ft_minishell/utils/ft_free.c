@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 15:09:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/04 19:04:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	ft_free_strarr(char **arr)
 
 	i = 0;
 	while (arr[i])
-		free(arr[i++]);
+	{
+		free(arr[i]);
+		i++;
+	}
 	free(arr);
 }
 
@@ -41,7 +44,7 @@ void	free_base_content(t_base *base)
 		while (current_node)
 		{
 			if (current_node->arg)
-				ft_free_strarr(current_node->arg);
+							ft_free_strarr(current_node->arg);
 			while (current_node->file)
 			{
 				free(current_node->file->filename);
@@ -53,6 +56,7 @@ void	free_base_content(t_base *base)
 			free(current_node);
 			current_node = next_node;
 		}
+		base->lst = NULL;
 	}
 }
 

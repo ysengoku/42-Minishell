@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 15:56:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/04 22:29:47 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	export_null(t_base *base)
 		}
 		printf("%s", print->key);
 		if (print->value)
-			printf("=\"%s\"\n", print->value);
+			printf("=\"%s\"", print->value);
+		printf("\n");
 		print->order = 1;
 	}
 	reset_order(base);
@@ -98,12 +99,20 @@ int	export_add(t_base *base)
 	t_env	*tmp;
 	char	**split;
 
+	if (base->lst->arg[1][0] == '=' || base->lst->arg[1][0] == ' ')
+	{
+		ft_display_error(2, base);
+		return (1);
+	}
 	tmp = ft_calloc(1, sizeof(t_env));
 	if (!tmp)
 		return (-1);
 	split = ft_split(base->lst->arg[1], '=');
 	tmp->key = ft_strdup(split[0]);
-	tmp->value = assign_value(split);
+	if (split[1] == NULL)
+		tmp->value = ft_calloc(1, sizeof(char));
+	else
+		tmp->value = assign_value(split);
 	export_add_on_nod(base, tmp);
 	return (0);
 }

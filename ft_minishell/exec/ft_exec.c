@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 08:05:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/04 23:25:14 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static pid_t	ft_fork(int fd_in, int fd_out);
 
 int	ft_exec(t_base *base)
 {
-	base->exit_code = 0;
+	if (ft_strcmp(base->lst->arg[0], EXIT) != 0)
+		base->exit_code = 0;
 	if (base->lst->next == NULL)
 		return (execute_single_command(base));
 	return (pipex(base));
@@ -35,7 +36,7 @@ static int	execute_single_command(t_base *base)
 		else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 			return (ft_env(base));
 		else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-			ft_exit(base, 0);
+			ft_exit(base, base->exit_code);
 		else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 			return (ft_export(base));
 		else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
