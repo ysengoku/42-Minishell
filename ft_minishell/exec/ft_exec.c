@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 14:57:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:20:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (base->exit_code);
 	if (ft_strcmp(base->lst->arg[0], CD) == 0)
-		return (ft_cd(base, fd));
+		return (ft_cd(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
 		return (ft_echo(base->lst, fd));
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)

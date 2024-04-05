@@ -6,30 +6,29 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 10:12:13 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:32:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	is_home(char *arg);
 static int	ft_chdir(char *curpath, t_base *base);
-static char	*concatenate_path(t_base *base, char *curpath);
-static void	canonicalize_path(char *curpath);
 static int	retry_cwd(t_base *base);
 
-int	ft_cd(t_base *base, int fd[2])
+int	ft_cd(t_base *base, t_line *node, int fd[2])
 {
 	char	*curpath;
 
 	ft_close(fd[IN], fd[OUT], 0);
-	if (base->lst->arg[1] == NULL || ft_strncmp(base->lst->arg[1], ".", 2) == 0
-		|| ft_strncmp(base->lst->arg[1], "~", 2) == 0
-		|| ft_strncmp(base->lst->arg[1], "~/", 3) == 0)
+	if (node->arg[2])
+		return (print_error("cd", "too many arguments", 1));
+	if (is_home(node->arg[1]) == true)
 		curpath = get_path(base, "HOME");
-	else if (ft_strncmp(base->lst->arg[1], "-", 2) == 0)
+	else if (ft_strncmp(node->arg[1], "-", 2) == 0)
 		curpath = get_path(base, "OLDPWD");
 	else
-		curpath = ft_strdup(base->lst->arg[1]);
+		curpath = ft_strdup(node->arg[1]);
 	if (!curpath)
 		return (1);
 	if (curpath[0] != '/')
@@ -41,7 +40,7 @@ int	ft_cd(t_base *base, int fd[2])
 		return (ft_free((void *)curpath, 0));
 	if (ft_chdir(curpath, base) == 1)
 		return (ft_free((void *)curpath, 1));
-	if (base->lst->arg[1] && ft_strncmp(base->lst->arg[1], "-", 2) == 0)
+	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0 && fd[OUT] == 1)
 		printf("%s\n", curpath);
 	return (ft_free((void *)curpath, 0));
 }
@@ -75,62 +74,6 @@ static int	ft_chdir(char *curpath, t_base *base)
 	return (0);
 }
 
-static char	*concatenate_path(t_base *base, char *curpath)
-{
-	t_env	*pwd;
-	char	*concatenated_path;
-
-	pwd = find_env_var(base, "PWD");
-	if (pwd == NULL)
-	{
-		ft_free((void *)curpath, 1);
-		return (NULL);
-	}
-	concatenated_path = ft_calloc(ft_strlen(pwd->value)
-			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
-	if (!concatenated_path)
-	{
-		ft_perror("malloc", 1);
-		ft_free((void *)curpath, 1);
-		return (NULL);
-	}
-	ft_strcpy(concatenated_path, pwd->value);
-	if (concatenated_path[ft_strlen(concatenated_path) - 1] != '/')
-		ft_strcat(concatenated_path, "/");
-	ft_strcat(concatenated_path, curpath);
-	free(curpath);
-	return (concatenated_path);
-}
-
-static void	canonicalize_path(char *curpath)
-{
-	int	src;
-	int	dest;
-
-	src = 0;
-	dest = 0;
-	while (curpath[src])
-	{
-		if (curpath[src] == '/' && curpath[src + 1] == '.'
-			&& (curpath[src + 2] == '/' || curpath[src + 2] == '\0'))
-			src += 2;
-		else if (curpath[src] == '/' && curpath[src + 1] == '.'
-			&& curpath[src + 2] == '.'
-			&& (curpath[src + 3] == '/' || curpath[src + 3] == '\0'))
-		{
-			if (dest > 0)
-			{
-				while (dest > 0 && curpath[--dest] != '/')
-					;
-			}
-			src += 3;
-		}
-		else
-			curpath[dest++] = curpath[src++];
-	}
-	curpath[dest] = '\0';
-}
-
 static int	retry_cwd(t_base *base)
 {
 	char	buf[PATH_MAX];
@@ -158,4 +101,13 @@ static int	retry_cwd(t_base *base)
 		return (print_error("cd", DELETED_CWD, 1));
 	}
 	return (chdir(buf));
+}
+
+static bool	is_home(char *arg)
+{
+	if (arg == NULL || ft_strncmp(arg, ".", 2) == 0
+		|| ft_strncmp(arg, "~", 2) == 0
+		|| ft_strncmp(arg, "~/", 3) == 0)
+		return (true);
+	return (false);
 }
