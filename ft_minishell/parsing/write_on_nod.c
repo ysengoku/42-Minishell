@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/04 14:58:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 15:54:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	j = 0;
 	while (str[i] && ((str[i] != '<' \
 	&& str[i] != '>' && str[i] != '|' && \
-	str[i] != ' ') || tmp->char_type != STANDARD))
+	str[i] != ' ' && str[i] != 9) || tmp->char_type != STANDARD))
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
@@ -76,7 +76,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 			{
 				while (str[i] && str[i] != ' ' && str[i] != '<' \
 				&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
-				&& str[i] != 34 && str[i] != 39)
+				&& str[i] != 34 && str[i] != 39 && str[i] != 9)
 					i++;
 				if (enter_quote_mode(str, i, tmp) == 0 && str[i] != 34 && str[i] != 39)
 					i--;
@@ -102,7 +102,7 @@ void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 			i = write_out_file(i, tmp, str, base);
 		else if (str[i] == '<')
 			i = write_in_file(i, tmp, str, base);
-		else if (str[i] == ' ')
+		else if (str[i] == ' ' || str[i] == 9)
 			i++;
 		else
 			i = write_arg(i, tmp, str, base);

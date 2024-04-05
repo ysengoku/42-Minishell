@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 14:02:35 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:35:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	export_null(t_base *base, int fd[2])
 		ft_fprintf(fd[OUT], "%s", print->key);
 		if (print->value)
 			ft_fprintf(fd[OUT], "=\"%s\"\n", print->value);
+		ft_fprintf(fd[OUT], "\n");
 		print->order = 1;
 	}
 	reset_order(base);
@@ -102,12 +103,20 @@ int	ft_export(t_base *base, int fd[2])
 		return (export_null(base, fd));
 	if (base->lst->arg[1])
 	{
+		if (base->lst->arg[1][0] == '=' || base->lst->arg[1][0] == ' ')
+	{
+		ft_display_error(2, base);
+		return (1);
+	}
 		tmp = ft_calloc(1, sizeof(t_env));
 		if (!tmp)
 			return (-1);
 		split = ft_split(base->lst->arg[1], '=');
 		tmp->key = ft_strdup(split[0]);
-		tmp->value = assign_value(split);
+		if (split[1] == NULL)
+			tmp->value = ft_calloc(1, sizeof(char));
+		else
+			tmp->value = assign_value(split);
 		export_add_on_nod(base, tmp);
 		return (0);
 	}
