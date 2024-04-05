@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 09:35:04 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:06:27 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,9 @@ static int	get_heredoc_lines(char *delimiter, int fd_heredoc)
 	free(tmp);
 	return (0);
 }
+
+// Standard Error (stderr) redirection (2>): Redirects error messages from a command to a file or another command
+// i.e. 2>/dev/null
+
+// Outfile in non-existing dir
+// i.e. >./outfiles/outfile01 --> "./outfiles/outfile01: No such file or directory'""
