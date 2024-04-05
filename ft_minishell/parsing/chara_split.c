@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/04 23:41:19 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 15:58:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*check_quote(char *s, t_base *base)
 		if (s[i] == '|' && line.char_type == STANDARD)
 		{
 			i++;
-			while (s[i] == ' ')
+			while (s[i] == ' ' || s[i] == 9)
 				i++;
 			if (s[i] == '|' || s[i] == '\0')
 				return (ft_display_error(3, base), NULL);
@@ -74,7 +74,6 @@ int	ft_chara_split(char *s, t_base **base)
 	int			i;
 	t_line		*line;
 	
-	
 	i = 0;
 	line = NULL;
 	s = check_quote(s, *base);
@@ -90,5 +89,9 @@ int	ft_chara_split(char *s, t_base **base)
 	}
 	ft_free_strarr(srep);
 	(*base)->lst = line;
+	printf("%s\n", line->arg[0]);
+	printf("%s\n", line->arg[1]);
+	printf("%s\n", line->arg[2]);
+	return (-1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 14:11:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:53:31 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 	i = 0;
 	nbr = ft_itoa(base->exit_code);
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>')
+	&& str[i] != '|' && str[i] != '>' && str[i] != 9)
 		i++;
 	res = ft_strjoin_mall(before, nbr, i);
 	free(str);
@@ -77,7 +77,7 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	i = 0;
 	last_len = 0;
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
+	while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && \
 	str[i] != 34 && str[i] != 39 && str[i] != '$')
 	{
@@ -86,7 +86,7 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	}
 	if ((str[i] == 39 || str[i] == 34))
 	{
-		while (str[i] && str[i] != ' ' && str[i] != '<' \
+		while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')
 		{
 			i++;
