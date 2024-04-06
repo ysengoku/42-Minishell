@@ -6,20 +6,20 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/06 21:38:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/07 00:21:52 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_nod(t_line **line, char *str, t_base *base)
+int	create_nod(char *str, t_base *base)
 {
 	t_line	*tmp;
 	t_line	*nxt;
 	int		i;
 
 	i = 0;
-	nxt = *line;
+	nxt = base->lst;
 	tmp = ft_calloc(1, sizeof(t_line));
 	if (!tmp)
 		return (-1);
@@ -34,8 +34,8 @@ int	create_nod(t_line **line, char *str, t_base *base)
 	}
 	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
 	write_nod(i, tmp, str, base);
-	if (*line == NULL)
-		*line = tmp;
+	if (base->lst == NULL)
+		base->lst = tmp;
 	else
 	{
 		while (nxt->next)
@@ -78,10 +78,8 @@ int	ft_chara_split(char *s, t_base **base)
 {
 	char		**srep;
 	int			i;
-	t_line		*line;
 
 	i = 0;
-	line = NULL;
 	s = check_quote(s, *base);
 	if (s == NULL)
 		return (-1);
@@ -89,11 +87,13 @@ int	ft_chara_split(char *s, t_base **base)
 	while (srep[i])
 	{
 		srep[i] = check_quote(srep[i], *base);
-		if (create_nod(&line, srep[i], *base) == -1)
+		if (create_nod(srep[i], *base) == -1)
+		{
+			free_base_content(*base);
 			return (ft_free_strarr(srep), -1);
+		}
 		i++;
 	}
 	ft_free_strarr(srep);
-	(*base)->lst = line;
 	return (0);
 }

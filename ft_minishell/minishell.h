@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/06 18:37:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/06 23:57:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
 # define GREEN "\033[1;32m"
-# define CYAN "\033[1;36m"
+# define CYAN "\001\033[1;36m\002"
 # define YELLOW "\033[1;33m"
-# define RESET "\033[0m"
+# define RESET "\001\033[0m\002"
 
 #endif
