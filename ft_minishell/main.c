@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 15:00:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:33:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_minishell(t_base *base)
 		if (ft_chara_split(str, &base) != -1)
 			base->exit_code = ft_exec(base);
 		else
-			base->exit_code = 1;
+			base->exit_code = 2;
 		// printf(RED "exit_code = %d\n" RESET, base->exit_code);
 		unlink_heredoc();
 		free_base_content(base);
@@ -55,7 +55,7 @@ static int	command_line_mode(t_base *base, char *av2)
 	if (ft_chara_split(av2, &base) != -1)
 		exit_code = ft_exec(base);
 	else
-		exit_code = 1;
+		exit_code = 2;
 	unlink_heredoc();
 	free_base_content(base);
 	free_envlist(base);
