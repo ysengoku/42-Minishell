@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 14:56:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:04:21 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 	}
 	if (previous_node)
 		previous_node->next = target_node->next;
+	else
+		base->envn = NULL;
 	delete_node(target_node);
 	return (0);
 }
