@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/06 16:26:10 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/06 21:38:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int	create_nod(t_line **line, char *str, t_base *base)
 	tmp->file = NULL;
 	tmp->char_type = STANDARD;
 	if (cnt_param(str, tmp) == -1)
-		return (free(tmp), ft_display_error(1, base), -1);
+	{
+		free(tmp);
+		ft_display_error(1, base);
+		return (-1);
+	}
 	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
 	write_nod(i, tmp, str, base);
 	if (*line == NULL)
