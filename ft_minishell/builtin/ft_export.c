@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/06 19:00:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/06 20:43:08 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,10 @@ int	ft_export(t_base *base, int fd[2])
 			split = ft_split(base->lst->arg[i], '=');
 			tmp->key = ft_strdup(split[0]);
 			if (split[1] == NULL)
+			{
 				tmp->value = ft_calloc(1, sizeof(char));
+				ft_free_strarr(split);
+			}
 			else
 				tmp->value = assign_value(split);
 		}
