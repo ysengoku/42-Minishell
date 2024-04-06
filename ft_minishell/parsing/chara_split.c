@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 16:02:07 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 16:59:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	create_nod(t_line **line, char *str, t_base *base)
 	tmp->file = NULL;
 	tmp->char_type = STANDARD;
 	if (cnt_param(str, tmp) == -1)
-		return (ft_display_error(1, base), -1);
+		return (free(tmp), ft_display_error(1, base), -1);
 	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
 	write_nod(i, tmp, str, base);
 	if (*line == NULL)
@@ -84,14 +84,10 @@ int	ft_chara_split(char *s, t_base **base)
 	{
 		srep[i] = check_quote(srep[i], *base);
 		if (create_nod(&line, srep[i], *base) == -1)
-			return (-1);
+			return (ft_free_strarr(srep), -1);
 		i++;
 	}
 	ft_free_strarr(srep);
 	(*base)->lst = line;
-	// printf("%s\n", line->arg[0]);
-	// printf("%s\n", line->arg[1]);
-	// printf("%s\n", line->arg[2]);
-	// return (-1);
 	return (0);
 }
