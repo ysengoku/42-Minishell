@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 16:59:28 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/06 16:26:10 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ char	*check_quote(char *s, t_base *base)
 			s[i] = s[i] * -1;
 		i++;
 	}
+	if (line.char_type != STANDARD)
+		return (ft_display_error(3, base), NULL); 
 	return (s);
 }
 
