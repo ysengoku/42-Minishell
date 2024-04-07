@@ -27,7 +27,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <limits.h>
-//# include <linux/limits.h>
+# include <linux/limits.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -63,7 +63,8 @@ enum e_file_type
 	INFILE = 1,
 	OUT_TRUNC = 2,
 	OUT_APPEND = 3,
-	HERE_DOC = 4
+	HERE_DOC = 4,
+	OUT_ERR = 5
 };
 
 enum e_type_char
