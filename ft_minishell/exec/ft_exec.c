@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 15:51:21 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/07 22:58:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 		return (ft_env(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		ft_exit(base, node, fd);
+		return (ft_exit(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 		return (ft_export(base, fd));
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
