@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/06 21:27:37 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/07 22:35:32 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	target_node = base->envn;
 	previous_node = NULL;
-	if (!node->arg[1] || (strcmp("_", node->arg[1]) == 0))
+	if (!node->arg[1] || (strcmp("_", node->arg[1]) == 0) ||\
+	(strcmp("env", node->arg[1]) == 0))
 		return (0);
 	while (target_node)
 	{

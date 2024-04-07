@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/06 23:57:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/07 22:58:35 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	canonicalize_path(char *curpath);
 int		ft_echo(t_line *node, int fd[2]);
 int		ft_pwd(t_base *base, int fd[2]);
 int		ft_env(t_base *base, t_line *node, int fd[2]);
-void	ft_exit(t_base *base, t_line *node, int fd[2]);
+int		ft_exit(t_base *base, t_line *node, int fd[2]);
 int		ft_export(t_base *base, int fd[2]);
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 

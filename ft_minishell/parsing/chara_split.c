@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/07 00:21:52 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/07 22:30:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ char	*check_quote(char *s, t_base *base)
 	ft_bzero(&line, sizeof(t_line));
 	line.char_type = STANDARD;
 	i = 0;
+	while (s[i] == ' ' || s[i] == 9)
+		i++;
+	if (s[i] == '|')
+		return (ft_display_error(1, base), NULL);
 	while (s[i])
 	{
 		if (s[i] == '|' && line.char_type == STANDARD)
@@ -61,7 +65,7 @@ char	*check_quote(char *s, t_base *base)
 			while (s[i] == ' ' || s[i] == 9)
 				i++;
 			if (s[i] == '|' || s[i] == '\0')
-				return (ft_display_error(3, base), NULL);
+				return (ft_display_error(1, base), NULL);
 		}
 		if (s[i] == 39 || s[i] == 34)
 			enter_quote_mode(s, i, &line);
