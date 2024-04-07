@@ -27,7 +27,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <limits.h>
-# include <linux/limits.h>
+//# include <linux/limits.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -115,7 +115,7 @@ void	free_all_in_child(t_base *base);
 void	execute_command(t_base *base, t_line *node);
 
 /* open_file.c */
-int		open_infile(t_file *infile);
+int		open_infile(t_file *infile, t_base *base);
 int		open_outfile(t_file *outfile, t_base *base);
 int		ft_close(int fd1, int fd2, int exit_code);
 void	ft_close_in_child(int fd1, int fd2);
