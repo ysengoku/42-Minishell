@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	open_infile(t_file *infile)
+int	open_infile(t_file *infile, t_base *base)
 {
 	int	fd_in;
 
@@ -20,13 +20,19 @@ int	open_infile(t_file *infile)
 	{
 		fd_in = open(infile->filename, O_RDONLY);
 		if (fd_in == -1)
+		{
+			base->exit_code = 1;
 			ft_perror(infile->filename, 1);
+		}
 	}
 	else
 	{
 		fd_in = open("here_doc", O_RDONLY);
 		if (fd_in == -1)
+		{
+			base->exit_code = 1;
 			ft_perror("here_doc", 1);
+		}
 	}
 	return (fd_in);
 }
@@ -34,7 +40,6 @@ int	open_infile(t_file *infile)
 int	open_outfile(t_file *outfile, t_base *base)
 {
 	int	fd_out;
-	DIR	*dir;
 
 	if (outfile->type == OUT_TRUNC)
 		fd_out = open(outfile->filename,
@@ -44,13 +49,11 @@ int	open_outfile(t_file *outfile, t_base *base)
 				O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd_out == -1)
 	{
-		dir = opendir(outfile->filename);
-		if (dir)
+		if (errno != EACCES)
 		{
-			print_error(outfile->filename, "Is a directory", 0);
 			base->exit_code = 1;
+			return (print_error(outfile->filename, strerror(errno), -2));
 		}
-		closedir(dir);
 	}
 	return (fd_out);
 }
