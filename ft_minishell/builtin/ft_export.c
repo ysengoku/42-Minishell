@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 13:33:33 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 19:12:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	export_null(t_base *base, int fd[2])
 	while (check_end(base) == 0)
 	{
 		tmp = base->envn;
-		ft_fprintf(fd[OUT], "declare -x ");
 		print = tmp;
 		while (print->order != 0)
 			print = print->next;
@@ -56,10 +55,14 @@ static int	export_null(t_base *base, int fd[2])
 				print = tmp;
 			tmp = tmp->next;
 		}
-		ft_fprintf(fd[OUT], "%s", print->key);
-		if (print->value)
-			ft_fprintf(fd[OUT], "=\"%s\"", print->value);
-		ft_fprintf(fd[OUT], "\n");
+		if (strcmp(print->key, "_") != 0)
+		{
+			ft_fprintf(fd[OUT], "declare -x ");
+			ft_fprintf(fd[OUT], "%s", print->key);
+			if (print->value)
+				ft_fprintf(fd[OUT], "=\"%s\"", print->value);
+			ft_fprintf(fd[OUT], "\n");
+		}
 		print->order = 1;
 	}
 	reset_order(base);

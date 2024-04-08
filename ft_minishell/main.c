@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 16:42:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 17:44:35 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	ft_minishell(t_base *base)
 			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 2;
-		// printf(RED "exit_code = %d\n" RESET, base->exit_code);
 		unlink_heredoc();
 		free_base_content(base);
 	}
