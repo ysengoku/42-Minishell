@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/07 00:53:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 14:39:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,29 @@ int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
+int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
+{
+	int	j;
+	int i;
+
+	i = *ptr_i;
+	j = 0;
+	while (res[j])
+		j++;
+	i++;
+	if (str[i] != '?')
+	{
+		while (str[i] && str[i] != ' ' && str[i] != '<' \
+		&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
+		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47)
+			i++;
+		if (enter_quote_mode(str, i, tmp) != 1)
+			i--;
+	}
+	*ptr_i = i;
+	return (j);
+}
+
 char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 {
 	int		j;
@@ -53,9 +76,8 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	if (!res)
 		return (NULL);
 	j = 0;
-	while (str[i] && ((str[i] != '<' \
-	&& str[i] != '>' && str[i] != '|' && \
-	str[i] != ' ' && str[i] != 9) || tmp->char_type != STANDARD))
+	while (str[i] && ((str[i] != '<' && str[i] != '>' && str[i] != '|' && \
+	str[i] != ' ' && str[i] != 9) || (tmp->char_type == QUOTE || tmp->char_type == DOUBLE_Q)))
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
@@ -65,22 +87,10 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 				j++;
 			}
 		}
-		else if (str[i] == '$' && tmp->char_type != QUOTE)
+		else if (str[i] == '$' && tmp->char_type != QUOTE && tmp->char_type != DOC)
 		{
 			res = translate_dollar(str + i + 1, base, res);
-			j = 0;
-			while (res[j])
-				j++;
-			i++;
-			if (str[i] != '?')
-			{
-				while (str[i] && str[i] != ' ' && str[i] != '<' \
-				&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
-				&& str[i] != 34 && str[i] != 39 && str[i] != 9)
-					i++;
-				if (enter_quote_mode(str, i, tmp) != 1)
-					i--;
-			}
+			j = index_dollars(str, &i, tmp, res);
 		}
 		else
 		{
