@@ -14,6 +14,7 @@
 
 static int	check_heredoc(t_base *base, t_line *node);
 static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc);
+char		*expand_heredoc_line(t_base *base, char *line);
 
 int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -74,47 +75,99 @@ static int	check_heredoc(t_base *base, t_line *node)
 static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 {
 	char	*line;
+	char	*delimiter_check;
 	char	*tmp;
-	char	*tmp2;
-	int		i;
 
 	while (1)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
-		tmp = ft_strtrim(line, "\n");
-		if (!tmp)
+		delimiter_check = ft_strtrim(line, "\n");
+		if (!delimiter_check)
 			return (print_err("minishell", "malloc failed", NULL, 1));
-		if (ft_strcmp(tmp, delimiter) == 0)
+		if (ft_strcmp(delimiter_check, delimiter) == 0)
 			break ;
 		if (ft_strchr(line, '$') != NULL)
 		{
-			i = 0;
-			while (line[i])
-			{
-				while (line[i] != '$')
-					i++;
-				tmp2 = ft_calloc(ft_strlen(line) - (ft_strlen(line) - i) + 1, sizeof(char));
-				ft_strlcpy(tmp2, line, i + 1);
-				// find value
-				printf("tmp2 = %s\n", tmp2);
-				line = translate_dollar(line + i, base, tmp2);
-				printf("line = %s\n", line);
-			}
+			tmp = line;
+			line = expand_heredoc_line(base, line);
+			free(tmp);
+			// malloc protection
 		}
 		ft_putstr_fd(line, fd_heredoc);
 		free(line);
-		free(tmp);
+		free(delimiter_check);
 	}
 	close(fd_heredoc);
-	if (line)
-		free(line);
-	free(tmp);
+	ft_free((void *)line, 0);
+	free(delimiter_check);
 	return (0);
 }
 
-// Standard Error (stderr) redirection (2>): Redirects error messages from a command to a file or another command
-// i.e. 2>/dev/null
+char	*expand_heredoc_line(t_base *base, char *line)
+{
+	size_t	i;
+	char	*expanded;
+	char	*tmp1;
+	char	*tmp2;
+			
+	i = 0;
+	expanded = ft_strdup("");
+	tmp1 = ft_strdup(line);
+	// malloc protection
+	while (tmp1[i])
+	{
+		size_t	j;
+		char	*res;
+		char	*key;
+		t_env	*target;
 
-// Outfile in non-existing dir
-// i.e. >./outfiles/outfile01 --> "./outfiles/outfile01: No such file or directory'""
+		i = 0;
+		while (tmp1[i] != '$')
+			i++;
+		if (i > 0)
+		{
+			res = ft_calloc(i + 1, sizeof(char));
+			ft_strlcpy(res, tmp1, i + 1);
+		}
+		else
+			res = ft_strdup("");
+			///// malloc protection
+		j = ++i;
+		while (tmp1[j] >= 'A' && tmp1[j] <= 'Z')
+			j++;
+		key = ft_calloc(j - i + 1, sizeof(char));
+		///// malloc protection
+		ft_strlcpy(key, tmp1 + i, j - i + 1);;
+		target = find_env_var(base, key);
+		tmp2 = res;
+		if (target)
+		{
+			res = ft_strjoin(tmp2, target->value);
+			free(tmp2);
+			/// malloc protection
+		}
+		else
+		{
+			res = ft_calloc(ft_strlen(res) + ft_strlen(key) + 2, sizeof(char));
+			/// malloc protection
+			ft_strcpy(res, tmp2);
+			ft_strcat(res, "$");
+			ft_strcat(res, key);
+			free(tmp2);
+		}
+		free(key);
+		tmp2 = expanded;
+		expanded = ft_strjoin(tmp2, res);
+		free(tmp2);
+		free(res);
+		//malloc protection
+		ft_strcpy(tmp1, tmp1 + j);
+	}
+	tmp2 = expanded;
+	expanded = ft_strjoin(tmp2, "\n");
+	free(tmp2);
+	free(tmp1);
+	// malloc protection
+	return (expanded);
+}
