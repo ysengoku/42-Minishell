@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:47:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	execute_command(t_base *base, t_line *node)
 		if (!pathname)
 			exit(error_in_child(base, 1, strerror(errno), NULL));
 	}
+	else if (node->arg[0][0] == '/')
+		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
 	else
 		pathname = get_pathname(base, node);
 	execve(pathname, node->arg, base->env);
