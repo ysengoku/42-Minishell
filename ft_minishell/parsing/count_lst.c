@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/04 23:43:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/05 16:15:18 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cnt_file(int i, char *str)
 {
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == 9)
 		i++;
 	if (str[i] == '<' || str[i] == '>' || str[i] == '\0')
 		return (-1);
@@ -76,7 +76,7 @@ int	cnt_param(char *str, t_line *line)
 	int		i;
 
 	i = 0;
-	if (str[i] != '<' && str[i] != '>' && str[i] != ' ')
+	if (str[i] != '<' && str[i] != '>' && str[i] != ' ' && str[i] != 9)
 	{
 		if (str[i] == 34 || str[i] == 39)
 			i = cnt_quote(str, line, i);
@@ -89,7 +89,8 @@ int	cnt_param(char *str, t_line *line)
 			i = skip_file(str, i);
 		else if (str[i] == 34 || str[i] == 39)
 			i = cnt_quote(str, line, i);
-		else if (str[i] != ' ' && (str[i - 1] == ' ' || str[i - 1] == 34))
+		else if (str[i] != ' ' && str[i] != 9 && (str[i - 1] == ' ' \
+		|| str[i - 1] == 34 || str[i - 1] == 9))
 			line->nb_arg++;
 		if (i == -1)
 			return (-1);

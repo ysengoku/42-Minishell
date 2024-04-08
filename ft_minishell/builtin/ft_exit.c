@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 13:56:44 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/07 23:03:30 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,25 @@ static long long	convert_exitcode(char *s);
 static int			check_value(char *s);
 static int			argument_value_error(char *s);
 
-void	ft_exit(t_base *base, t_line *node, int fd[2])
+int	ft_exit(t_base *base, t_line *node, int fd[2])
 {
 	int	exit_code;
 
 	if (node->arg[1])
-		exit_code = convert_exitcode(node->arg[1]) % 256;
+	{
+		if (convert_exitcode(node->arg[1]) != -1)
+		{
+			exit_code = convert_exitcode(node->arg[1]) % 256;
+			if (node->arg[2])
+			{
+				free_base_content(base);
+				ft_fprintf(2, "minishell: exit: too many arguments\n");
+				return (1);
+			}
+		}
+		else
+			exit_code = 2;
+	}
 	else
 		exit_code = base->exit_code;
 	ft_close(fd[IN], fd[OUT], 0);
@@ -32,6 +45,7 @@ void	ft_exit(t_base *base, t_line *node, int fd[2])
 	free(base);
 	write(1, "exit\n", 5);
 	exit(exit_code);
+	return (0);
 }
 
 static long long	convert_exitcode(char *s)
@@ -40,8 +54,8 @@ static long long	convert_exitcode(char *s)
 	long long	sign;
 	long long	nbr;
 
-	if (check_value(s) == 2)
-		return (2);
+	if (check_value(s) == -1)
+		return (-1);
 	i = 0;
 	sign = 1;
 	nbr = 0;
@@ -84,5 +98,5 @@ static int	check_value(char *s)
 static int	argument_value_error(char *s)
 {
 	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", s);
-	return (2);
+	return (-1);
 }
