@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/02 10:20:59 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	open_outfile(t_file *outfile, t_base *base)
 		if (errno != EACCES)
 		{
 			base->exit_code = 1;
-			return (print_error(outfile->filename, strerror(errno), -2));
+			return (print_err(outfile->filename, strerror(errno), NULL, -2));
 		}
 	}
 	return (fd_out);

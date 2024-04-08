@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/06 23:54:37 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ int	main(int ac, char **av, char **env)
 		return (command_line_mode(base, av[2]));
 	}
 	else
-		return (print_error("Usage", COMMANDLINE_USAGE, 1));
+		return (print_err("Usage", COMMANDLINE_USAGE, NULL, 1));
 }

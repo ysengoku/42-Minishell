@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/07 22:35:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 10:07:51 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	target_node = base->envn;
 	previous_node = NULL;
-	if (!node->arg[1] || (strcmp("_", node->arg[1]) == 0) ||\
+	if (!node->arg[1] || (strcmp("_", node->arg[1]) == 0) || \
 	(strcmp("env", node->arg[1]) == 0))
 		return (0);
 	while (target_node)
@@ -33,11 +33,7 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 		target_node = target_node->next;
 	}
 	if (!target_node)
-	{
-		ft_fprintf(2, "minishell: unset: '%s': not a valid identifier\n",
-			node->arg[1]);
-		return (1);
-	}
+		return (print_err(UNSET, node->arg[1], "not a valid identifier", 1));
 	if (previous_node)
 		previous_node->next = target_node->next;
 	else

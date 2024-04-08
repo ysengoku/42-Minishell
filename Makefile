@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/04 11:16:54 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/08 09:48:12 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,6 @@ SRCS =	main.c	\
 		count_lst.c	\
 		write_on_nod.c	\
 		write_file.c \
-		error.c \
 		assign_env.c \
 		translate_dollar.c	\
 		error_handling.c	\

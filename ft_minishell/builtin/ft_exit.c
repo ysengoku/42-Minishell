@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/07 23:03:30 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 09:32:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static long long	convert_exitcode(char *s);
 static int			check_value(char *s);
 static int			argument_value_error(char *s);
+static void			clear_before_exit(t_base *base);
 
 int	ft_exit(t_base *base, t_line *node, int fd[2])
 {
@@ -38,11 +39,7 @@ int	ft_exit(t_base *base, t_line *node, int fd[2])
 	else
 		exit_code = base->exit_code;
 	ft_close(fd[IN], fd[OUT], 0);
-	unlink_heredoc();
-	rl_clear_history();
-	free_base_content(base);
-	free_envlist(base);
-	free(base);
+	clear_before_exit(base);
 	write(1, "exit\n", 5);
 	exit(exit_code);
 	return (0);
@@ -99,4 +96,13 @@ static int	argument_value_error(char *s)
 {
 	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", s);
 	return (-1);
+}
+
+static void	clear_before_exit(t_base *base)
+{
+	unlink_heredoc();
+	rl_clear_history();
+	free_base_content(base);
+	free_envlist(base);
+	free(base);
 }

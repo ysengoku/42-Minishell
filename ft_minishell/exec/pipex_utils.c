@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:05:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 15:20:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:06:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int	init_pipe(int (*pipefd)[2])
 {
 	if (pipe((*pipefd)) == -1)
-	{
-		print_error(strerror(errno), "pipe", 1);
-		return (EXIT_FAILURE);
-	}
+		return (print_err(strerror(errno), "pipe", NULL, 1));
 	return (0);
 }
 
