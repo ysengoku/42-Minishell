@@ -6,14 +6,14 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:42:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_heredoc(t_base *base, t_line *node);
-static int	get_heredoc_lines(char *delimiter, int fd_heredoc);
+static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc);
 
 int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -60,7 +60,7 @@ static int	check_heredoc(t_base *base, t_line *node)
 				base->exit_code = 1;
 				return (1);
 			}
-			if (get_heredoc_lines(current_file->filename, fd_heredoc) == 1)
+			if (get_heredoc_lines(base, current_file->filename, fd_heredoc) == 1)
 			{
 				base->exit_code = 1;
 				return (1);
@@ -71,10 +71,12 @@ static int	check_heredoc(t_base *base, t_line *node)
 	return (0);
 }
 
-static int	get_heredoc_lines(char *delimiter, int fd_heredoc)
+static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 {
 	char	*line;
 	char	*tmp;
+	char	*tmp2;
+	int		i;
 
 	while (1)
 	{
@@ -85,6 +87,21 @@ static int	get_heredoc_lines(char *delimiter, int fd_heredoc)
 			return (print_err("minishell", "malloc failed", NULL, 1));
 		if (ft_strcmp(tmp, delimiter) == 0)
 			break ;
+		if (ft_strchr(line, '$') != NULL)
+		{
+			i = 0;
+			while (line[i])
+			{
+				while (line[i] != '$')
+					i++;
+				tmp2 = ft_calloc(ft_strlen(line) - (ft_strlen(line) - i) + 1, sizeof(char));
+				ft_strlcpy(tmp2, line, i + 1);
+				// find value
+				printf("tmp2 = %s\n", tmp2);
+				line = translate_dollar(line + i, base, tmp2);
+				printf("line = %s\n", line);
+			}
+		}
 		ft_putstr_fd(line, fd_heredoc);
 		free(line);
 		free(tmp);

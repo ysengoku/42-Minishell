@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 14:46:56 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 15:33:47 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_chara_split(char *s, t_base **base)
 		srep[i] = check_quote(srep[i], *base);
 		if (create_nod(srep[i], *base) == -1)
 		{
-			free_base_content(*base);
+			// free_base_content(*base);
 			return (ft_free_strarr(srep), -1);
 		}
 		i++;
