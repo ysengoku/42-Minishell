@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 15:26:50 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/07 22:58:35 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_base
 	t_env	*envn;
 	t_line	*lst;
 	int		exit_code;
+	char	*error_msg;
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/
@@ -138,7 +139,7 @@ void	canonicalize_path(char *curpath);
 int		ft_echo(t_line *node, int fd[2]);
 int		ft_pwd(t_base *base, int fd[2]);
 int		ft_env(t_base *base, t_line *node, int fd[2]);
-void	ft_exit(t_base *base, t_line *node, int fd[2]);
+int		ft_exit(t_base *base, t_line *node, int fd[2]);
 int		ft_export(t_base *base, int fd[2]);
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 
@@ -170,8 +171,8 @@ char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
 # define GREEN "\033[1;32m"
-# define CYAN "\033[1;36m"
+# define CYAN "\001\033[1;36m\002"
 # define YELLOW "\033[1;33m"
-# define RESET "\033[0m"
+# define RESET "\001\033[0m\002"
 
 #endif

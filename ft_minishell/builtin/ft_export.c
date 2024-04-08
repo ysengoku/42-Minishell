@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 14:02:35 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/06 20:43:08 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static int	export_null(t_base *base, int fd[2])
 		}
 		ft_fprintf(fd[OUT], "%s", print->key);
 		if (print->value)
-			ft_fprintf(fd[OUT], "=\"%s\"\n", print->value);
+			ft_fprintf(fd[OUT], "=\"%s\"", print->value);
+		ft_fprintf(fd[OUT], "\n");
 		print->order = 1;
 	}
 	reset_order(base);
@@ -75,6 +76,15 @@ static void	export_add_on_nod(t_base *base, t_env *tmp)
 		base->envn = tmp;
 	else
 	{
+		if (ft_strcmp(last->key, tmp->key) == 0)
+		{
+			tmp->next = last->next;
+			free(last->key);
+			free(last->value);
+			free(last);
+			base->envn = tmp;
+			return ;
+		}
 		while (last->next)
 		{
 			if (ft_strcmp(last->next->key, tmp->key) == 0)
@@ -92,24 +102,73 @@ static void	export_add_on_nod(t_base *base, t_env *tmp)
 	}
 	return ;
 }
+int	check_error_export(char *str, t_base *base)
+{
+	int	i;
+
+	i = 0;
+	if (str[0] == '=' || str[0] == ' ' \
+	|| (str[0] >= '0' && str[0] <= '9'))
+		{
+			base->error_msg = str;
+			ft_display_error(2, base);
+			return (-1);
+		}
+	while (str[i] && str[i] != '=')
+	{
+		if (str[i] < '0' || (str[i] > '9' && str[i] < 'A') || \
+		(str[i] > 'Z' && str[i] < '_') || str[i] == 96 || \
+		str[i] > 'z')
+		{
+			base->error_msg = str;
+			ft_display_error(2, base);
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 int	ft_export(t_base *base, int fd[2])
 {
 	t_env	*tmp;
 	char	**split;
+	int		i;
 
+	i = 1;
 	if (base->lst->arg[1] == NULL)
 		return (export_null(base, fd));
-	if (base->lst->arg[1])
+	while (base->lst->arg[i])
 	{
+		if (check_error_export(base->lst->arg[i], base) == -1)
+			return (1);
+		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ')
+		{
+			ft_display_error(2, base);
+			return (1);
+		}
 		tmp = ft_calloc(1, sizeof(t_env));
 		if (!tmp)
 			return (-1);
-		split = ft_split(base->lst->arg[1], '=');
-		tmp->key = ft_strdup(split[0]);
-		tmp->value = assign_value(split);
+		if (ft_strchr(base->lst->arg[i], '=') == NULL)
+		{
+			tmp->key = ft_strdup(base->lst->arg[i]);
+			tmp->value = NULL;
+		}
+		else
+		{
+			split = ft_split(base->lst->arg[i], '=');
+			tmp->key = ft_strdup(split[0]);
+			if (split[1] == NULL)
+			{
+				tmp->value = ft_calloc(1, sizeof(char));
+				ft_free_strarr(split);
+			}
+			else
+				tmp->value = assign_value(split);
+		}
 		export_add_on_nod(base, tmp);
-		return (0);
+		i++;
 	}
 	return (0);
 }
