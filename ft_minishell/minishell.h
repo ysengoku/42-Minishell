@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 14:38:15 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 16:01:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ enum e_type_char
 	QUOTE,
 	DOUBLE_Q,
 	DOC,
+	DOC_DOUBLE_Q,
+	DOC_QUOTE,
 };
 
 typedef struct s_file

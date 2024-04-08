@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/03 16:25:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:32:47 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ char	*assign_value(char **split)
 	return (join1);
 }
 
+char **attribute_null_env()
+{
+	char	**env;
+
+	env = ft_calloc(5, sizeof(char*));
+	return(env);
+}
+
 int	assign_env(t_base *base, char **env)
 {
 	int		i;
@@ -76,6 +84,8 @@ int	assign_env(t_base *base, char **env)
 	char	**split;
 
 	i = 0;
+	if (!env[i])
+		env = attribute_null_env();
 	while (env[i])
 	{
 		tmp = ft_calloc(1, sizeof(t_env));

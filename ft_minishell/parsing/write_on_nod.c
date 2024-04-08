@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 14:39:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 16:13:15 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int	enter_quote_mode(char *str, int i, t_line *tmp)
 		tmp->char_type = STANDARD;
 	else if (str[i] == 39 && tmp->char_type == QUOTE)
 		tmp->char_type = STANDARD;
+	else if (str[i] == 34 && tmp->char_type == DOC)
+		tmp->char_type = DOC_DOUBLE_Q;
+	else if (str[i] == 39 && tmp->char_type == DOC)
+		tmp->char_type = DOC_QUOTE;
+	else if (str[i] == 34 && tmp->char_type == DOC_DOUBLE_Q)
+		tmp->char_type = DOC;
+	else if (str[i] == 39 && tmp->char_type == DOC_QUOTE)
+		tmp->char_type = DOC;
 	else
 		return (0);
 	return (1);
@@ -87,7 +95,8 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 				j++;
 			}
 		}
-		else if (str[i] == '$' && tmp->char_type != QUOTE && tmp->char_type != DOC)
+		else if (str[i] == '$' && tmp->char_type != QUOTE && tmp->char_type != DOC \
+		&& tmp->char_type != DOC_QUOTE && tmp->char_type != DOC_DOUBLE_Q)
 		{
 			res = translate_dollar(str + i + 1, base, res);
 			j = index_dollars(str, &i, tmp, res);
