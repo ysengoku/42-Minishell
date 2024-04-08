@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 14:46:56 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 14:55:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	create_nod(char *str, t_base *base)
 	{
 		free(tmp);
 		ft_display_error(1, base);
-		return (-1);
+		return (0);
 	}
 	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
 	write_nod(i, tmp, str, base);
