@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/07 22:58:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 10:22:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static int	execute_single_command(t_base *base, t_line *node)
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
-	if (!base->lst->arg[0])
-		return (0);
 	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (base->exit_code);
+	if (!base->lst->arg[0])
+		return (0);
 	if (ft_strcmp(base->lst->arg[0], CD) == 0)
 		return (ft_cd(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
