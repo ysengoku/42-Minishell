@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/07 22:58:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 10:04:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ int		ft_unset(t_base *base, t_line *node, int fd[2]);
 
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
-int		print_error(char *s1, char *s2, int exit_status);
+int		print_err(char *s1, char *s2, char *s3, int exit_status);
+void	ft_display_error(int i, t_base *base);
 int		ft_perror(const char *s, int exit_status);
 /* free */
 int		ft_free(void *to_free, int exit_status);
@@ -162,7 +163,6 @@ int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
 int		cnt_param(char *str, t_line *line);
 int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		assign_env(t_base *base, char **env);
-void	ft_display_error(int i, t_base *base);
 void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);

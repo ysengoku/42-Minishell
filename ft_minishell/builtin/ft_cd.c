@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 15:40:05 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:09:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 
 	ft_close(fd[IN], fd[OUT], 0);
 	if (node->arg[1] && node->arg[2])
-		return (print_error("cd", "too many arguments", 1));
+		return (print_err(CD, "too many arguments", NULL, 1));
 	if (is_home(node->arg[1]) == true)
 		curpath = get_path(base, "HOME");
 	else if (ft_strncmp(node->arg[1], "-", 2) == 0)
@@ -53,10 +53,10 @@ static int	ft_chdir(char *curpath, t_base *base)
 
 	pwd = find_env_var(base, "PWD");
 	if (pwd == NULL)
-		return (print_error("cd:", "PWD not set", 1));
+		return (print_err(CD, "PWD not set", NULL, 1));
 	oldpwd = find_env_var(base, "OLDPWD");
 	if (oldpwd == NULL)
-		return (print_error("cd:", "OLDPWD not set", 1));
+		return (print_err(CD, "OLDPWD not set", NULL, 1));
 	if (chdir(curpath) == -1)
 	{
 		if (ft_strcmp(base->lst->arg[1], "./") == 0)
@@ -98,7 +98,7 @@ static int	retry_cwd(t_base *base)
 				free(tmp);
 			}
 		}
-		return (print_error("cd", DELETED_CWD, 1));
+		return (print_err(CD, DELETED_CWD, NULL, 1));
 	}
 	return (chdir(buf));
 }

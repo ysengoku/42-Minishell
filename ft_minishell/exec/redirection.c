@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 16:06:27 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	t_file	*current_file;
 
 	if (check_heredoc(base, node) == 1)
-		return (print_error("heredoc", "A problem occured", 1));
+		return (print_err("heredoc", "A problem occured", NULL, 1));
 	current_file = node->file;
 	while (current_file)
 	{
@@ -82,7 +82,7 @@ static int	get_heredoc_lines(char *delimiter, int fd_heredoc)
 		line = get_next_line(STDIN_FILENO);
 		tmp = ft_strtrim(line, "\n");
 		if (!tmp)
-			return (print_error("minishell", "malloc failed", 1));
+			return (print_err("minishell", "malloc failed", NULL, 1));
 		if (ft_strcmp(tmp, delimiter) == 0)
 			break ;
 		ft_putstr_fd(line, fd_heredoc);

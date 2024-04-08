@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/06 20:43:08 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 10:04:08 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,18 @@ static void	export_add_on_nod(t_base *base, t_env *tmp)
 	}
 	return ;
 }
+
 int	check_error_export(char *str, t_base *base)
 {
 	int	i;
 
 	i = 0;
-	if (str[0] == '=' || str[0] == ' ' \
-	|| (str[0] >= '0' && str[0] <= '9'))
-		{
-			base->error_msg = str;
-			ft_display_error(2, base);
-			return (-1);
-		}
+	if (str[0] == '=' || str[0] == ' ' || (str[0] >= '0' && str[0] <= '9'))
+	{
+		base->error_msg = str;
+		ft_display_error(2, base);
+		return (-1);
+	}
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] < '0' || (str[i] > '9' && str[i] < 'A') || \

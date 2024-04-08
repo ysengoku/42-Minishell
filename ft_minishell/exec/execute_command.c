@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/04 16:57:13 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static char	*check_path(t_base *base, t_line *node, char **path_list, int i)
 
 static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
 {
-	print_error(s1, s2, exit_code);
+	print_err(s1, s2, NULL, exit_code);
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
