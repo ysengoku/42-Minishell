@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 13:20:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:52:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_exit(t_base *base, t_line *node, int fd[2])
 
 	if (node->arg[1])
 	{
-		if (convert_exitcode(node->arg[1]) != -1 || (strcmp(node->arg[1], "-1") == 0))
+		if (convert_exitcode(node->arg[1]) != -1
+			|| (strcmp(node->arg[1], "-1") == 0))
 		{
 			exit_code = convert_exitcode(node->arg[1]) % 256;
 			if (node->arg[2])
@@ -66,7 +67,7 @@ static long long	convert_exitcode(char *s)
 		nbr += (s[i] - '0');
 		if (s[i + 1])
 			nbr *= 10;
-    	if ((nbr > LLONG_MAX / 10))
+		if ((nbr > LLONG_MAX / 10))
 			return (argument_value_error(s));
 		i++;
 	}
