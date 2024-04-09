@@ -44,21 +44,29 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 
 static int	check_unset_arg(t_base *base, t_line *node)
 {
-	char	*unset_arg;
+	int		i;
 
-	unset_arg = node->arg[1];
-	if (!unset_arg || !unset_arg[0] || !strcmp("_", unset_arg)
-		|| !strcmp("env", unset_arg) || !strncmp("=", unset_arg, 1)
-		|| !strcmp("?", unset_arg) || !strcmp("$", unset_arg))
-	{
-		base->exit_code = 0;
-		return (1);
-	}
-	else if (unset_arg[0] == '-')
+	i = 0;
+	if (node->arg[1][i] == '-')
 	{
 		base->exit_code = 2;
-		print_err(UNSET, unset_arg, "invalid option", 1);
+		print_err(UNSET, node->arg[1], "invalid option", 1);
 		return (1);
+	}
+	if (!node->arg[1][i] || !ft_isalpha(node->arg[1][i]))
+	{
+		base->exit_code = 1;
+		print_err(UNSET, node->arg[1], "not a valid identifier", 1);
+		return (1);
+	}
+	while (node->arg[1][++i])
+	{
+		if (!ft_isalnum(node->arg[1][i]) && node->arg[1][i] != '_')
+		{
+			base->exit_code = 1;
+			print_err(UNSET, node->arg[1], "not a valid identifier", 1);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -69,27 +77,3 @@ static void	delete_node(t_env *node)
 	free(node->value);
 	free(node);
 }
-
-//Error case & return 1
-//bash: : No such file or directory
-// 518 unset ""
-// 519 
-// 520 unset =
-// 521 
-// 522 unset "="
-// 523 
-// 524 unset ""=
-// 525 
-// 526 unset =""
-// 527 
-// 528 unset ==
-// 529 
-// 530 unset ?
-// 531 
-// 532 unset "?"
-// 533 
-// 534 unset $
-// 535 
-// 536 unset "$"
-// 537 
-// 538 unset $""
