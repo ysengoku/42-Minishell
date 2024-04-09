@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 16:42:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:57:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 			line = expand_heredoc_line(base, line);
 			free(tmp);
 			// malloc protection
+			ft_putendl_fd(line, fd_heredoc);
 		}
-		ft_putstr_fd(line, fd_heredoc);
+		else
+			ft_putstr_fd(line, fd_heredoc);
 		free(line);
 		free(delimiter_check);
 	}
@@ -107,67 +109,61 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 char	*expand_heredoc_line(t_base *base, char *line)
 {
 	size_t	i;
+	size_t	j;
 	char	*expanded;
-	char	*tmp1;
-	char	*tmp2;
-			
-	i = 0;
-	expanded = ft_strdup("");
-	tmp1 = ft_strdup(line);
-	// malloc protection
-	while (tmp1[i])
-	{
-		size_t	j;
-		char	*res;
-		char	*key;
-		t_env	*target;
+	char	*buf;
+	char	*tmp;
+	char	*key;
+	t_env	*target;
 
-		i = 0;
-		while (tmp1[i] != '$')
+	i = 0;
+	expanded = ft_strdup(""); ///malloc
+	while (line[i])
+	{
+		if (line[i] == '\n')
+			break ;
+		// case: $
+		if (line[i] == '$')
+		{
 			i++;
-		if (i > 0)
-		{
-			res = ft_calloc(i + 1, sizeof(char));
-			ft_strlcpy(res, tmp1, i + 1);
+			j = i;
+			while (line[j] && line[j] != ' ' && line[j] != '\t'&& line[j] != '$' && line[j] != '\n')
+				j++;
+			key = ft_calloc(j - i + 2, sizeof(char)); ///malloc
+			ft_strlcpy(key, line + i, j - i + 1);
+			target = find_env_var(base, key);
+			if (target != NULL)
+			{
+				tmp = expanded;
+				expanded = ft_strjoin(expanded, target->value); ///malloc
+				free(tmp);
+			}
+			else
+			{
+				buf = ft_calloc(1 + ft_strlen(key) + 1, sizeof(char)); ///malloc
+				ft_strcpy(buf, "$");
+				ft_strcat(buf, key);
+				tmp = expanded;
+				expanded = ft_strjoin(expanded, buf); ///malloc
+				free(tmp);
+				free(buf);
+			}
+			free(key);
 		}
+		// case: non $
 		else
-			res = ft_strdup("");
-			///// malloc protection
-		j = ++i;
-		while (tmp1[j] >= 'A' && tmp1[j] <= 'Z')
-			j++;
-		key = ft_calloc(j - i + 1, sizeof(char));
-		///// malloc protection
-		ft_strlcpy(key, tmp1 + i, j - i + 1);;
-		target = find_env_var(base, key);
-		tmp2 = res;
-		if (target)
 		{
-			res = ft_strjoin(tmp2, target->value);
-			free(tmp2);
-			/// malloc protection
+			j = i;
+			while (line[j] && line[j] != '$' && line[j] != '\n')
+				j++;
+			buf = ft_calloc(j - i + 2, sizeof(char)); ///malloc
+			ft_strlcpy(buf, line + i, j - i + 1);
+			tmp = expanded;
+			expanded = ft_strjoin(expanded, buf); ///malloc
+			free(tmp);
+			free(buf);
 		}
-		else
-		{
-			res = ft_calloc(ft_strlen(res) + ft_strlen(key) + 2, sizeof(char));
-			/// malloc protection
-			ft_strcpy(res, tmp2);
-			ft_strcat(res, "$");
-			ft_strcat(res, key);
-			free(tmp2);
-		}
-		free(key);
-		tmp2 = expanded;
-		expanded = ft_strjoin(tmp2, res);
-		free(tmp2);
-		free(res);
-		//malloc protection
-		ft_strcpy(tmp1, tmp1 + j);
+		i = j;
 	}
-	tmp2 = expanded;
-	expanded = ft_strjoin(tmp2, "\n");
-	free(tmp2);
-	free(tmp1);
-	// malloc protection
 	return (expanded);
 }
