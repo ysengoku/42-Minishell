@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/05 14:33:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:19:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	ft_env(t_base *base, t_line *node, int fd[2])
 	tmp = base->envn;
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->key, fd[OUT]);
 		if (tmp->value)
 		{
+			ft_putstr_fd(tmp->key, fd[OUT]);
 			write(fd[OUT], "=", 1);
 			ft_putendl_fd(tmp->value, fd[OUT]);
 		}
