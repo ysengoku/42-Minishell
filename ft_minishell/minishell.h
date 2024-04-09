@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 19:22:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/09 13:47:26 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int		check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out);
+int		stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);

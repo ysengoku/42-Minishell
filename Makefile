@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/08 09:48:12 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/09 13:14:24 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS =	main.c	\
 		open_file.c	\
 		redirection.c	\
 		utils_exec.c	\
+		utils_redirection.c	\
 		chara_split.c	\
 		count_lst.c	\
 		write_on_nod.c	\
