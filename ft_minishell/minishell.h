@@ -137,6 +137,8 @@ char	*handle_malloc_failure(char	*to_free);
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 void	unlink_heredoc(void);
+int		check_dir(char *name, t_base *base);
+int		error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Builtin commands -----------------------------------------------------*/
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
