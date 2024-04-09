@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/07 00:22:34 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/08 19:28:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,6 @@ void	free_envlist(t_base *base)
 		free(current_node);
 		current_node = next_node;
 	}
+	if (base->null_env == 1)
+		ft_free_strarr(base->env);
 }
