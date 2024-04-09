@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 19:36:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/09 17:06:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,27 @@ static void	delete_node(t_env *node)
 	free(node->value);
 	free(node);
 }
+
+//Error case & return 1
+//bash: : No such file or directory
+// 518 unset ""
+// 519 
+// 520 unset =
+// 521 
+// 522 unset "="
+// 523 
+// 524 unset ""=
+// 525 
+// 526 unset =""
+// 527 
+// 528 unset ==
+// 529 
+// 530 unset ?
+// 531 
+// 532 unset "?"
+// 533 
+// 534 unset $
+// 535 
+// 536 unset "$"
+// 537 
+// 538 unset $""
