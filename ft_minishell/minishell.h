@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 12:19:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:48:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,14 @@ typedef struct s_line
 	int					error_syntax;
 	struct s_line		*next;
 }				t_line;
+
+typedef struct s_norme
+{
+	int		i;
+	int		j;
+	char	*str;
+	t_line	*tmp;
+}				t_norme;
 
 typedef struct s_base
 {
@@ -185,6 +193,8 @@ void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
+int		create_nod(char *str, t_base *base);
+int		index_dollars(char *str, int *ptr_i, t_line *tmp, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

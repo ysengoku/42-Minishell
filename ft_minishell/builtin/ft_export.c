@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 09:08:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:35:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,37 @@ int	check_error_export(char *str, t_base *base)
 	return (0);
 }
 
+int	create_nod_from_arg(t_base *base, int i)
+{
+	char	**split;
+	t_env	*tmp;
+
+	tmp = ft_calloc(1, sizeof(t_env));
+	if (!tmp)
+		return (-1);
+	if (ft_strchr(base->lst->arg[i], '=') == NULL)
+	{
+		tmp->key = ft_strdup(base->lst->arg[i]);
+		tmp->value = NULL;
+	}
+	else
+	{
+		split = ft_split(base->lst->arg[i], '=');
+		tmp->key = ft_strdup(split[0]);
+		if (split[1] == NULL)
+		{
+			tmp->value = ft_calloc(1, sizeof(char));
+			ft_free_strarr(split);
+		}
+		else
+			tmp->value = assign_value(split);
+	}
+	export_add_on_nod(base, tmp);
+	return (0);
+}
+
 int	ft_export(t_base *base, int fd[2])
 {
-	t_env	*tmp;
-	char	**split;
 	int		i;
 
 	i = 1;
@@ -58,27 +85,6 @@ int	ft_export(t_base *base, int fd[2])
 			ft_display_error(2, base);
 			return (1);
 		}
-		tmp = ft_calloc(1, sizeof(t_env));
-		if (!tmp)
-			return (-1);
-		if (ft_strchr(base->lst->arg[i], '=') == NULL)
-		{
-			tmp->key = ft_strdup(base->lst->arg[i]);
-			tmp->value = NULL;
-		}
-		else
-		{
-			split = ft_split(base->lst->arg[i], '=');
-			tmp->key = ft_strdup(split[0]);
-			if (split[1] == NULL)
-			{
-				tmp->value = ft_calloc(1, sizeof(char));
-				ft_free_strarr(split);
-			}
-			else
-				tmp->value = assign_value(split);
-		}
-		export_add_on_nod(base, tmp);
 		i++;
 	}
 	return (0);
