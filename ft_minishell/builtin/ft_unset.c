@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 17:06:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 08:15:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	target_node = base->envn;
 	previous_node = NULL;
+	if (!node->arg[1])
+		return (0);
 	if (check_unset_arg(base, node) == 1)
 		return (base->exit_code);
 	while (target_node)
