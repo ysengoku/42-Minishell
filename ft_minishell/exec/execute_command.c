@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 14:38:42 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 07:58:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	execute_command(t_base *base, t_line *node)
 			if (!pathname)
 				exit(error_in_child(base, 1, strerror(errno), NULL));
 		}
-		else 
+		else
 			exit (check_dir(node->arg[0], base));
 	}
 	else
