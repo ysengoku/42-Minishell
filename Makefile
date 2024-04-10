@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/09 16:30:25 by dvo              ###   ########.fr        #
+#    Updated: 2024/04/10 11:49:03 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ SRCS =	main.c	\
 		ft_env.c \
 		ft_exit.c	\
 		ft_export.c \
+		ft_export_add.c	\
+		ft_export_print.c	\
 		ft_pwd.c \
 		ft_unset.c	\
 		ft_exec.c	\

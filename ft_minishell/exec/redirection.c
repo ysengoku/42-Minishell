@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 13:17:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:46:27 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	check_heredoc(t_base *base, t_line *node);
 static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc);
+static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc);
+static char	*ft_expand_heredoc(t_base *base, char *line);
 
 int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -93,4 +95,50 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 	ft_free((void *)line, 0);
 	free(delimiter_checker);
 	return (0);
+}
+
+static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc)
+{
+	char	*tmp;
+
+	if (ft_strchr(line, '$') != NULL)
+	{
+		tmp = line;
+		line = ft_expand_heredoc(base, line);
+		free(tmp);
+		if (line == NULL)
+			return (1);
+		ft_putendl_fd(line, fd_heredoc);
+	}
+	else
+		ft_putstr_fd(line, fd_heredoc);
+	free(line);
+	return (0);
+}
+
+static char	*ft_expand_heredoc(t_base *base, char *line)
+{
+	size_t	i;
+	char	*expanded_line;
+	char	*buf;
+
+	i = 0;
+	expanded_line = ft_strdup("");
+	if (!expanded_line)
+		return (handle_malloc_failure(NULL));
+	while (line[i])
+	{
+		if (line[i] == '\n')
+			break ;
+		if (line[i] == '$')
+			buf = get_expanded_str(&i, line, base);
+		else
+			buf = get_str(&i, line);
+		if (!buf)
+			return (handle_malloc_failure(expanded_line));
+		expanded_line = append_buf(expanded_line, buf);
+		if (!expanded_line)
+			return (handle_malloc_failure(NULL));
+	}
+	return (expanded_line);
 }

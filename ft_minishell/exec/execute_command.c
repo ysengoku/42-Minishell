@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 14:38:42 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:18:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	*get_pathname(t_base *base, t_line *node);
 static char	**extract_path(t_base *base, t_line *node);
 static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
-static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 void	execute_command(t_base *base, t_line *node)
 {
@@ -23,22 +22,31 @@ void	execute_command(t_base *base, t_line *node)
 
 	if (!node->arg[0][0])
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
-	if (access(node->arg[0], F_OK) == 0)
+	if (ft_strchr(node->arg[0], '/'))
 	{
-		if (access(node->arg[0], X_OK) == -1)
-			exit(error_in_child(base, 126, node->arg[0],
-					"Permission denied"));
-		pathname = ft_strdup(node->arg[0]);
-		if (!pathname)
-			exit(error_in_child(base, 1, strerror(errno), NULL));
+		if (access(node->arg[0], X_OK) == 0)
+		{
+			pathname = ft_strdup(node->arg[0]);
+			if (!pathname)
+				exit(error_in_child(base, 1, strerror(errno), NULL));
+		}
+		else
+		{
+			if (errno == ENOENT)
+				base->exit_code = 127;
+			else
+				base->exit_code = 126;
+			exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
+			// exit (check_dir(node->arg[0], base));
+		}
+			
+
 	}
-	else if (ft_strchr(node->arg[0], '/') != NULL)
-		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
 	else
 		pathname = get_pathname(base, node);
 	execve(pathname, node->arg, base->env);
 	free(pathname);
-	exit(error_in_child(base, 1, strerror(errno), NULL));
+	exit(error_in_child(base, 1, node->arg[0], strerror(errno)));
 }
 
 static char	*get_pathname(t_base *base, t_line *node)
@@ -119,13 +127,4 @@ static char	*check_path(t_base *base, t_line *node, char **path_list, int i)
 	}
 	free(pathname);
 	return (NULL);
-}
-
-static int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
-{
-	print_err(s1, s2, NULL, exit_code);
-	free_base_content(base);
-	free_envlist(base);
-	free(base);
-	return (exit_code);
 }
