@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 16:59:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 09:07:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,26 @@ int		check_dir(char *name, t_base *base);
 int		error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Builtin commands -----------------------------------------------------*/
+/* ft_cd */
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
 char	*get_path(t_base *base, char *destination);
 char	*get_pwd(void);
 char	*concatenate_path(t_base *base, char *curpath);
 void	canonicalize_path(char *curpath);
+/* ft_echo */
 int		ft_echo(t_line *node, int fd[2]);
+/* ft_pwd */
 int		ft_pwd(t_base *base, int fd[2]);
+/* ft_env */
 int		ft_env(t_base *base, t_line *node, int fd[2]);
+/* ft_exit */
 int		ft_exit(t_base *base, t_line *node, int fd[2]);
+/* ft_export */
 int		ft_export(t_base *base, int fd[2]);
+int		check_error_export(char *str, t_base *base);
+int		export_null(t_base *base, int fd[2]);
+void	export_add_on_nod(t_base *base, t_env *tmp);
+/* ft_unset */
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 
 /*----- Utils ----------------------------------------------------------------*/
