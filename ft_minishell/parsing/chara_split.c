@@ -6,41 +6,29 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 15:40:07 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/09 16:47:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_nod(char *str, t_base *base)
+int	check_quote_next(char *s, t_base *base, t_line line, int i)
 {
-	t_line	*tmp;
-	t_line	*nxt;
-	int		i;
-
-	i = 0;
-	nxt = base->lst;
-	tmp = ft_calloc(1, sizeof(t_line));
-	if (!tmp)
-		return (-1);
-	tmp->next = NULL;
-	tmp->file = NULL;
-	tmp->char_type = STANDARD;
-	if (cnt_param(str, tmp) == -1)
+	while (s[i])
 	{
-		free(tmp);
-		ft_display_error(1, base);
-		return (-1);
-	}
-	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
-	write_nod(i, tmp, str, base);
-	if (base->lst == NULL)
-		base->lst = tmp;
-	else
-	{
-		while (nxt->next)
-			nxt = nxt->next;
-		nxt->next = tmp;
+		if (s[i] == '|' && line.char_type == STANDARD)
+		{
+			i++;
+			while (s[i] == ' ' || s[i] == 9)
+				i++;
+			if (s[i] == '|' || s[i] == '\0')
+				return (ft_display_error(1, base), -1);
+		}
+		if (s[i] == 39 || s[i] == 34)
+			enter_quote_mode(s, i, &line);
+		else if (line.char_type != STANDARD)
+			s[i] = s[i] * -1;
+		i++;
 	}
 	return (0);
 }
@@ -57,24 +45,10 @@ char	*check_quote(char *s, t_base *base)
 		i++;
 	if (s[i] == '|')
 		return (ft_display_error(1, base), NULL);
-	while (s[i])
-	{
-		if (s[i] == '|' && line.char_type == STANDARD)
-		{
-			i++;
-			while (s[i] == ' ' || s[i] == 9)
-				i++;
-			if (s[i] == '|' || s[i] == '\0')
-				return (ft_display_error(1, base), NULL);
-		}
-		if (s[i] == 39 || s[i] == 34)
-			enter_quote_mode(s, i, &line);
-		else if (line.char_type != STANDARD)
-			s[i] = s[i] * -1;
-		i++;
-	}
+	if (check_quote_next(s, base, line, i) == -1)
+		return (NULL);
 	if (line.char_type != STANDARD)
-		return (ft_display_error(3, base), NULL); 
+		return (ft_display_error(3, base), NULL);
 	return (s);
 }
 
@@ -100,6 +74,17 @@ int	ft_chara_split(char *s, t_base **base)
 		}
 		i++;
 	}
+	while ((*base)->lst)
+	{
+		i = 0;
+		while ((*base)->lst->arg[i])
+		{
+			printf("%s\n", (*base)->lst->arg[i]);
+			i++;
+		}
+		(*base)->lst = (*base)->lst->next;
+	}
+	return(-1);
 	ft_free_strarr(srep);
 	return (0);
 }

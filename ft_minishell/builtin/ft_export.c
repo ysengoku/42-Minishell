@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 19:12:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/09 16:23:56 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,33 @@ static void	reset_order(t_base *base)
 	}
 }
 
-static int	export_null(t_base *base, int fd[2])
+t_env *search_env_nod(t_env *print, t_base *base)
 {
 	t_env	*tmp;
+
+	tmp = base->envn;
+	while (tmp)
+	{
+		if (tmp->order == 0 && strcmp(print->key, tmp->key) > 0)
+			print = tmp;
+		tmp = tmp->next;
+	}
+	return(print);
+}
+
+static int	export_null(t_base *base, int fd[2])
+{
 	t_env	*print;
 
 	while (check_end(base) == 0)
 	{
-		tmp = base->envn;
-		print = tmp;
+		print = base->envn;
 		while (print->order != 0)
 			print = print->next;
-		while (tmp)
-		{
-			if (tmp->order == 0 && strcmp(print->key, tmp->key) > 0)
-				print = tmp;
-			tmp = tmp->next;
-		}
+		print = search_env_nod(print, base);
 		if (strcmp(print->key, "_") != 0)
 		{
-			ft_fprintf(fd[OUT], "declare -x ");
-			ft_fprintf(fd[OUT], "%s", print->key);
+			ft_fprintf(fd[OUT], "declare -x %s", print->key);
 			if (print->value)
 				ft_fprintf(fd[OUT], "=\"%s\"", print->value);
 			ft_fprintf(fd[OUT], "\n");
