@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 12:19:14 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:48:49 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,20 @@ static char	*get_pathname(t_base *base, t_line *node);
 static char	**extract_path(t_base *base, t_line *node);
 static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
 
+void	not_executable(t_base *base)
+{
+	if (errno == ENOENT)
+		base->exit_code = 127;
+	else
+		base->exit_code = 126;
+	exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
+}
+
 void	execute_command(t_base *base, t_line *node)
 {
 	char	*pathname;
 
+	pathname = NULL;
 	if (!node->arg[0][0])
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
 	if (is_directory(node->arg[0]) == 1)

@@ -6,34 +6,11 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 16:13:15 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 13:21:56 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	enter_quote_mode(char *str, int i, t_line *tmp)
-{
-	if (str[i] == 34 && tmp->char_type == STANDARD)
-		tmp->char_type = DOUBLE_Q;
-	else if (str[i] == 39 && tmp->char_type == STANDARD)
-		tmp->char_type = QUOTE;
-	else if (str[i] == 34 && tmp->char_type == DOUBLE_Q)
-		tmp->char_type = STANDARD;
-	else if (str[i] == 39 && tmp->char_type == QUOTE)
-		tmp->char_type = STANDARD;
-	else if (str[i] == 34 && tmp->char_type == DOC)
-		tmp->char_type = DOC_DOUBLE_Q;
-	else if (str[i] == 39 && tmp->char_type == DOC)
-		tmp->char_type = DOC_QUOTE;
-	else if (str[i] == 34 && tmp->char_type == DOC_DOUBLE_Q)
-		tmp->char_type = DOC;
-	else if (str[i] == 39 && tmp->char_type == DOC_QUOTE)
-		tmp->char_type = DOC;
-	else
-		return (0);
-	return (1);
-}
 
 int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 {
@@ -50,66 +27,64 @@ int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
-int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
+void	enter_condition_mode(t_norme *norm, char **res, int boo, t_base *base)
 {
-	int	j;
-	int i;
-
-	i = *ptr_i;
-	j = 0;
-	while (res[j])
-		j++;
-	i++;
-	if (str[i] != '?')
+	if (boo == 1)
 	{
-		while (str[i] && str[i] != ' ' && str[i] != '<' \
-		&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
-		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47)
-			i++;
-		if (enter_quote_mode(str, i, tmp) != 1)
-			i--;
+		if (enter_quote_mode(norm->str, norm->i, norm->tmp) == 0)
+		{
+			(*res)[norm->j] = norm->str[norm->i];
+			norm->j++;
+		}
 	}
-	*ptr_i = i;
-	return (j);
+	if (boo == 2)
+	{
+		*res = translate_dollar(norm->str + norm->i + 1, base, *res);
+		norm->j = index_dollars(norm->str, &norm->i, norm->tmp, *res);
+	}
+	if (boo == 3)
+	{
+		(*res)[norm->j] = norm->str[norm->i];
+		norm->j++;
+	}
+}
+
+t_norme	attribute_norm(int *index, t_line *tmp, char *str)
+{
+	t_norme	norm;
+
+	norm.i = *index;
+	norm.str = str;
+	norm.tmp = tmp;
+	return (norm);
 }
 
 char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 {
-	int		j;
 	char	*res;
-	int		i;
+	t_norme	norm;
 
-	i = *index;
+	norm = attribute_norm(index, tmp, str);
 	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
-	j = 0;
-	while (str[i] && ((str[i] != '<' && str[i] != '>' && str[i] != '|' && \
-	str[i] != ' ' && str[i] != 9) || (tmp->char_type == QUOTE || tmp->char_type == DOUBLE_Q)))
+	norm.j = 0;
+	while (str[norm.i] && ((str[norm.i] != '<' && str[norm.i] != '>' \
+	&& str[norm.i] != '|' && str[norm.i] != ' ' && str[norm.i] != 9) \
+	|| (tmp->char_type == QUOTE || tmp->char_type == DOUBLE_Q)))
 	{
-		if (str[i] == 34 || str[i] == 39)
-		{
-			if (enter_quote_mode(str, i, tmp) == 0)
-			{
-				res[j] = str[i];
-				j++;
-			}
-		}
-		else if (str[i] == '$' && tmp->char_type != QUOTE && tmp->char_type != DOC \
+		if (str[norm.i] == 34 || str[norm.i] == 39)
+			enter_condition_mode(&norm, &res, 1, base);
+		else if (str[norm.i] == '$' && tmp->char_type != QUOTE \
+		&& tmp->char_type != DOC \
 		&& tmp->char_type != DOC_QUOTE && tmp->char_type != DOC_DOUBLE_Q)
-		{
-			res = translate_dollar(str + i + 1, base, res);
-			j = index_dollars(str, &i, tmp, res);
-		}
+			enter_condition_mode(&norm, &res, 2, base);
 		else
-		{
-			res[j] = str[i];
-			j++;
-		}
-		i++;
+			enter_condition_mode(&norm, &res, 3, base);
+		norm.i++;
 	}
-	res[j] = '\0';
-	*index = i;
+	res[norm.j] = '\0';
+	*index = norm.i;
 	return (res);
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/10 09:36:55 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/10 13:17:04 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,10 @@ SRCS =	main.c	\
 		translate_dollar.c	\
 		error_handling.c	\
 		ft_free.c	\
-		env.c
+		env.c \
+		create_nod.c \
+		assign_env_value.c \
+		parsing_utils.c
 
 DIR_OBJ := .object/
 
