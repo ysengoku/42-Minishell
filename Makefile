@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
+#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/10 13:17:04 by dvo              ###   ########.fr        #
+#    Updated: 2024/04/10 16:02:14 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ LIBS = -lreadline -lft -lftprintf
 INC_DIR_MAC = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/opt/readline/include
 LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 
-vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/utils
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
 		ft_cd_utils.c	\
@@ -52,6 +52,7 @@ SRCS =	main.c	\
 		execute_command.c	\
 		open_file.c	\
 		redirection.c	\
+		redirection_heredoc.c	\
 		utils_exec.c	\
 		utils_redirection.c	\
 		chara_split.c	\

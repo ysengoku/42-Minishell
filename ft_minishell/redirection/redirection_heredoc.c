@@ -1,51 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redirection_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 16:46:27 by yusengok         ###   ########.fr       */
+/*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
+/*   Updated: 2024/04/10 16:10:08 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_heredoc(t_base *base, t_line *node);
 static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc);
 static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc);
 static char	*ft_expand_heredoc(t_base *base, char *line);
 
-int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
-{
-	t_file	*current_file;
-
-	if (check_heredoc(base, node) == 1)
-		return (print_err("heredoc", "A problem occured", NULL, 1));
-	current_file = node->file;
-	while (current_file)
-	{
-		if (current_file->type == INFILE || current_file->type == HERE_DOC)
-		{
-			ft_close(*fd_in, 0, 0);
-			*fd_in = open_infile(current_file, base);
-			if (*fd_in == -1)
-				return (ft_close(*fd_in, *fd_out, 1));
-		}
-		else
-		{
-			ft_close(*fd_out, 0, 0);
-			*fd_out = open_outfile(current_file, base);
-			if (*fd_out == -2)
-				return (ft_close(*fd_in, *fd_out, 1));
-		}
-		current_file = current_file->next;
-	}
-	return (0);
-}
-
-static int	check_heredoc(t_base *base, t_line *node)
+int	check_heredoc(t_base *base, t_line *node)
 {
 	int		fd_heredoc;
 	t_file	*current;
