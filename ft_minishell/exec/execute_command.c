@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 11:18:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:19:14 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	execute_command(t_base *base, t_line *node)
 
 	if (!node->arg[0][0])
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
+	if (is_directory(node->arg[0]) == 1)
+		exit (error_in_child(base, 126, node->arg[0], "Is a directory"));
 	if (ft_strchr(node->arg[0], '/'))
 	{
 		if (access(node->arg[0], X_OK) == 0)
@@ -30,17 +32,10 @@ void	execute_command(t_base *base, t_line *node)
 			if (!pathname)
 				exit(error_in_child(base, 1, strerror(errno), NULL));
 		}
-		else
-		{
-			if (errno == ENOENT)
-				base->exit_code = 127;
-			else
-				base->exit_code = 126;
-			exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
-			// exit (check_dir(node->arg[0], base));
-		}
-			
-
+		else if (errno == ENOENT)
+			exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
+		else if (errno == ENOTDIR)
+			exit(error_in_child(base, 126, node->arg[0], strerror(errno)));
 	}
 	else
 		pathname = get_pathname(base, node);
