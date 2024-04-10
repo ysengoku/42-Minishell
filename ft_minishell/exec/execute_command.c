@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 07:58:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:18:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute_command(t_base *base, t_line *node)
 
 	if (!node->arg[0][0])
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
-	if (node->arg[0][0] == '/')
+	if (ft_strchr(node->arg[0], '/'))
 	{
 		if (access(node->arg[0], X_OK) == 0)
 		{
@@ -31,14 +31,21 @@ void	execute_command(t_base *base, t_line *node)
 				exit(error_in_child(base, 1, strerror(errno), NULL));
 		}
 		else
-			exit (check_dir(node->arg[0], base));
+		{
+			if (errno == ENOENT)
+				base->exit_code = 127;
+			else
+				base->exit_code = 126;
+			exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
+			// exit (check_dir(node->arg[0], base));
+		}
+			
+
 	}
 	else
 		pathname = get_pathname(base, node);
 	execve(pathname, node->arg, base->env);
 	free(pathname);
-	if (check_dir(node->arg[0], base) == 126)
-		exit(126);
 	exit(error_in_child(base, 1, node->arg[0], strerror(errno)));
 }
 
