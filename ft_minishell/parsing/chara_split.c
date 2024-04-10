@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/09 16:47:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 13:43:43 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ char	*check_quote(char *s, t_base *base)
 	return (s);
 }
 
+void change_value_error_pipe(t_base *base)
+{
+	t_line *tmp;
+
+	tmp = base->lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->error_syntax = 1;
+}
+
 int	ft_chara_split(char *s, t_base **base)
 {
 	char		**srep;
@@ -70,21 +80,13 @@ int	ft_chara_split(char *s, t_base **base)
 			if ((*base)->lst == NULL)
 				return (ft_free_strarr(srep), -1);
 			else
+			{
+				change_value_error_pipe(*base);
 				return (0);
+			}
 		}
 		i++;
 	}
-	while ((*base)->lst)
-	{
-		i = 0;
-		while ((*base)->lst->arg[i])
-		{
-			printf("%s\n", (*base)->lst->arg[i]);
-			i++;
-		}
-		(*base)->lst = (*base)->lst->next;
-	}
-	return(-1);
 	ft_free_strarr(srep);
 	return (0);
 }
