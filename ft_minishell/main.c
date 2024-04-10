@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 18:49:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 19:29:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	handle_sigint(int sig)
 {
 	(void)sig;
+	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	//printf(CYAN "\nminishell >>> " RESET);
 }
 
 static void	ft_minishell(t_base *base)
