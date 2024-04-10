@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 08:15:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 08:46:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,21 @@ static int	check_unset_arg(t_base *base, t_line *node)
 	if (node->arg[1][i] == '-')
 	{
 		base->exit_code = 2;
-		print_err(UNSET, node->arg[1], "invalid option", 1);
-		return (1);
+		return (print_err(UNSET, node->arg[1], "invalid option", 1));
 	}
-	if (!node->arg[1][i] || !ft_isalpha(node->arg[1][i]))
+	if (!node->arg[1][i]
+		|| (!ft_isalpha(node->arg[1][i]) && node->arg[1][i] != '_'))
 	{
 		base->exit_code = 1;
-		print_err(UNSET, node->arg[1], "not a valid identifier", 1);
-		return (1);
+		return (print_err(UNSET, node->arg[1], "not a valid identifier", 1));
 	}
 	while (node->arg[1][++i])
 	{
 		if (!ft_isalnum(node->arg[1][i]) && node->arg[1][i] != '_')
 		{
 			base->exit_code = 1;
-			print_err(UNSET, node->arg[1], "not a valid identifier", 1);
-			return (1);
+			return (print_err(UNSET, node->arg[1],
+					"not a valid identifier", 1));
 		}
 	}
 	return (0);
