@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 15:19:36 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 16:47:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ static long long	convert_exitcode(char *s)
 	}
 	while (s[i])
 	{
-		nbr += (s[i] - '0');
-		if (s[i + 1])
-			nbr *= 10;
-		if ((nbr > LLONG_MAX / 10))
+		if ((nbr > LLONG_MAX / 10)
+			|| (nbr == LLONG_MAX / 10 && (s[i] - '0') > LLONG_MAX % 10))
 			return (argument_value_error(s));
+		nbr = nbr * 10 + (s[i] - '0');
 		i++;
 	}
 	return (nbr * sign);
