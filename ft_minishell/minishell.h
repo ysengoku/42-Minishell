@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 09:07:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:30:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,10 @@ typedef struct s_file
 typedef struct s_line
 {
 	t_file				*file;
-	char				**out;
-	char				**in;
 	char				**arg;
 	int					nb_arg;
 	enum e_type_char	char_type;
+	int					error_syntax;
 	struct s_line		*next;
 }				t_line;
 
