@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 18:19:37 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 11:48:48 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_line
 	char				**arg;
 	int					nb_arg;
 	enum e_type_char	char_type;
+	int					error_syntax;
 	struct s_line		*next;
 }				t_line;
 
@@ -134,24 +135,39 @@ void	ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int		check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out);
-int		stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc);
+char	*get_expanded_str(size_t *i, char *line, t_base *base);
+char	*append_buf(char *expanded_line, char *buf);
+char	*get_str(size_t *i, char *line);
+char	*handle_malloc_failure(char	*to_free);
 
 /* utils_exec.c */
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 void	unlink_heredoc(void);
+int		check_dir(char *name, t_base *base);
+int		error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Builtin commands -----------------------------------------------------*/
+/* ft_cd */
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
 char	*get_path(t_base *base, char *destination);
 char	*get_pwd(void);
 char	*concatenate_path(t_base *base, char *curpath);
 void	canonicalize_path(char *curpath);
+/* ft_echo */
 int		ft_echo(t_line *node, int fd[2]);
+/* ft_pwd */
 int		ft_pwd(t_base *base, int fd[2]);
+/* ft_env */
 int		ft_env(t_base *base, t_line *node, int fd[2]);
+/* ft_exit */
 int		ft_exit(t_base *base, t_line *node, int fd[2]);
+/* ft_export */
 int		ft_export(t_base *base, int fd[2]);
+int		check_error_export(char *str, t_base *base);
+int		export_null(t_base *base, int fd[2]);
+void	export_add_on_nod(t_base *base, t_env *tmp);
+/* ft_unset */
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 
 /*----- Utils ----------------------------------------------------------------*/
