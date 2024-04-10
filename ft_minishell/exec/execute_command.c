@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 11:18:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:38:51 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,20 @@ static char	*get_pathname(t_base *base, t_line *node);
 static char	**extract_path(t_base *base, t_line *node);
 static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
 
+void	not_executable(t_base *base)
+{
+	if (errno == ENOENT)
+		base->exit_code = 127;
+	else
+		base->exit_code = 126;
+	exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
+}
+
 void	execute_command(t_base *base, t_line *node)
 {
 	char	*pathname;
 
+	pathname = NULL;
 	if (!node->arg[0][0])
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
 	if (ft_strchr(node->arg[0], '/'))
@@ -31,16 +41,7 @@ void	execute_command(t_base *base, t_line *node)
 				exit(error_in_child(base, 1, strerror(errno), NULL));
 		}
 		else
-		{
-			if (errno == ENOENT)
-				base->exit_code = 127;
-			else
-				base->exit_code = 126;
-			exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
-			// exit (check_dir(node->arg[0], base));
-		}
-			
-
+			not_executable(base);
 	}
 	else
 		pathname = get_pathname(base, node);
