@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 13:21:46 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 14:51:40 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 
 	i = *ptr_i;
 	j = 0;
-	while (res[j])
+	while (res && res[j])
 		j++;
 	i++;
 	if (str[i] != '?')

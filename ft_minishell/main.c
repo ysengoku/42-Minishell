@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 17:44:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 18:49:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	handle_sigint(int sig)
 {
-	(void) sig;
+	(void)sig;
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	printf(CYAN "\nminishell >>> " RESET);
+	//printf(CYAN "\nminishell >>> " RESET);
 }
 
 static void	ft_minishell(t_base *base)
@@ -75,7 +75,7 @@ int	main(int ac, char **av, char **env)
 			return (ft_perror("malloc", 1));
 		base->env = env;
 		base->exit_code = 0;
-		assign_env(base, env);
+		assign_env(base);
 		signal(SIGINT, handle_sigint);
 		while (1)
 			ft_minishell(base);
@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		base = ft_calloc(1, sizeof(t_base));
 		if (!base)
 			return (ft_perror("malloc", 1));
-		assign_env(base, env);
+		assign_env(base);
 		return (command_line_mode(base, av[2]));
 	}
 	else
