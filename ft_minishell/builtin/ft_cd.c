@@ -105,8 +105,7 @@ static int	retry_cwd(t_base *base)
 
 static bool	is_home(char *arg)
 {
-	if (arg == NULL || ft_strncmp(arg, ".", 2) == 0
-		|| ft_strncmp(arg, "~", 2) == 0
+	if (arg == NULL || ft_strncmp(arg, "~", 2) == 0
 		|| ft_strncmp(arg, "~/", 3) == 0)
 		return (true);
 	return (false);
