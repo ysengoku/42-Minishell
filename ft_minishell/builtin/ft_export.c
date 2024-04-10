@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 13:35:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 14:40:00 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	ft_export(t_base *base, int fd[2])
 			ft_display_error(2, base);
 			return (1);
 		}
+		create_nod_from_arg(base, i);
 		i++;
 	}
 	return (0);

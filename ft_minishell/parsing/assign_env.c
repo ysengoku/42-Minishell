@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/09 15:49:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 14:23:50 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,26 @@ void	attribute_nod_env(t_base *base, t_env *tmp)
 	}
 }
 
-int	assign_env(t_base *base, char **env)
+int	assign_env(t_base *base)
 {
 	int		i;
 	t_env	*tmp;
 	char	**split;
 
 	i = 0;
-	if (!env[i])
-		env = attribute_null_env(base);
-	while (env[i])
+	if (!base->env[i])
+		base->env = attribute_null_env(base);
+	while (base->env[i])
 	{
 		tmp = ft_calloc(1, sizeof(t_env));
-		if (ft_strchr(env[i], '=') == NULL)
+		if (ft_strchr(base->env[i], '=') == NULL)
 		{
-			tmp->key = ft_strdup(env[i]);
+			tmp->key = ft_strdup(base->env[i]);
 			tmp->value = NULL;
 		}
 		else
 		{
-			split = ft_split(env[i], '=');
+			split = ft_split(base->env[i], '=');
 			tmp->key = ft_strdup(split[0]);
 			tmp->value = assign_value(split);
 		}
