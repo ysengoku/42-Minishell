@@ -65,7 +65,8 @@ static long long	convert_exitcode(char *s)
 	while (s[i])
 	{
 		if ((nbr > LLONG_MAX / 10)
-			|| (nbr == LLONG_MAX / 10 && (s[i] - '0') > LLONG_MAX % 10))
+			|| (sign == 1 && nbr == LLONG_MAX / 10 && (s[i] - '0') > 7)
+			|| (sign == -1 && nbr == LLONG_MAX / 10 && (s[i] - '0') > 8))
 			return (argument_value_error(s));
 		nbr = nbr * 10 + (s[i] - '0');
 		i++;
