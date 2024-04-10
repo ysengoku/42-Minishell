@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 13:48:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:00:13 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
 int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
 int		cnt_param(char *str, t_line *line);
 int		enter_quote_mode(char *str, int i, t_line *tmp);
-int		assign_env(t_base *base, char **env);
+int		assign_env(t_base *base);
 void	write_nod(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);

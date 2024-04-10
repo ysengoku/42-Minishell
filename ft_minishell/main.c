@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 17:44:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 15:00:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int ac, char **av, char **env)
 			return (ft_perror("malloc", 1));
 		base->env = env;
 		base->exit_code = 0;
-		assign_env(base, env);
+		assign_env(base);
 		signal(SIGINT, handle_sigint);
 		while (1)
 			ft_minishell(base);
@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		base = ft_calloc(1, sizeof(t_base));
 		if (!base)
 			return (ft_perror("malloc", 1));
-		assign_env(base, env);
+		assign_env(base);
 		return (command_line_mode(base, av[2]));
 	}
 	else
