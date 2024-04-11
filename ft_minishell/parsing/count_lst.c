@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 17:14:02 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/11 17:34:09 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_recreate_str(char *str, int i)
 		len++;
 	}
 	new_str[len] = '\0';
+	// printf("str %p\n", str); //---> 0x561d06c8a8b0
+	// printf("new str %p\n", new_str); //---> 0x561d06ca69f0
 	return (new_str);
 }
 
@@ -37,7 +39,9 @@ int	cnt_file(int i, char **str)
 		i++;
 	if ((*str)[i] == '<' || (*str)[i] == '>' || (*str)[i] == '\0')
 	{
+		// printf("before %p\n", *str); //---> 0x561d06c8a8b0 ==> This was free'd
 		*str = ft_recreate_str(*str, i);
+		// printf("after %p\n", *str); //---> 0x561d06ca69f0
 		return (-1);
 	}
 	if ((*str)[i] == 34)
