@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 13:57:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:49:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	pipex(t_base *base)
 	fd[OUT] = 0;
 	count = 0;
 	current_node = base->lst;
-	while (current_node->next)
+	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
 			count++;
@@ -42,6 +42,19 @@ int	pipex(t_base *base)
 	wait_children(base, lastchild_pid, count);
 	return (WEXITSTATUS(base->exit_code));
 }
+
+// ls | cat << stop1 | ls | cat << stop2 | ls -la > > out | cat << stop3
+// ==527926== 8 bytes in 1 blocks are definitely lost in loss record 4 of 60
+// ==527926==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+// ==527926==    by 0x10F985: ft_calloc (in /home/yusengok/Documents/CommonCore/1-GitHub/42-Minishell/minishell)
+// ==527926==    by 0x10D9BF: ft_recreate_str (count_lst.c:23)
+// ==527926==    by 0x10DAA8: cnt_file (count_lst.c:40)
+// ==527926==    by 0x10DBCB: skip_file (count_lst.c:72)
+// ==527926==    by 0x10DD95: cnt_param (count_lst.c:111)
+// ==527926==    by 0x10F30D: create_nod (create_nod.c:42)
+// ==527926==    by 0x10D8E0: ft_chara_split (chara_split.c:68)
+// ==527926==    by 0x1095F1: ft_minishell (main.c:33)
+// ==527926==    by 0x10978A: main (main.c:81)
 
 static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
