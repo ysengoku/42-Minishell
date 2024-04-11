@@ -6,21 +6,20 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 10:09:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:11:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	is_home(char *arg);
-static int	ft_chdir(char *curpath, t_base *base);
+static int	ft_chdir(char *curpath, t_base *base, int fd[2]);
 static int	retry_cwd(t_base *base);
 
 int	ft_cd(t_base *base, t_line *node, int fd[2])
 {
 	char	*curpath;
 
-	ft_close(fd[IN], fd[OUT], 0);
 	if (node->arg[1] && node->arg[2])
 		return (print_err(CD, "too many arguments", NULL, 1));
 	if (is_home(node->arg[1]) == true)
@@ -36,16 +35,15 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (!curpath)
 		return (1);
 	canonicalize_path(curpath);
-	if (!curpath)
-		return (ft_free((void *)curpath, 0));
-	if (ft_chdir(curpath, base) == 1)
+	if (ft_chdir(curpath, base, fd) == 1)
 		return (ft_free((void *)curpath, 1));
-	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0 && fd[OUT] == 1)
-		printf("%s\n", curpath);
+	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
+		ft_putendl_fd(curpath, fd[OUT]);
+	ft_close(fd[IN], fd[OUT], 0);
 	return (ft_free((void *)curpath, 0));
 }
 
-static int	ft_chdir(char *curpath, t_base *base)
+static int	ft_chdir(char *curpath, t_base *base, int fd[2])
 {
 	t_env	*pwd;
 	t_env	*oldpwd;
@@ -63,7 +61,7 @@ static int	ft_chdir(char *curpath, t_base *base)
 			return (retry_cwd(base));
 		ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
 			strerror(errno));
-		return (1);
+		return (ft_close(fd[IN], fd[OUT], 1));
 	}
 	tmp = oldpwd->value;
 	oldpwd->value = pwd->value;

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 15:32:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:11:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,26 @@ char	*concatenate_path(t_base *base, char *curpath)
 	return (concatenated_path);
 }
 
+static void	ft_canonicalize(int *src, int *dest, char *curpath)
+{
+	if (curpath[*src] == '/' && curpath[*src + 1] == '.'
+		&& (curpath[*src + 2] == '/' || curpath[*src + 2] == '\0'))
+		*src += 2;
+	else if (curpath[*src] == '/' && curpath[*src + 1] == '.'
+		&& curpath[*src + 2] == '.'
+		&& (curpath[*src + 3] == '/' || curpath[*src + 3] == '\0'))
+	{
+		if (*dest > 0)
+		{
+			while (curpath[--(*dest)] != '/' && *dest > 1)
+				;
+		}
+		*src += 3;
+	}
+	else
+		curpath[(*dest)++] = curpath[(*src)++];
+}
+
 void	canonicalize_path(char *curpath)
 {
 	int	src;
@@ -86,23 +106,9 @@ void	canonicalize_path(char *curpath)
 	src = 0;
 	dest = 0;
 	while (curpath[src])
-	{
-		if (curpath[src] == '/' && curpath[src + 1] == '.'
-			&& (curpath[src + 2] == '/' || curpath[src + 2] == '\0'))
-			src += 2;
-		else if (curpath[src] == '/' && curpath[src + 1] == '.'
-			&& curpath[src + 2] == '.'
-			&& (curpath[src + 3] == '/' || curpath[src + 3] == '\0'))
-		{
-			if (dest > 0)
-			{
-				while (dest > 0 && curpath[--dest] != '/')
-					;
-			}
-			src += 3;
-		}
-		else
-			curpath[dest++] = curpath[src++];
-	}
+		ft_canonicalize(&src, &dest, curpath);
 	curpath[dest] = '\0';
+	if (!curpath[0])
+		ft_strcpy(curpath, "/");
+	printf("curpath = %s\n", curpath);
 }
