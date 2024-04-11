@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/11 17:34:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 01:29:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ char	*ft_recreate_str(char *str, int i)
 	char	*new_str;
 	int		len;
 	
-	while (i != 0 && (str[i] == '<' || str[i] == '>' || str[i] == ' '))
+	while (i != 0 && (str[i] == '<' || str[i] == '>' || str[i] == ' ' || str[i] == '\0'))
 		i--;
-	i++;
+	if (i != 0)
+		i++;
 	new_str = ft_calloc(i + 1, sizeof(char));
 	len = 0;
 	while (len < i)
@@ -102,13 +103,14 @@ int	cnt_param(char **str, t_line *line)
 	int		i;
 
 	i = 0;
-	if ((*str)[i] != '<' && (*str)[i] != '>' && (*str)[i] != ' ' && (*str)[i] != 9)
+	if ((*str)[i] != '<' && (*str)[i] != '>' && (*str)[i] != ' ' && (*str)[i] != 9  && (*str)[i] != '\0')
 	{
 		if ((*str)[i] == 34 || (*str)[i] == 39)
 			i = cnt_quote(*str, line, i);
 		line->nb_arg++;
 		i++;
 	}
+	
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '<' || (*str)[i] == '>')
