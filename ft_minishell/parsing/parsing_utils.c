@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 13:21:46 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 20:19:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 
 	i = *ptr_i;
 	j = 0;
-	while (res[j])
+	while (res && res[j])
 		j++;
 	i++;
 	if (str[i] != '?')
 	{
 		while (str[i] && str[i] != ' ' && str[i] != '<' \
 		&& str[i] != '|' && str[i] != '>' && str[i] != '$' \
-		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47)
+		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47 && tmp->char_type != STANDARD)
 			i++;
 		if (enter_quote_mode(str, i, tmp) != 1)
 			i--;

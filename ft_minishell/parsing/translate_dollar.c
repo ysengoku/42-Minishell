@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 14:02:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 19:46:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 char	*ft_search(char *str, t_base *base, int last_len, char *before)
 {
 	t_env	*find;
-
+	
 	if (str[0] == '?')
 		return (write_signal(str, base, before));
 	find = base->envn;
@@ -42,7 +42,9 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 	free(str);
 	if (find)
 		return (ft_strjoin_mall(before, find->value, last_len));
-	return (ft_strjoin_mall(before, NULL, last_len));
+	if (last_len != 0)
+		return (ft_strjoin_mall(before, NULL, last_len));
+	return (NULL);
 }
 
 char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
@@ -84,7 +86,7 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 		to_find[i] = str[i];
 		i++;
 	}
-	if ((str[i] == 39 || str[i] == 34))
+	if (str[i] == 39 || str[i] == 34 || str[i] == '/')
 	{
 		while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>')

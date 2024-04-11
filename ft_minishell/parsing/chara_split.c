@@ -6,17 +6,17 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 13:43:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/10 17:19:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quote_next(char *s, t_base *base, t_line line, int i)
+int	check_quote_next(char *s, t_base *base, t_line *line, int i)
 {
 	while (s[i])
 	{
-		if (s[i] == '|' && line.char_type == STANDARD)
+		if (s[i] == '|' && line->char_type == STANDARD)
 		{
 			i++;
 			while (s[i] == ' ' || s[i] == 9)
@@ -25,8 +25,8 @@ int	check_quote_next(char *s, t_base *base, t_line line, int i)
 				return (ft_display_error(1, base), -1);
 		}
 		if (s[i] == 39 || s[i] == 34)
-			enter_quote_mode(s, i, &line);
-		else if (line.char_type != STANDARD)
+			enter_quote_mode(s, i, line);
+		else if (line->char_type != STANDARD)
 			s[i] = s[i] * -1;
 		i++;
 	}
@@ -45,21 +45,11 @@ char	*check_quote(char *s, t_base *base)
 		i++;
 	if (s[i] == '|')
 		return (ft_display_error(1, base), NULL);
-	if (check_quote_next(s, base, line, i) == -1)
+	if (check_quote_next(s, base, &line, i) == -1)
 		return (NULL);
 	if (line.char_type != STANDARD)
 		return (ft_display_error(3, base), NULL);
 	return (s);
-}
-
-void change_value_error_pipe(t_base *base)
-{
-	t_line *tmp;
-
-	tmp = base->lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->error_syntax = 1;
 }
 
 int	ft_chara_split(char *s, t_base **base)
@@ -80,10 +70,7 @@ int	ft_chara_split(char *s, t_base **base)
 			if ((*base)->lst == NULL)
 				return (ft_free_strarr(srep), -1);
 			else
-			{
-				change_value_error_pipe(*base);
 				return (0);
-			}
 		}
 		i++;
 	}
