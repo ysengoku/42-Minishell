@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/10 16:02:14 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/11 13:24:06 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,10 @@ SRCS =	main.c	\
 		pipex.c	\
 		pipex_utils.c	\
 		execute_command.c	\
-		open_file.c	\
-		redirection.c	\
-		redirection_heredoc.c	\
 		utils_exec.c	\
+		redirection.c	\
+		open_file.c	\
+		heredoc.c	\
 		utils_redirection.c	\
 		chara_split.c	\
 		count_lst.c	\

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 07:58:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:48:58 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,10 @@ void	free_all_in_child(t_base *base);
 void	execute_command(t_base *base, t_line *node);
 
 /* open_file.c */
-int		open_infile(t_file *infile, t_base *base);
-int		open_outfile(t_file *outfile, t_base *base);
+// int		open_infile(t_file *infile, t_base *base);
+int		open_infile(t_file *infile, t_base *base, int previous_fd);
+// int		open_outfile(t_file *outfile, t_base *base);
+int		open_outfile(t_file *outfile, t_base *base, int previous_fd);
 int		ft_close(int fd1, int fd2, int exit_code);
 void	ft_close_in_child(int fd1, int fd2);
 

@@ -6,16 +6,17 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:52:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_infile(t_file *infile, t_base *base)
+int	open_infile(t_file *infile, t_base *base, int previous_fd)
 {
 	int	fd_in;
 
+	ft_close(previous_fd, 0, 0);
 	if (infile->type == INFILE)
 	{
 		fd_in = open(infile->filename, O_RDONLY);
@@ -37,10 +38,11 @@ int	open_infile(t_file *infile, t_base *base)
 	return (fd_in);
 }
 
-int	open_outfile(t_file *outfile, t_base *base)
+int	open_outfile(t_file *outfile, t_base *base, int previous_fd)
 {
 	int	fd_out;
 
+	ft_close(previous_fd, 0, 0);
 	if (outfile->type == OUT_TRUNC)
 		fd_out = open(outfile->filename,
 				O_RDWR | O_CREAT | O_TRUNC, 0644);
