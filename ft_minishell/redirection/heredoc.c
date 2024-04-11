@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 16:10:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:04:22 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_heredoc(t_base *base, t_line *node)
 	current = node->file;
 	while (current)
 	{
-		if (current->type == HERE_DOC)
+		if (current->type == HERE_DOC && current->filename[0]) ///--> If syntax error, file = NULL (not filename[0] = NULL) ?
 		{
 			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if (fd_heredoc == -1)
