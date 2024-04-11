@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 10:22:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:56:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	execute_single_command(t_base *base, t_line *node)
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
+	// printf("command : %s, file : %s, file type : %d\n", node->arg[0], node->file->filename, node->file->type);
+	// printf("syntax error = %d\n", node->error_syntax);
 	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (base->exit_code);
 	if (!base->lst->arg[0])
