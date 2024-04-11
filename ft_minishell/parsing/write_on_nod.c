@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 19:40:27 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/11 23:46:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 
 	arg = write_char(&i, tmp, str, base);
 	if (!arg)
-		return (-1);
+		return (i);
 	last_nod = 0;
 	while (tmp->arg[last_nod])
 		last_nod++;
@@ -77,6 +77,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 			enter_condition_mode(&norm, &res, 1, base);
 		else if (str[norm.i] == '$' && tmp->char_type != QUOTE \
 		&& tmp->char_type != DOC && str[norm.i + 1] != '/' && str[norm.i + 1] != '\0' \
+		&& str[norm.i + 1] != ' '\
 		&& tmp->char_type != DOC_QUOTE && tmp->char_type != DOC_DOUBLE_Q)
 		{
 			enter_condition_mode(&norm, &res, 2, base);
