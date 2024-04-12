@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_nod.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 01:27:21 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 08:26:51 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ int	create_nod(char *str, t_base *base)
 	write_nod(i, tmp, str, base);
 	attribute_nod(base, tmp);
 	if (tmp->error_syntax == 1)
-	{
-		free(str);
-		return(-1);
-	}
+		return (ft_free((void *)str, -1));
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/11 23:54:09 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 08:39:38 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 	int	j;
 	int	i;
 
-	i = *ptr_i;
+	i = *ptr_i + 1;
 	j = 0;
 	while (res && res[j])
 		j++;
-	i++;
 	if (str[i] != '?')
 	{
 		while ((str[i] && str[i] != ' ' && str[i] != '<' \
 		&& str[i] != '|' && str[i] != '>' && str[i] != '$' && str[i] != '.' \
-		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47) || tmp->char_type != STANDARD)
+		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47) \
+		|| tmp->char_type != STANDARD)
 		{
 			if (enter_quote_mode(str, i, tmp) == 1)
 			{
 				i++;
-				break;
+				break ;
 			}
 			i++;
 		}

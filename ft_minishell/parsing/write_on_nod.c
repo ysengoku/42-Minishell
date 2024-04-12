@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/11 23:46:34 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 08:23:02 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 		if (str[norm.i] == 34 || str[norm.i] == 39)
 			enter_condition_mode(&norm, &res, 1, base);
 		else if (str[norm.i] == '$' && tmp->char_type != QUOTE \
-		&& tmp->char_type != DOC && str[norm.i + 1] != '/' && str[norm.i + 1] != '\0' \
-		&& str[norm.i + 1] != ' '\
+		&& tmp->char_type != DOC && str[norm.i + 1] != '/' \
+		&& str[norm.i + 1] != '\0' && str[norm.i + 1] != ' '\
 		&& tmp->char_type != DOC_QUOTE && tmp->char_type != DOC_DOUBLE_Q)
 		{
 			enter_condition_mode(&norm, &res, 2, base);
