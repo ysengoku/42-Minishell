@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 10:47:27 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 10:54:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	ft_minishell(t_base *base)
 {
 	char	*str;
 	int		i;
-	char	prompt[PATH_MAX];
+	// char	prompt[PATH_MAX];
 
 	str = readline(CYAN "minishell >>> " RESET);
 	// set_prompt(prompt);
