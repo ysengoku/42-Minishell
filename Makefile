@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/12 09:14:53 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/12 17:22:57 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,16 +56,18 @@ SRCS =	main.c	\
 		chara_split.c	\
 		count_lst.c	\
 		count_lst_utils.c	\
+		create_nod.c \
 		write_on_nod.c	\
 		write_file.c \
 		assign_env.c \
 		translate_dollar.c	\
+		parsing_utils.c \
 		error_handling.c	\
 		ft_free.c	\
 		env.c \
-		create_nod.c \
+		init.c	\
 		assign_env_value.c \
-		parsing_utils.c
+		signal_handle.c
 
 DIR_OBJ := .object/
 

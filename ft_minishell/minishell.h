@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 15:13:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:23:31 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-extern int	received_signal;
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -32,6 +30,8 @@ extern int	received_signal;
 # include <linux/limits.h>
 # include "libft.h"
 # include "ft_printf.h"
+
+extern int	g_received_signal;
 
 # define COMMANDLINE_USAGE "\n./minishell for interactive mode\n\
 ./minishell -c \"[commande lines]\" for command-line mode"
@@ -185,6 +185,11 @@ void	free_base_content(t_base *base);
 void	free_envlist(t_base *base);
 /* envp */
 t_env	*find_env_var(t_base *base, char *key);
+/* init */
+t_base	*init_base(char **env);
+/* signal */
+void	handle_sigquit(int sig);
+void	handle_sigint(int sig);
 
 /*----- Parsing --------------------------------------------------------------*/
 int		ft_chara_split(char *s, t_base **base);
