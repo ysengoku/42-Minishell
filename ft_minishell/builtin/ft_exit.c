@@ -6,11 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 16:47:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:16:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int received_signal;
 
 static long long	convert_exitcode(char *s);
 static int			check_value(char *s);
@@ -37,6 +39,8 @@ int	ft_exit(t_base *base, t_line *node, int fd[2])
 		else
 			exit_code = 2;
 	}
+	else if (received_signal != 0)
+		exit_code = 128 + received_signal;
 	else
 		exit_code = base->exit_code;
 	ft_close(fd[IN], fd[OUT], 0);
