@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 08:13:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:03:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 		return (ft_strjoin_mall(before, find->value, last_len));
 	if (last_len != 0)
 		return (ft_strjoin_mall(before, NULL, last_len));
+	if (before[0] == '\0')
+		return (free(before), NULL);
 	return (before);
 }
 
