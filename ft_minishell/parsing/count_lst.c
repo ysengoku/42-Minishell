@@ -6,12 +6,12 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 10:55:04 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:35:25 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-	
+
 static int	set_syntax_error(t_line *line)
 {
 	printf("error !\n");

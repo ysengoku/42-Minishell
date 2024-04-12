@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 08:23:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:04:49 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	if (!res)
 		return (NULL);
 	norm.j = 0;
-	while (str[norm.i] && ((str[norm.i] != '<' && str[norm.i] != '>' \
+	while (res && str[norm.i] && ((str[norm.i] != '<' && str[norm.i] != '>' \
 	&& str[norm.i] != '|' && str[norm.i] != ' ' && str[norm.i] != 9) \
 	|| (tmp->char_type == QUOTE || tmp->char_type == DOUBLE_Q)))
 	{
