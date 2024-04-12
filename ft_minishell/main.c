@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 16:07:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:55:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int received_signal;
+int	g_received_signal;
 
 static void	handle_sigint(int sig)
 {
@@ -21,7 +21,7 @@ static void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	received_signal = SIGINT;
+	g_received_signal = SIGINT;
 }
 
 static void	ft_minishell(t_base *base)
@@ -37,14 +37,13 @@ static void	ft_minishell(t_base *base)
 			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 2;
-		received_signal = 0;
 		unlink_heredoc();
 		free_base_content(base);
 	}
 	if (!str)
 	{
-		if (received_signal != 0)
-			i = 128 + received_signal;
+		if (g_received_signal != 0)
+			i = 128 + g_received_signal;
 		else
 			i = base->exit_code;
 		free_base_content(base);
@@ -74,34 +73,27 @@ int	main(int ac, char **av, char **env)
 {
 	t_base	*base;
 
-	base = NULL;
+	g_received_signal = 0;
 	if (ac == 1)
 	{
-		base = ft_calloc(1, sizeof(t_base));
+		base = init_base(env);
 		if (!base)
-			return (ft_perror("malloc", 1));
-		base->env = env;
-		base->exit_code = 0;
+			return (1);
 		assign_env(base);
 		signal(SIGINT, handle_sigint);
 		while (1)
 		{
+			g_received_signal = 0;
 			ft_minishell(base);
-			if (received_signal != 0)
-			{
-				base->exit_code = 128 + received_signal;
-				received_signal = 0;
-			}
 		}
 	}
 	else if (ac == 3 && ft_strncmp(av[1], "-c", 2) == 0)
 	{
-		base = ft_calloc(1, sizeof(t_base));
+		base = init_base(env);
 		if (!base)
-			return (ft_perror("malloc", 1));
+			return (1);
 		assign_env(base);
 		return (command_line_mode(base, av[2]));
 	}
-	else
-		return (print_err("Usage", COMMANDLINE_USAGE, NULL, 1));
+	return (print_err("Usage", COMMANDLINE_USAGE, NULL, 1));
 }

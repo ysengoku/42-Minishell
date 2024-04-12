@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 14:03:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:24:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ char	*write_signal(char *str, t_base *base, char *before)
 	int		i;
 
 	i = 0;
+	if (g_received_signal != 0)
+	{
+		base->exit_code = 128 + g_received_signal;
+		g_received_signal = 0;
+	}
 	nbr = ft_itoa(base->exit_code);
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && str[i] != 9)

@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/12 09:14:53 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/12 16:57:26 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,16 +56,17 @@ SRCS =	main.c	\
 		chara_split.c	\
 		count_lst.c	\
 		count_lst_utils.c	\
+		create_nod.c \
 		write_on_nod.c	\
 		write_file.c \
 		assign_env.c \
 		translate_dollar.c	\
+		parsing_utils.c \
 		error_handling.c	\
 		ft_free.c	\
 		env.c \
-		create_nod.c \
-		assign_env_value.c \
-		parsing_utils.c
+		init.c	\
+		assign_env_value.c 
 
 DIR_OBJ := .object/
 
