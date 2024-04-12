@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/11 07:59:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 10:47:27 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,40 @@ static void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
+// static void	set_prompt(char *prompt)
+// {
+// 	char	cwd[PATH_MAX];
+// 	char	*user;
+// 	char	*home;
+// 	int		i;
+	
+// 	i = 0;
+// 	getcwd(cwd, PATH_MAX);
+// 	user = getenv("USER");
+// 	home = getenv("HOME");
+// 	ft_strcpy(prompt, user);
+// 	ft_strcat(prompt, "@minishell:");
+// 	if (ft_strncmp(cwd, home, ft_strlen(home)) != 0)
+// 		ft_strcat(prompt, cwd);
+// 	else
+// 	{
+// 		while (home[i] && cwd[i] && cwd[i] == home[i])
+// 			i++;
+// 		ft_strcat(prompt, "~");
+// 		ft_strcat(prompt, cwd + i);
+// 	}
+// 	ft_strcat(prompt, "$ ");
+// }
+
 static void	ft_minishell(t_base *base)
 {
 	char	*str;
 	int		i;
+	char	prompt[PATH_MAX];
 
 	str = readline(CYAN "minishell >>> " RESET);
+	// set_prompt(prompt);
+	// str = readline(prompt);
 	if (str && *str)
 	{
 		add_history(str);
