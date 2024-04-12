@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/11 15:39:31 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/12 08:49:40 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,6 @@ IFLAGS = ./ft_minishell/minishell.h
 INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
-
-INC_DIR_MAC = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/opt/readline/include
-LIB_DIR_MAC = -L/usr/local/opt/readline/lib -L./lib/libft
 
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
@@ -78,12 +75,10 @@ all: mlibft mfprintf $(NAME)
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) $(LIB_DIR) $(LIBS) -o $(NAME)
 	@printf "$(LIGHT_GREEN)minishell is ready to launch\n$(RESET)"
-#	$(CC) $(CFLAGS) $(OBJS) $(INC_DIR_MAC) $(LIB_DIR_MAC) $(LIBS) -o $(NAME)
 
 $(DIR_OBJ)%.o: %.c $(IFLAGS) Makefile
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
-#	$(CC) $(CFLAGS) -c $< -o $@ $(INC_DIR_MAC) 
 
 mlibft:
 	@make -C $(LIBFT_DIR)

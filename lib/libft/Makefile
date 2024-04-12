@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
+#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/09 13:02:22 by dvo               #+#    #+#              #
-#    Updated: 2024/02/24 15:27:32 by dvo              ###   ########.fr        #
+#    Updated: 2024/04/12 08:49:14 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,6 @@ ${DIR_OBJ}%.o: %.c ${IFLAGS} Makefile
 
 clean:
 	$(RM) -r $(DIR_OBJ)
-#	rm -f $(MY_OB) $(MY_OBJECTS)
 
 fclean: clean
 	rm -f $(NAME)
