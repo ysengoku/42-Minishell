@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 00:37:08 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 08:13:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 char	*ft_search(char *str, t_base *base, int last_len, char *before)
 {
 	t_env	*find;
-	
+
 	if (str[0] == '?')
 		return (write_signal(str, base, before));
 	find = base->envn;

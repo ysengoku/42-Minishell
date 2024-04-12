@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:53 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 01:29:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 08:31:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ char	*ft_recreate_str(char *str, int i)
 {
 	char	*new_str;
 	int		len;
-	
-	while (i != 0 && (str[i] == '<' || str[i] == '>' || str[i] == ' ' || str[i] == '\0'))
+
+	while (i != 0
+		&& (str[i] == '<' || str[i] == '>' || str[i] == ' ' || str[i] == '\0'))
 		i--;
 	if (i != 0)
 		i++;
@@ -29,8 +30,6 @@ char	*ft_recreate_str(char *str, int i)
 		len++;
 	}
 	new_str[len] = '\0';
-	// printf("str %p\n", str); //---> 0x561d06c8a8b0
-	// printf("new str %p\n", new_str); //---> 0x561d06ca69f0
 	return (new_str);
 }
 
@@ -40,9 +39,7 @@ int	cnt_file(int i, char **str)
 		i++;
 	if ((*str)[i] == '<' || (*str)[i] == '>' || (*str)[i] == '\0')
 	{
-		// printf("before %p\n", *str); //---> 0x561d06c8a8b0 ==> This was free'd
 		*str = ft_recreate_str(*str, i);
-		// printf("after %p\n", *str); //---> 0x561d06ca69f0
 		return (-1);
 	}
 	if ((*str)[i] == 34)
@@ -103,14 +100,14 @@ int	cnt_param(char **str, t_line *line)
 	int		i;
 
 	i = 0;
-	if ((*str)[i] != '<' && (*str)[i] != '>' && (*str)[i] != ' ' && (*str)[i] != 9  && (*str)[i] != '\0')
+	if ((*str)[i] != '<' && (*str)[i] != '>' && (*str)[i] != ' ' \
+	&& (*str)[i] != 9 && (*str)[i] != '\0')
 	{
 		if ((*str)[i] == 34 || (*str)[i] == 39)
 			i = cnt_quote(*str, line, i);
 		line->nb_arg++;
 		i++;
 	}
-	
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '<' || (*str)[i] == '>')
