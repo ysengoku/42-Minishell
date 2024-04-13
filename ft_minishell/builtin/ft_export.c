@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 01:25:59 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 18:47:55 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ int	create_nod_from_arg(t_base *base, int i)
 int	ft_export(t_base *base, int fd[2])
 {
 	int		i;
+	int		error;
 
+	error = 0;
 	i = 1;
 	if (base->lst->arg[1] == NULL)
 		return (export_null(base, fd));
@@ -99,13 +101,15 @@ int	ft_export(t_base *base, int fd[2])
 	{
 		if (check_error_export(base->lst->arg[i], base) == -1)
 			return (1);
-		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ')
+		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ' ||\
+		base->lst->arg[i][0] == '\0')
 		{
+			base->error_msg = base->lst->arg[i];
 			ft_display_error(2, base);
-			return (1);
+			error = 1;
 		}
 		create_nod_from_arg(base, i);
 		i++;
 	}
-	return (0);
+	return (error);
 }
