@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/13 00:24:28 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 22:15:30 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	int				order;
+	int				unset;
 	struct s_env	*next;
 }	t_env;
 

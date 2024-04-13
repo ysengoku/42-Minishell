@@ -3,69 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 08:46:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:39:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_unset_arg(t_base *base, t_line *node);
+static int	check_unset_arg(t_base *base, char *str);
 static void	delete_node(t_env *node);
+void	ghost_unset(t_base *base, char *str);
 
 int	ft_unset(t_base *base, t_line *node, int fd[2])
 {
 	t_env	*target_node;
 	t_env	*previous_node;
+	int		i;
 
+	i = 1;
 	ft_close(fd[IN], fd[OUT], 0);
 	target_node = base->envn;
 	previous_node = NULL;
-	if (!node->arg[1])
-		return (0);
-	if (check_unset_arg(base, node) == 1)
-		return (base->exit_code);
-	while (target_node)
+	while (node->arg[i])
 	{
-		if (strcmp(target_node->key, node->arg[1]) == 0)
-			break ;
-		previous_node = target_node;
-		target_node = target_node->next;
-	}
-	if (!target_node)
-		return (0);
-	if (previous_node)
-		previous_node->next = target_node->next;
+	if (check_unset_arg(base, node->arg[i]) == 1)
+		return (base->exit_code);
+	if (ft_strcmp(node->arg[i], "PWD") == 0 || ft_strcmp(node->arg[i], "USER") == 0)
+		ghost_unset(base, node->arg[i]);
 	else
-		base->envn = target_node->next;
-	delete_node(target_node);
+	{
+		while (target_node)
+		{
+			if (strcmp(target_node->key, node->arg[i]) == 0)
+				break ;
+			previous_node = target_node;
+			target_node = target_node->next;
+		}
+		if (!target_node)
+			return (0);
+		if (previous_node)
+			previous_node->next = target_node->next;
+		else
+			base->envn = target_node->next;
+		delete_node(target_node);
+	}
+	i++;
+	}
 	return (0);
 }
 
-static int	check_unset_arg(t_base *base, t_line *node)
+void	ghost_unset(t_base *base, char *str)
+{
+	t_env	*target_node;
+
+	target_node = base->envn;
+	while (target_node)
+	{
+		if (strcmp(target_node->key, str) == 0)
+			break ;
+		target_node = target_node->next;
+	}
+	target_node->unset = 1;
+}
+
+static int	check_unset_arg(t_base *base, char *str)
 {
 	int		i;
 
 	i = 0;
-	if (node->arg[1][i] == '-')
+	if (str[i] == '-')
 	{
 		base->exit_code = 2;
-		return (print_err(UNSET, node->arg[1], "invalid option", 1));
+		return (print_err(UNSET, str, "invalid option", 1));
 	}
-	if (!node->arg[1][i]
-		|| (!ft_isalpha(node->arg[1][i]) && node->arg[1][i] != '_'))
+	if (!str[i]
+		|| (!ft_isalpha(str[i]) && str[i] != '_'))
 	{
 		base->exit_code = 1;
-		return (print_err(UNSET, node->arg[1], "not a valid identifier", 1));
+		return (print_err(UNSET, str, "not a valid identifier", 1));
 	}
-	while (node->arg[1][++i])
+	while (str[++i])
 	{
-		if (!ft_isalnum(node->arg[1][i]) && node->arg[1][i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
 			base->exit_code = 1;
-			return (print_err(UNSET, node->arg[1],
+			return (print_err(UNSET, str,
 					"not a valid identifier", 1));
 		}
 	}

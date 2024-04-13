@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 23:19:39 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 21:49:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	last_len = 0;
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && \
+	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && str[i] != '=' && \
 	str[i] != 34 && str[i] != 39 && str[i] != '$' && str[i] != '.')
 	{
 		to_find[i] = str[i];

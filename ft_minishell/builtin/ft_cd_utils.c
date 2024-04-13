@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 15:42:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:44:59 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_path(t_base *base, char *destination)
 	t_env	*to_find;
 
 	to_find = find_env_var(base, destination);
-	if (to_find == NULL)
+	if (to_find == NULL || to_find->value == NULL)
 	{
 		ft_fprintf(2, "minishell: cd: %s not set\n", destination);
 		return (NULL);

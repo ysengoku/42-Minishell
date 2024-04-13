@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 02:03:57 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 21:49:35 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 	j = 0;
 	while (res && res[j])
 	{
-		if ((j > i || tmp->type_write_char == 2) && res[j] == ' ')
+		if ((j >= i || tmp->type_write_char == 2) && res[j] == ' ')
 		{
 			if (tmp->type_write_char == 0 || tmp->type_write_char == 2)
 				ft_new_arg(tmp, res, j);
@@ -84,7 +84,7 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 	tmp->type_write_char = 0;
 	if (str[i] != '?')
 	{
-		while ((str[i] && str[i] != ' ' && str[i] != '<' \
+		while ((str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '='\
 		&& str[i] != '|' && str[i] != '>' && str[i] != '$' && str[i] != '.' \
 		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47))
 		{
