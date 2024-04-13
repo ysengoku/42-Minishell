@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/10 14:40:00 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 01:25:59 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,24 @@ int	check_error_export(char *str, t_base *base)
 	return (0);
 }
 
+int	check_max_arg(char *str, t_base *base)
+{
+	int	nbr;
+	int	i;
+
+	i = 0;
+	nbr = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			nbr++;
+		i++;
+	}
+	if (base->max_arg_export > nbr)
+		return (base->max_arg_export);
+	return (nbr);
+}
+
 int	create_nod_from_arg(t_base *base, int i)
 {
 	char	**split;
@@ -62,6 +80,7 @@ int	create_nod_from_arg(t_base *base, int i)
 		}
 		else
 			tmp->value = assign_value(split);
+		base->max_arg_export = check_max_arg(tmp->value, base);
 	}
 	export_add_on_nod(base, tmp);
 	return (0);
