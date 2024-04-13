@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/09 14:55:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 23:30:29 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 		stock->type = OUT_TRUNC;
 	while (str[i] == ' ')
 		i++;
+	tmp->type_write_char = 1;
 	stock->filename = write_char(&i, tmp, str, base);
+	tmp->type_write_char = 0;
 	attribute_file_nod(stock, tmp);
 	return (i);
 }
@@ -64,9 +66,11 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 		i++;
 	if (stock->type == HERE_DOC)
 		tmp->char_type = DOC;
+	tmp->type_write_char = 1;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (stock->type == HERE_DOC)
 		tmp->char_type = STANDARD;
+	tmp->type_write_char = 0;
 	attribute_file_nod(stock, tmp);
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 19:52:56 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 22:53:46 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ t_norme	attribute_norm(int *index, t_line *tmp, char *str)
 void	dollars_condition(t_norme	*norm, char	**res, t_base *base)
 {
 	if (norm->str[norm->i] == '$' && norm->tmp->char_type != QUOTE \
-	&& norm->tmp->char_type != DOC && norm->str[norm->i + 1] != '/' \
-	&& norm->str[norm->i + 1] != '\0' && norm->str[norm->i + 1] != ' ' \
-	&& norm->str[norm->i + 1] != ')'\
-	&& norm->tmp->char_type != DOC_QUOTE && \
+	&& norm->tmp->char_type != DOC && ((norm->str[norm->i + 1] >= '0' \
+	&& norm->str[norm->i + 1] <= '9') || (norm->str[norm->i + 1] >= '?' \
+	&& norm->str[norm->i + 1] <= 'Z') || (norm->str[norm->i + 1] >= '_' && \
+	 norm->str[norm->i + 1] <= 'z')) && norm->tmp->char_type != DOC_QUOTE && \
 	norm->tmp->char_type != DOC_DOUBLE_Q)
 	{
 		enter_condition_mode(norm, res, 2, base);

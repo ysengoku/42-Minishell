@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_nod.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 08:26:51 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/13 01:04:16 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	create_nod(char *str, t_base *base)
 		return (-1);
 	tmp->next = NULL;
 	tmp->file = NULL;
+	tmp->nb_arg = base->max_arg_export;
 	tmp->char_type = STANDARD;
 	if (cnt_param(&str, tmp) == -1)
 	{
@@ -46,7 +47,7 @@ int	create_nod(char *str, t_base *base)
 		ft_display_error(1, base);
 		tmp->error_syntax = 1;
 	}
-	tmp->arg = ft_calloc(tmp->nb_arg + 1, sizeof(char *));
+	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *));
 	write_nod(i, tmp, str, base);
 	attribute_nod(base, tmp);
 	if (tmp->error_syntax == 1)

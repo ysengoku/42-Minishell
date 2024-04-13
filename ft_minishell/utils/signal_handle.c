@@ -6,13 +6,11 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 19:43:05 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/12 23:59:37 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	g_received_signal;
 
 void	handle_sigint(int sig)
 {

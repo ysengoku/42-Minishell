@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 17:23:31 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 00:24:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_line
 	int					nb_arg;
 	enum e_type_char	char_type;
 	int					error_syntax;
+	int					type_write_char;
 	struct s_line		*next;
 }				t_line;
 
@@ -111,6 +112,7 @@ typedef struct s_base
 	int		exit_code;
 	char	*error_msg;
 	int		null_env;
+	int		max_arg_export;
 }			t_base;
 
 /*----- Execution ------------------------------------------------------------*/
