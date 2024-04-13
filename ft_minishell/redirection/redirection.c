@@ -3,16 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 16:57:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:35:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_syntax(t_base *base, t_line *node);
+
+int	check_error_here_doc(t_file	*current_file, int *fd_in, int *fd_out, t_base *base)
+{
+	while (current_file && current_file->filename[0])
+	{
+		if (current_file->type == HERE_DOC)
+		{
+			*fd_in = open_infile(current_file, base, *fd_in);
+			if (*fd_in == -1)
+				return (ft_close(*fd_in, *fd_out, 1));
+		}
+		current_file = current_file->next;
+	}
+	return(ft_close(*fd_in, *fd_out, 1));
+}
 
 int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -21,6 +36,8 @@ int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	if (check_heredoc(base, node) == 1)
 		return (1);
 	current_file = node->file;
+	if (check_syntax(base, node) == 1)
+		return (check_error_here_doc(current_file, fd_in, fd_out, base));
 	while (current_file && current_file->filename[0])
 	{
 		if (current_file->type == INFILE || current_file->type == HERE_DOC)
@@ -37,8 +54,6 @@ int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
 		}
 		current_file = current_file->next;
 	}
-	if (check_syntax(base, node) == 1)
-		return (ft_close(*fd_in, *fd_out, 1));
 	return (0);
 }
 
