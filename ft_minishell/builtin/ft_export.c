@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 14:50:17 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 15:04:42 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_max_arg(char *str, t_base *base)
 int	atr_nod_from_expt(t_base *base, t_env	*tmp, int i)
 {
 	char	**split;
-	
+
 	split = ft_split(base->lst->arg[i], '=');
 	if (!split)
 		return (-1);

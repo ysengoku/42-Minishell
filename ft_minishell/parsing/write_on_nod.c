@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 14:41:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 15:13:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,4 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 		res[norm.j] = '\0';
 	*index = norm.i;
 	return (res);
-}
-
-void	write_nod(int i, t_line *tmp, char *str, t_base *base)
-{
-	while (str[i])
-	{
-		if (str[i] == '>')
-			i = write_out_file(i, tmp, str, base);
-		else if (str[i] == '<')
-			i = write_in_file(i, tmp, str, base);
-		else if (str[i] == ' ' || str[i] == 9)
-			i++;
-		else
-			i = write_arg(i, tmp, str, base);
-	}
 }

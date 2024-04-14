@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 01:04:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 15:13:16 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ void	attribute_nod(t_base *base, t_line	*tmp)
 		while (nxt->next)
 			nxt = nxt->next;
 		nxt->next = tmp;
+	}
+}
+
+void	write_nod(int i, t_line *tmp, char *str, t_base *base)
+{
+	while (str[i])
+	{
+		if (str[i] == '>')
+			i = write_out_file(i, tmp, str, base);
+		else if (str[i] == '<')
+			i = write_in_file(i, tmp, str, base);
+		else if (str[i] == ' ' || str[i] == 9)
+			i++;
+		else
+			i = write_arg(i, tmp, str, base);
 	}
 }
 
