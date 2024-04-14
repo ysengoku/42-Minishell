@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 21:49:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 14:44:30 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	ft_new_arg( t_line *tmp, char *res, int j)
 {
 	char	*str;
 	int		i;
-	int 	last_nod;
-	
+	int		last_nod;
+
 	i = 0;
 	str = ft_calloc(j + 2, sizeof(char));
-	while( i < j)
+	while (i < j)
 	{
 		str[i] = res[i];
 		i++;
@@ -62,6 +62,25 @@ void	ft_new_arg( t_line *tmp, char *res, int j)
 	tmp->type_write_char = 2;
 }
 
+int	nxt_index_dollars(char *str, int i, t_line *tmp)
+{
+	while ((str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '='\
+	&& str[i] != '|' && str[i] != '>' && str[i] != '$' && str[i] != '.' \
+	&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47))
+	{
+		if (enter_quote_mode(str, i, tmp) == 1)
+		{
+			i++;
+			break ;
+		}
+		if (str[i] == '$' && tmp->char_type != QUOTE)
+			break ;
+		i++;
+	}
+	i--;
+	return (i);
+}
+
 int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 {
 	int	j;
@@ -76,29 +95,14 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 			if (tmp->type_write_char == 0 || tmp->type_write_char == 2)
 				ft_new_arg(tmp, res, j);
 			else
-				return(ft_display_error(4, NULL), -1);
+				return (ft_display_error(4, NULL), -1);
 			j = 0;
 		}
 		j++;
 	}
 	tmp->type_write_char = 0;
 	if (str[i] != '?')
-	{
-		while ((str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '='\
-		&& str[i] != '|' && str[i] != '>' && str[i] != '$' && str[i] != '.' \
-		&& str[i] != 34 && str[i] != 39 && str[i] != 9 && str[i] != 47))
-		{
-			if (enter_quote_mode(str, i, tmp) == 1)
-			{
-				i++;
-				break ;
-			}
-			if (str[i] == '$' && tmp->char_type != QUOTE)
-				break ;
-			i++;
-		}
-		i--;
-	}
+		nxt_index_dollars(str, i, tmp);
 	*ptr_i = i;
 	return (j);
 }

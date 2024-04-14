@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 18:42:47 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 14:41:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	dollars_condition(t_norme	*norm, char	**res, t_base *base)
 	&& norm->tmp->char_type != DOC && ((norm->str[norm->i + 1] >= '0' \
 	&& norm->str[norm->i + 1] <= '9') || (norm->str[norm->i + 1] >= '?' \
 	&& norm->str[norm->i + 1] <= 'Z') || (norm->str[norm->i + 1] >= '_' && \
-	 norm->str[norm->i + 1] <= 'z')) && norm->tmp->char_type != DOC_QUOTE && \
+	norm->str[norm->i + 1] <= 'z')) && norm->tmp->char_type != DOC_QUOTE && \
 	norm->tmp->char_type != DOC_DOUBLE_Q)
 	{
 		enter_condition_mode(norm, res, 2, base);
@@ -85,9 +85,10 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	if (!res)
 		return (NULL);
 	norm.j = 0;
-	while (res && norm.j != -1 && str[norm.i] && ((str[norm.i] != '<' && str[norm.i] != '>' \
-	&& str[norm.i] != '|' && str[norm.i] != ' ' && str[norm.i] != 9) \
-	|| (tmp->char_type == QUOTE || tmp->char_type == DOUBLE_Q)))
+	while (res && norm.j != -1 && str[norm.i] && ((str[norm.i] != '<' && \
+	str[norm.i] != '>' && str[norm.i] != '|' && str[norm.i] != ' ' && \
+	str[norm.i] != 9) || (tmp->char_type == QUOTE || \
+	tmp->char_type == DOUBLE_Q)))
 	{
 		if (str[norm.i] == 34 || str[norm.i] == 39)
 			enter_condition_mode(&norm, &res, 1, base);
