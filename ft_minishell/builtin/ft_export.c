@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 18:47:55 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 14:50:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,29 @@ int	check_max_arg(char *str, t_base *base)
 	return (nbr);
 }
 
-int	create_nod_from_arg(t_base *base, int i)
+int	atr_nod_from_expt(t_base *base, t_env	*tmp, int i)
 {
 	char	**split;
+	
+	split = ft_split(base->lst->arg[i], '=');
+	if (!split)
+		return (-1);
+	tmp->key = ft_strdup(split[0]);
+	if (!tmp->key)
+		return (ft_free_strarr(split), -1);
+	if (split[1] == NULL)
+	{
+		tmp->value = ft_calloc(1, sizeof(char));
+		ft_free_strarr(split);
+	}
+	else
+		tmp->value = assign_value(split);
+	base->max_arg_export = check_max_arg(tmp->value, base);
+	return (0);
+}
+
+int	create_nod_from_arg(t_base *base, int i)
+{
 	t_env	*tmp;
 
 	tmp = ft_calloc(1, sizeof(t_env));
@@ -71,16 +91,8 @@ int	create_nod_from_arg(t_base *base, int i)
 	}
 	else
 	{
-		split = ft_split(base->lst->arg[i], '=');
-		tmp->key = ft_strdup(split[0]);
-		if (split[1] == NULL)
-		{
-			tmp->value = ft_calloc(1, sizeof(char));
-			ft_free_strarr(split);
-		}
-		else
-			tmp->value = assign_value(split);
-		base->max_arg_export = check_max_arg(tmp->value, base);
+		if (atr_nod_from_expt(base, tmp, i) == -1)
+			return (-1);
 	}
 	export_add_on_nod(base, tmp);
 	return (0);
@@ -101,7 +113,7 @@ int	ft_export(t_base *base, int fd[2])
 	{
 		if (check_error_export(base->lst->arg[i], base) == -1)
 			return (1);
-		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ' ||\
+		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ' || \
 		base->lst->arg[i][0] == '\0')
 		{
 			base->error_msg = base->lst->arg[i];

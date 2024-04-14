@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/13 22:39:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 14:14:41 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,32 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 
 	i = 1;
 	ft_close(fd[IN], fd[OUT], 0);
-	target_node = base->envn;
-	previous_node = NULL;
 	while (node->arg[i])
 	{
-	if (check_unset_arg(base, node->arg[i]) == 1)
-		return (base->exit_code);
-	if (ft_strcmp(node->arg[i], "PWD") == 0 || ft_strcmp(node->arg[i], "USER") == 0)
-		ghost_unset(base, node->arg[i]);
-	else
-	{
-		while (target_node)
-		{
-			if (strcmp(target_node->key, node->arg[i]) == 0)
-				break ;
-			previous_node = target_node;
-			target_node = target_node->next;
-		}
-		if (!target_node)
-			return (0);
-		if (previous_node)
-			previous_node->next = target_node->next;
+		target_node = base->envn;
+		previous_node = NULL;
+		if (check_unset_arg(base, node->arg[i]) == 1)
+			return (base->exit_code);
+		if (ft_strcmp(node->arg[i], "PWD") == 0 || ft_strcmp(node->arg[i], "USER") == 0)
+			ghost_unset(base, node->arg[i]);
 		else
-			base->envn = target_node->next;
-		delete_node(target_node);
-	}
-	i++;
+		{
+			while (target_node)
+			{
+				if (strcmp(target_node->key, node->arg[i]) == 0)
+					break ;
+				previous_node = target_node;
+				target_node = target_node->next;
+			}
+			if (!target_node)
+				return (0);
+			if (previous_node)
+				previous_node->next = target_node->next;
+			else
+				base->envn = target_node->next;
+			delete_node(target_node);
+		}
+		i++;
 	}
 	return (0);
 }
