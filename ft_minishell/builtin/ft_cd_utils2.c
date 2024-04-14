@@ -102,6 +102,8 @@ static void	ft_canonicalize(int *src, int *dest, char *curpath)
 		}
 		*src += 3;
 	}
+	else if (curpath[*src] == '/' && curpath[*src + 1] == '/')
+		*src += 1;
 	else
 		curpath[(*dest)++] = curpath[(*src)++];
 }
