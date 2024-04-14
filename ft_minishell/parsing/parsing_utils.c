@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 14:44:30 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 14:53:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 	}
 	tmp->type_write_char = 0;
 	if (str[i] != '?')
-		nxt_index_dollars(str, i, tmp);
+		i = nxt_index_dollars(str, i, tmp);
 	*ptr_i = i;
 	return (j);
 }

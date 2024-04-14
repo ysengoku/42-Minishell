@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/13 22:15:30 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/14 15:19:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int		skip_file(char **str, int i);
 int		cnt_quote(char *str, t_line *line, int i);
 int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		assign_env(t_base *base);
-void	write_nod(int i, t_line *tmp, char *str, t_base *base);
+int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
