@@ -14,7 +14,6 @@
 
 static int	set_syntax_error(t_line *line)
 {
-	printf("error !\n");
 	line->error_syntax = 1;
 	return (-1);
 }
