@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 15:13:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 03:58:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	enter_condition_mode(t_norme *norm, char **res, int boo, t_base *base)
 	if (boo == 2)
 	{
 		*res = translate_dollar(norm->str + norm->i + 1, base, *res);
-		norm->j = index_dollars(norm->str, &norm->i, norm->tmp, *res);
+		norm->j = index_dollars(norm, &norm->i, *res);
 	}
 	if (boo == 3)
 	{
@@ -50,17 +50,18 @@ void	enter_condition_mode(t_norme *norm, char **res, int boo, t_base *base)
 	}
 }
 
-t_norme	attribute_norm(int *index, t_line *tmp, char *str)
+t_norme	attribute_norm(int *index, t_line *tmp, char *str, t_base *base)
 {
 	t_norme	norm;
 
 	norm.i = *index;
 	norm.str = str;
 	norm.tmp = tmp;
+	norm.base = base;
 	return (norm);
 }
 
-void	dollars_condition(t_norme	*norm, char	**res, t_base *base)
+void	dollars_condition(t_norme *norm, char	**res, t_base *base)
 {
 	if (norm->str[norm->i] == '$' && norm->tmp->char_type != QUOTE \
 	&& norm->tmp->char_type != DOC && ((norm->str[norm->i + 1] >= '0' \
@@ -80,7 +81,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	char	*res;
 	t_norme	norm;
 
-	norm = attribute_norm(index, tmp, str);
+	norm = attribute_norm(index, tmp, str, base);
 	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
@@ -97,7 +98,9 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 		norm.i++;
 	}
 	if (norm.j == -1)
+	{
 		return (free(res), NULL);
+	}
 	if (res)
 		res[norm.j] = '\0';
 	*index = norm.i;

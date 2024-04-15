@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 15:04:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 02:07:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 		curpath = concatenate_path(base, curpath);
 	if (!curpath)
 		return (1);
-	canonicalize_path(curpath);
+	canonicalize_path(curpath, node);
+	if (chdir(curpath) == -1 && strcmp(node->arg[1], "..") == 0)
+	{
+		ft_fprintf(2, "minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+		return (ft_free((void *)curpath, 0));
+	}
 	if (ft_chdir(curpath, base, fd) == 1)
 		return (ft_free((void *)curpath, 1));
 	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)

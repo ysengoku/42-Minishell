@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 09:00:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:16:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,20 @@ static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
 // 		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
 // 	exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
 // }
+
+void exec_file(t_line *node, t_base *base)
+{
+	char	*pathname;
+	
+	pathname = strdup(node->arg[0]);
+	execve(pathname, node->arg, base->env);
+	free(pathname);
+	if (errno == EACCES)
+		exit(error_in_child(base, 126, node->arg[0], strerror(errno)));
+	else if (errno == ENOTDIR)
+		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
+	exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
+}
 
 void	execute_command(t_base *base, t_line *node)
 {
