@@ -14,6 +14,7 @@
 
 static char	*concatenate_home(t_base *base, char *curpath);
 static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd);
+static int	is_dot_or_dotdot(char *path);
 static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag);
 
 char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
@@ -50,6 +51,56 @@ static char	*concatenate_home(t_base *base, char *curpath)
 	return (concatenated_path);
 }
 
+static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd)
+{
+	t_env	*pwd;
+	char	*cwd;
+	char	buf[PATH_MAX];
+	char	*concatenated_path;
+
+	cwd = getcwd(buf, sizeof(buf));
+	pwd = find_env_var(base, "PWD");
+	if (cwd == NULL && is_dot_or_dotdot(curpath) == 1)
+		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
+	else
+	{
+		concatenated_path = ft_calloc(ft_strlen(pwd->value)
+				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
+		if (!concatenated_path)
+		{
+			base->exit_code = ft_perror("malloc", 1);
+			return (NULL);
+		}
+		ft_strcpy(concatenated_path, pwd->value);
+		if (concatenated_path[ft_strlen(concatenated_path) - 1] != '/')
+			ft_strcat(concatenated_path, "/");
+		ft_strcat(concatenated_path, curpath);
+	}
+	return (concatenated_path);
+}
+
+static int	is_dot_or_dotdot(char *path)
+{
+	int	i;
+
+	i = 0;
+	if (path[i] != '.')
+		return (1);
+	while (path[i])
+	{
+		if (path[i] == '0' || (path[i] == '.' && path[i + 1] == '\0')
+			|| (path[i] == '.' && path[i + 1] == '.' && path[i + 2] == '\0'))
+			break ;
+		if (path[i] == '.' && (path[i + 1] == '/' || path[i + 1] == '\0'))
+			i += 2;
+		else if (path[i] == '.' && path[i + 1] == '.' && path[i + 2] == '/')
+			i += 3;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 {
 	char	*concatenated_path;
@@ -74,34 +125,6 @@ static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 	{
 		base->exit_code = ft_perror("malloc", 1);
 		return (NULL);
-	}
-	return (concatenated_path);
-}
-
-static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd)
-{
-	t_env	*pwd;
-	char	*cwd;
-	char	buf[PATH_MAX];
-	char	*concatenated_path;
-
-	cwd = getcwd(buf, sizeof(buf));
-	pwd = find_env_var(base, "PWD");
-	if (cwd == NULL) ///// Need to add a condition -> handle only . ./ .. ../
-		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
-	else
-	{
-		concatenated_path = ft_calloc(ft_strlen(cwd)
-				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
-		if (!concatenated_path)
-		{
-			base->exit_code = ft_perror("malloc", 1);
-			return (NULL);
-		}
-		ft_strcpy(concatenated_path, cwd);
-		if (concatenated_path[ft_strlen(concatenated_path) - 1] != '/')
-			ft_strcat(concatenated_path, "/");
-		ft_strcat(concatenated_path, curpath);
 	}
 	return (concatenated_path);
 }
