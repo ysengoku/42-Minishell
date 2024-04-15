@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
+#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/12 17:22:57 by dvo              ###   ########.fr        #
+#    Updated: 2024/04/15 16:07:31 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,8 @@ LIBS = -lreadline -lft -lftprintf
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
-		ft_cd_utils.c	\
-		ft_cd_utils2.c	\
+		ft_cd_concatenater.c	\
+		ft_cd_canonicalizer.c	\
 		ft_echo.c	\
 		ft_env.c \
 		ft_exit.c	\
