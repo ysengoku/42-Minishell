@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 12:19:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 08:52:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,15 @@ int	is_directory(char *name)
 {
 	DIR	*dir;
 
-	dir = opendir(name);
-	if (dir == NULL)
-		return (0);
-	closedir(dir);
-	return (1);
+	if (ft_strchr(name, '/'))
+	{
+		dir = opendir(name);
+		if (dir == NULL)
+			return (0);
+		closedir(dir);
+		return (1);
+	}
+	return (0);
 }
 
 int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
