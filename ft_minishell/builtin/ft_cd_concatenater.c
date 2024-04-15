@@ -87,7 +87,7 @@ static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd)
 
 	cwd = getcwd(buf, sizeof(buf));
 	pwd = find_env_var(base, "PWD");
-	if (cwd == NULL)
+	if (cwd == NULL) ///// Need to add a condition -> handle only . ./ .. ../
 		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
 	else
 	{
