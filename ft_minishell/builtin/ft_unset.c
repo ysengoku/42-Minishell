@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/14 15:12:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 19:43:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	check_unset_arg(t_base *base, char *str)
 	if (!str[i] || (!ft_isalpha(str[i]) && str[i] != '_'))
 	{
 		base->exit_code = 1;
-		return (print_err(UNSET, str, "not a valid identifier", 1));
+		return(0);
+		//return (print_err(UNSET, str, "not a valid identifier", 1));
 	}
 	while (str[++i])
 	{
