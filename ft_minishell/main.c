@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 17:56:48 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 16:32:01 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_received_signal;
+int	g_received_signal = 0;
 
 static void	ft_minishell(t_base *base)
 {
@@ -63,7 +63,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_base	*base;
 
-	g_received_signal = 0;
 	if (ac == 1)
 	{
 		base = init_base(env);
@@ -73,7 +72,10 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, handle_sigquit);
 		while (1)
+		{
+			g_received_signal = 0;
 			ft_minishell(base);
+		}
 	}
 	else if (ac == 3 && ft_strncmp(av[1], "-c", 2) == 0)
 	{
