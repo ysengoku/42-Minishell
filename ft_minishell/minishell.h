@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/14 15:19:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 03:57:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,6 @@ typedef struct s_line
 	struct s_line		*next;
 }				t_line;
 
-typedef struct s_norme
-{
-	int		i;
-	int		j;
-	char	*str;
-	t_line	*tmp;
-}				t_norme;
-
 typedef struct s_base
 {
 	char	**env;
@@ -115,6 +107,15 @@ typedef struct s_base
 	int		null_env;
 	int		max_arg_export;
 }			t_base;
+
+typedef struct s_norme
+{
+	int		i;
+	int		j;
+	char	*str;
+	t_line	*tmp;
+	t_base	*base;
+}				t_norme;
 
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
@@ -159,7 +160,7 @@ int		ft_cd(t_base *base, t_line *node, int fd[2]);
 char	*get_path(t_base *base, char *destination);
 char	*get_pwd(void);
 char	*concatenate_path(t_base *base, char *curpath);
-void	canonicalize_path(char *curpath);
+void	canonicalize_path(char *curpath, t_line *node);
 /* ft_echo */
 int		ft_echo(t_line *node, int fd[2]);
 /* ft_pwd */
@@ -208,7 +209,7 @@ char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 int		create_nod(char *str, t_base *base);
-int		index_dollars(char *str, int *ptr_i, t_line *tmp, char *res);
+int		index_dollars(t_norme *norm, int *ptr_i, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

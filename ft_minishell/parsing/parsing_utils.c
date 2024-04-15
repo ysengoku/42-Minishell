@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 14:53:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 04:51:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	nxt_index_dollars(char *str, int i, t_line *tmp)
 	return (i);
 }
 
-int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
+int	index_dollars(t_norme *norm, int *ptr_i, char *res)
 {
 	int	j;
 	int	i;
@@ -90,19 +90,22 @@ int	index_dollars(char *str, int *ptr_i, t_line *tmp, char *res)
 	j = 0;
 	while (res && res[j])
 	{
-		if ((j >= i || tmp->type_write_char == 2) && res[j] == ' ')
+		if ((j >= i || norm->tmp->type_write_char == 2) && res[j] == ' ' && norm->tmp->char_type == STANDARD)
 		{
-			if (tmp->type_write_char == 0 || tmp->type_write_char == 2)
-				ft_new_arg(tmp, res, j);
+			if (norm->tmp->type_write_char == 0 || norm->tmp->type_write_char == 2)
+				ft_new_arg(norm->tmp, res, j);
 			else
-				return (ft_display_error(4, NULL), -1);
+			{
+				ft_display_error(4, norm->base);
+				return (-1);
+			}
 			j = 0;
 		}
 		j++;
 	}
-	tmp->type_write_char = 0;
-	if (str[i] != '?')
-		i = nxt_index_dollars(str, i, tmp);
+	norm->tmp->type_write_char = 0;
+	if (norm->str[i] != '?')
+		i = nxt_index_dollars(norm->str, i, norm->tmp);
 	*ptr_i = i;
 	return (j);
 }

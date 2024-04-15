@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:39:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 15:41:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 02:04:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ char	*concatenate_path(t_base *base, char *curpath)
 	return (concatenated_path);
 }
 
-void	canonicalize_path(char *curpath)
+void	canonicalize_path(char *curpath, t_line *node)
 {
 	int	src;
 	int	dest;
 
+	(void) node;
 	src = 0;
 	dest = 0;
 	while (curpath[src])
@@ -95,12 +96,12 @@ static void	ft_canonicalize(int *src, int *dest, char *curpath)
 		&& curpath[*src + 2] == '.'
 		&& (curpath[*src + 3] == '/' || curpath[*src + 3] == '\0'))
 	{
-		if (*dest > 0)
-		{
-			while (curpath[--(*dest)] != '/' && *dest > 1)
-				;
-		}
-		*src += 3;
+			if (*dest > 0)
+			{
+				while (curpath[--(*dest)] != '/' && *dest > 1)
+					;
+			}
+			*src += 3;
 	}
 	else if (curpath[*src] == '/' && curpath[*src + 1] == '/')
 		*src += 1;
