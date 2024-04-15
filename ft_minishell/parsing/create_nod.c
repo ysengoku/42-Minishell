@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 15:13:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 04:23:29 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 			i++;
 		else
 			i = write_arg(i, tmp, str, base);
+		if (tmp->error_syntax == 1)
+			return ;
 	}
 }
 
@@ -66,6 +68,6 @@ int	create_nod(char *str, t_base *base)
 	write_nod(i, tmp, str, base);
 	attribute_nod(base, tmp);
 	if (tmp->error_syntax == 1)
-		return (ft_free((void *)str, -1));
+		return (-1);
 	return (0);
 }
