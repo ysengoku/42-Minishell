@@ -1,46 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 15:39:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 12:25:04 by yusengok         ###   ########.fr       */
+/*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
+/*   Updated: 2024/04/15 16:05:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*concatenate_home(t_base *base, char *curpath);
-static char	*concatenate_pwd(t_base *base, char *curpath);
-static void	ft_canonicalize(int *src, int *dest, char *curpath);
+static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd);
+static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag);
 
-char	*concatenate_path(t_base *base, char *curpath)
+char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
 {
 	char	*concatenated_path;
 
 	if (ft_strncmp(curpath, "~/", 2) == 0)
 		concatenated_path = concatenate_home(base, curpath);
 	else
-		concatenated_path = concatenate_pwd(base, curpath);
+		concatenated_path = concatenate_pwd(base, curpath, missing_pwd);
 	free(curpath);
 	return (concatenated_path);
-}
-
-void	canonicalize_path(char *curpath, t_line *node)
-{
-	int	src;
-	int	dest;
-
-	(void) node;
-	src = 0;
-	dest = 0;
-	while (curpath[src])
-		ft_canonicalize(&src, &dest, curpath);
-	curpath[dest] = '\0';
-	if (!curpath[0])
-		ft_strcpy(curpath, "/");
 }
 
 static char	*concatenate_home(t_base *base, char *curpath)
@@ -55,7 +40,7 @@ static char	*concatenate_home(t_base *base, char *curpath)
 			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
 	if (!concatenated_path)
 	{
-		base->exit_code = ft_perror("malloc", 1);;
+		base->exit_code = ft_perror("malloc", 1);
 		return (NULL);
 	}
 	ft_strcpy(concatenated_path, home->value);
@@ -65,14 +50,12 @@ static char	*concatenate_home(t_base *base, char *curpath)
 	return (concatenated_path);
 }
 
-static char	*concatenate_pwd(t_base *base, char *curpath)
+static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 {
-	t_env	*pwd;
 	char	*concatenated_path;
+	char	*tmp;
 
-	pwd = find_env_var(base, "PWD");
-	if (pwd == NULL)
-		return (NULL);
+	*flag = 1;
 	concatenated_path = ft_calloc(ft_strlen(pwd->value)
 			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
 	if (!concatenated_path)
@@ -83,28 +66,42 @@ static char	*concatenate_pwd(t_base *base, char *curpath)
 	ft_strcpy(concatenated_path, pwd->value);
 	if (concatenated_path[ft_strlen(concatenated_path) - 1] != '/')
 		ft_strcat(concatenated_path, "/");
-	ft_strcat(concatenated_path, curpath);
+	ft_strcat(concatenated_path, path);
+	tmp = pwd->value;
+	pwd->value = ft_strdup(concatenated_path);
+	free(tmp);
+	if (!pwd->value)
+	{
+		base->exit_code = ft_perror("malloc", 1);
+		return (NULL);
+	}
 	return (concatenated_path);
 }
 
-static void	ft_canonicalize(int *src, int *dest, char *curpath)
+static char	*concatenate_pwd(t_base *base, char *curpath, int *missing_pwd)
 {
-	if (curpath[*src] == '/' && curpath[*src + 1] == '.'
-		&& (curpath[*src + 2] == '/' || curpath[*src + 2] == '\0'))
-		*src += 2;
-	else if (curpath[*src] == '/' && curpath[*src + 1] == '.'
-		&& curpath[*src + 2] == '.'
-		&& (curpath[*src + 3] == '/' || curpath[*src + 3] == '\0'))
-	{
-			if (*dest > 0)
-			{
-				while (curpath[--(*dest)] != '/' && *dest > 1)
-					;
-			}
-			*src += 3;
-	}
-	else if (curpath[*src] == '/' && curpath[*src + 1] == '/')
-		*src += 1;
+	t_env	*pwd;
+	char	*cwd;
+	char	buf[PATH_MAX];
+	char	*concatenated_path;
+
+	cwd = getcwd(buf, sizeof(buf));
+	pwd = find_env_var(base, "PWD");
+	if (cwd == NULL)
+		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
 	else
-		curpath[(*dest)++] = curpath[(*src)++];
+	{
+		concatenated_path = ft_calloc(ft_strlen(cwd)
+				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
+		if (!concatenated_path)
+		{
+			base->exit_code = ft_perror("malloc", 1);
+			return (NULL);
+		}
+		ft_strcpy(concatenated_path, cwd);
+		if (concatenated_path[ft_strlen(concatenated_path) - 1] != '/')
+			ft_strcat(concatenated_path, "/");
+		ft_strcat(concatenated_path, curpath);
+	}
+	return (concatenated_path);
 }

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 09:55:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:06:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,7 @@ char	*handle_malloc_failure(char	*to_free);
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
-char	*get_path(t_base *base, char *destination);
-char	*get_pwd(void);
-char	*concatenate_path(t_base *base, char *curpath);
+char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd);
 void	canonicalize_path(char *curpath, t_line *node);
 /* ft_echo */
 int		ft_echo(t_line *node, int fd[2]);
