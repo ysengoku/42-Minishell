@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:39:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 02:04:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 12:25:04 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*concatenate_home(t_base *base, char *curpath)
 			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
 	if (!concatenated_path)
 	{
-		ft_perror("malloc", 1);
+		base->exit_code = ft_perror("malloc", 1);;
 		return (NULL);
 	}
 	ft_strcpy(concatenated_path, home->value);
@@ -77,7 +77,7 @@ static char	*concatenate_pwd(t_base *base, char *curpath)
 			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
 	if (!concatenated_path)
 	{
-		ft_perror("malloc", 1);
+		base->exit_code = ft_perror("malloc", 1);
 		return (NULL);
 	}
 	ft_strcpy(concatenated_path, pwd->value);

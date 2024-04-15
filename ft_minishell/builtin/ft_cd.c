@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 02:07:27 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/15 13:14:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	is_home(char *arg);
-static int	ft_chdir(char *curpath, t_base *base, int fd[2]);
+static int	ft_chdir(char *curpath, t_base *base, t_line *node, int fd[2]);
 static int	retry_cwd(t_base *base);
 
 int	ft_cd(t_base *base, t_line *node, int fd[2])
@@ -33,22 +33,36 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (curpath[0] != '/')
 		curpath = concatenate_path(base, curpath);
 	if (!curpath)
-		return (1);
+		return (base->exit_code);
 	canonicalize_path(curpath, node);
-	if (chdir(curpath) == -1 && strcmp(node->arg[1], "..") == 0)
-	{
-		ft_fprintf(2, "minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
-		return (ft_free((void *)curpath, 0));
-	}
-	if (ft_chdir(curpath, base, fd) == 1)
+	if (ft_chdir(curpath, base, node, fd) == 1)
 		return (ft_free((void *)curpath, 1));
-	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
+	else if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
 		ft_putendl_fd(curpath, fd[OUT]);
 	ft_close(fd[IN], fd[OUT], 0);
 	return (ft_free((void *)curpath, 0));
 }
 
-static int	ft_chdir(char *curpath, t_base *base, int fd[2])
+char	*ft_strstr_r(char *big, char *little)
+{
+	int	i;
+	int	j;
+
+	i = ft_strlen(big) - ft_strlen(little);
+	if (i < 0)
+		return (big);
+	j = 0;
+	while (big[i] && little[j])
+	{
+		if (big[i] != little[j])
+			return (&big[i]);
+		i++;
+		j++;
+	}
+	return (NULL);
+}
+
+static int	ft_chdir(char *curpath, t_base *base, t_line *node, int fd[2])
 {
 	t_env	*pwd;
 	t_env	*oldpwd;
@@ -62,11 +76,14 @@ static int	ft_chdir(char *curpath, t_base *base, int fd[2])
 		return (print_err(CD, "OLDPWD not set", NULL, 1));
 	if (chdir(curpath) == -1)
 	{
-		if (ft_strcmp(base->lst->arg[1], "./") == 0)
+		ft_close(fd[IN], fd[OUT], 0);
+		if (!ft_strcmp(node->arg[1], ".."))
+			return (print_err("chdir", DELETED_CWD, NULL, 0));
+		else if (!ft_strstr_r(node->arg[1], "./")
+			|| !ft_strstr_r(node->arg[1], "."))
 			return (retry_cwd(base));
-		ft_fprintf(2, "minishell: cd: %s: %s\n", base->lst->arg[1],
-			strerror(errno));
-		return (ft_close(fd[IN], fd[OUT], 1));
+		else
+		return (print_err(CD, node->arg[1], strerror(errno), 1));
 	}
 	tmp = oldpwd->value;
 	oldpwd->value = pwd->value;
@@ -101,7 +118,7 @@ static int	retry_cwd(t_base *base)
 				free(tmp);
 			}
 		}
-		return (print_err(CD, DELETED_CWD, NULL, 1));
+		return (print_err("chdir", DELETED_CWD, NULL, 1));
 	}
 	return (chdir(buf));
 }
