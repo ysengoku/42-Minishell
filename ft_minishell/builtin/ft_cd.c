@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 09:02:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:35:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	is_home(char *arg);
 static char	*get_path(t_base *base, char *arg);
+static char	*get_oldpwd_path(t_base *base);
 static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd);
 static void	update_pwd(t_base *base, char *curpath);
 
@@ -46,7 +47,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	return (ft_free((void *)curpath, base->exit_code));
 }
 
-static bool	is_home(char *arg)
+static bool	is_home(char *arg) /// If we expand '~', we can remove this function
 {
 	if (arg == NULL || ft_strncmp(arg, "~", 2) == 0
 		|| ft_strncmp(arg, "~/", 3) == 0)
@@ -54,32 +55,54 @@ static bool	is_home(char *arg)
 	return (false);
 }
 
+static char	*get_oldpwd_path(t_base *base)
+{
+	t_env	*oldpwd;
+	char	*path;
+
+	oldpwd = find_env_var(base, OLDPWD);
+	if (!oldpwd || !oldpwd->value)
+	{
+		if (base->oldpwd_log[0] == 0)
+		{
+			ft_fprintf(2, "minishell: cd: %s not set\n", OLDPWD);
+			return (NULL);
+		}
+		path = ft_strdup(base->oldpwd_log);
+		if (!path)
+			ft_perror("malloc", 1);
+		return (path);
+	}
+	path = ft_strdup(oldpwd->value);
+	if (!path)
+		perror("malloc");
+	return (path);
+}
+
 static char	*get_path(t_base *base, char *arg)
 {
 	char	*path;
-	t_env	*oldpwd;
 
-	if (is_home(arg) == true)
+	path = NULL;
+	if (arg == NULL)
 	{
-		if (!find_env_var(base, "HOME") || !find_env_var(base, "HOME")->value)
+		if (!find_env_var(base, HOME) || !find_env_var(base, HOME)->value)
 		{
-			ft_fprintf(2, "minishell: cd: %s not set\n", "HOME");
+			ft_fprintf(2, "minishell: cd: %s not set\n", HOME);
 			return (NULL);
 		}
-		path = ft_strdup(getenv("HOME"));
+		path = ft_strdup(getenv(HOME));
+		if (!path)
+			ft_perror("malloc", 1);
+	}
+	else if (ft_strncmp(arg, "~", 2) == 0 || ft_strncmp(arg, "~/", 3) == 0)
+	{
+		path = ft_strdup(getenv(HOME));
+		if (!path)
+			ft_perror("malloc", 1);
 	}
 	else if (ft_strncmp(arg, "-", 2) == 0)
-	{
-		oldpwd = find_env_var(base, "OLDPWD");
-		if (!oldpwd || !oldpwd->value)
-		{
-			ft_fprintf(2, "minishell: cd: %s not set\n", "OLDPWD");
-			return (NULL);
-		}
-		path = ft_strdup(oldpwd->value);
-	}
-	if (!path)
-		ft_perror("malloc", 1);
+		path = get_oldpwd_path(base);
 	return (path);
 }
 
@@ -103,21 +126,22 @@ static void	update_pwd(t_base *base, char *curpath)
 	char	*tmp;
 
 	pwd = find_env_var(base, "PWD");
-	if (pwd == NULL)
-	{
-		base->exit_code = print_err(CD, "PWD not set", NULL, 1);
-		return ;
-	}
-	oldpwd = find_env_var(base, "OLDPWD");
+	oldpwd = find_env_var(base, OLDPWD);
+	ft_strcpy(base->oldpwd_log, pwd->value);
 	if (oldpwd == NULL)
 	{
-		base->exit_code = print_err(CD, "OLDPWD not set", NULL, 1);
+		tmp = pwd->value;
+		pwd->value = ft_strdup(curpath);
+		free(tmp);
 		return ;
 	}
-	tmp = oldpwd->value;
-	oldpwd->value = pwd->value;
-	free(tmp);
-	pwd->value = ft_strdup(curpath);
+	else
+	{
+		tmp = oldpwd->value;
+		oldpwd->value = pwd->value;
+		free(tmp);
+		pwd->value = ft_strdup(curpath);
+	}
 	if (!pwd->value)
 		base->exit_code = (ft_perror("malloc", 1));
 	else
