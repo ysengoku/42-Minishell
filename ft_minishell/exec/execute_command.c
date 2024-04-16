@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 09:18:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:37:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execute_command(t_base *base, t_line *node)
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
 	if (is_directory(node->arg[0]) == 1 || !ft_strcmp(node->arg[0], "~"))
 		exit (error_in_child(base, 126, node->arg[0], "Is a directory"));
-	if (strchr(node->arg[0], '/'))
+	if (strchr(node->arg[0], '/') || access(node->arg[0], X_OK) == 0)
 	{
 		pathname = ft_strdup(node->arg[0]);
 		if (!pathname)
@@ -76,25 +76,15 @@ static char	**extract_path(t_base *base, t_line *node)
 {
 	char	*tmp;
 	char	**path_list;
-	t_env	*current_node;
+	t_env	*path;
 
 	tmp = NULL;
-	current_node = base->envn;
-	while (current_node)
-	{
-		if (ft_strcmp(current_node->key, "PATH") == 0)
-		{
-			tmp = ft_strdup(current_node->value);
-			if (!tmp)
-				exit(error_in_child(base, 1, strerror(errno), NULL));
-			break ;
-		}
-		current_node = current_node->next;
-	}
-	if (!tmp)
-		exit(error_in_child(base, 127, node->arg[0], "command not found"));
+	path = find_env_var(base, "PATH");
+	if (path == NULL)
+		exit(error_in_child(base, 127, node->arg[0],
+				"No such file or directory"));
+	tmp = path->value;
 	path_list = ft_split(tmp, ':');
-	free(tmp);
 	if (!path_list)
 		exit(error_in_child(base, 1, strerror(errno), NULL));
 	return (path_list);
