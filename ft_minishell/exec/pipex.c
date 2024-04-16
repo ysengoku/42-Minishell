@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 19:55:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/16 13:20:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,10 @@ static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 {
 	waitpid(lastchild_pid, &base->exit_code, 0);
+	if (WIFSIGNALED(base->exit_code))
+		g_received_signal = base->exit_code;
+	else
+		g_received_signal = 0;
 	while (count-- > 0)
 		wait(NULL);
 }
