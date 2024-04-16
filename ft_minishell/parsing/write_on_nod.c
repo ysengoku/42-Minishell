@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/15 03:58:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/16 20:32:36 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ void	enter_condition_mode(t_norme *norm, char **res, int boo, t_base *base)
 		norm->j++;
 		(*res)[norm->j] = '\0';
 	}
+	if (boo == 4)
+	{
+		*res = translate_dollar("HOME", base, *res);
+		norm->j = index_wave(norm, &norm->i, *res);
+	}
 }
 
 t_norme	attribute_norm(int *index, t_line *tmp, char *str, t_base *base)
@@ -69,9 +74,10 @@ void	dollars_condition(t_norme *norm, char	**res, t_base *base)
 	&& norm->str[norm->i + 1] <= 'Z') || (norm->str[norm->i + 1] >= '_' && \
 	norm->str[norm->i + 1] <= 'z')) && norm->tmp->char_type != DOC_QUOTE && \
 	norm->tmp->char_type != DOC_DOUBLE_Q)
-	{
 		enter_condition_mode(norm, res, 2, base);
-	}
+	else if (norm->str[norm->i] == '~' && norm->tmp->char_type == STANDARD && \
+	(norm->str[norm->i + 1] == '/' || norm->str[norm->i + 1] == '\0') &&  norm->j == 0)
+		enter_condition_mode(norm, res, 4, base);
 	else
 		enter_condition_mode(norm, res, 3, base);
 }
