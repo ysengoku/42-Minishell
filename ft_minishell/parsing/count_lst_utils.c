@@ -3,34 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 09:11:31 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 10:47:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:59:31 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_recreate_str(char *str, int i)
+void	ft_recreate_str(char *str, int i)
 {
-	char	*new_str;
 	int		len;
+	int		len_str;
 
+	len_str = ft_strlen(str);
 	while (i != 0
 		&& (str[i] == '<' || str[i] == '>' || str[i] == ' ' || str[i] == '\0'))
 		i--;
 	if (i != 0)
 		i++;
-	new_str = ft_calloc(i + 1, sizeof(char));
 	len = 0;
 	while (len < i)
-	{
-		new_str[len] = str[len];
 		len++;
-	}
-	new_str[len] = '\0';
-	return (new_str);
+	while (len < len_str)
+		str[len++] = '\0';
+	return ;
 }
 
 static int	cnt_file(int i, char **str)
@@ -39,7 +37,7 @@ static int	cnt_file(int i, char **str)
 		i++;
 	if ((*str)[i] == '<' || (*str)[i] == '>' || (*str)[i] == '\0')
 	{
-		*str = ft_recreate_str(*str, i);
+		ft_recreate_str(*str, i);
 		return (-1);
 	}
 	if ((*str)[i] == 34)

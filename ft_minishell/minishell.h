@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 15:56:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:30:14 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ char	*translate_dollar(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 int		create_nod(char *str, t_base *base);
 int		index_dollars(t_norme *norm, int *ptr_i, char *res);
+int		index_wave(t_norme *norm, int *ptr_i, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

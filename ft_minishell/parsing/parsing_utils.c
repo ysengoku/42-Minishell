@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/15 04:51:25 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/16 20:32:09 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,23 @@ int	index_dollars(t_norme *norm, int *ptr_i, char *res)
 	norm->tmp->type_write_char = 0;
 	if (norm->str[i] != '?')
 		i = nxt_index_dollars(norm->str, i, norm->tmp);
+	*ptr_i = i;
+	return (j);
+}
+
+int	index_wave(t_norme *norm, int *ptr_i, char *res)
+{
+	int	j;
+	int	i;
+
+	i = *ptr_i + 1;
+	j = 0;
+	while (res && res[j])
+		j++;
+	norm->tmp->type_write_char = 0;
+	while (norm->str[i] && norm->str[i] != ' ' && norm->str[i] != '/')
+		i++;
+	i--;
 	*ptr_i = i;
 	return (j);
 }
