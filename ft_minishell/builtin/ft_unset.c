@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 19:43:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/16 08:39:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_unset_arg(t_base *base, char *str);
+static int	check_unset_arg(char *str);
 static void	ghost_unset(t_base *base, char *str);
 static void	delete_env(t_base *base, t_line *node, int i);
 static void	delete_node(t_env *node);
@@ -25,41 +25,37 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	while (node->arg[i])
 	{
-		if (check_unset_arg(base, node->arg[i]) == 1)
-			return (base->exit_code);
-		if (ft_strcmp(node->arg[i], "PWD") == 0 || \
-		ft_strcmp(node->arg[i], "USER") == 0)
-			ghost_unset(base, node->arg[i]);
+		if (node->arg[i][0] == '-')
+		{
+			base->exit_code = 2;
+			return (print_err(UNSET, node->arg[i], "invalid option", 2));
+		}
+		if (check_unset_arg(node->arg[i]) == 1)
+			i++;
 		else
-			delete_env(base, node, i);
-		i++;
+		{
+			if (ft_strcmp(node->arg[i], "PWD") == 0 || \
+			ft_strcmp(node->arg[i], "USER") == 0)
+				ghost_unset(base, node->arg[i]);
+			else
+				delete_env(base, node, i);
+			i++;
+		}
 	}
 	return (0);
 }
 
-static int	check_unset_arg(t_base *base, char *str)
+static int	check_unset_arg(char *str)
 {
 	int		i;
 
 	i = 0;
-	if (str[i] == '-')
-	{
-		base->exit_code = 2;
-		return (print_err(UNSET, str, "invalid option", 1));
-	}
 	if (!str[i] || (!ft_isalpha(str[i]) && str[i] != '_'))
-	{
-		base->exit_code = 1;
-		return(0);
-		//return (print_err(UNSET, str, "not a valid identifier", 1));
-	}
+		return (1);
 	while (str[++i])
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-		{
-			base->exit_code = 1;
-			return (print_err(UNSET, str, "not a valid identifier", 1));
-		}
+			return(1);
 	}
 	return (0);
 }
