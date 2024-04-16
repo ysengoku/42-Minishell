@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 17:49:35 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/16 10:57:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static int	execute_external_command(t_base *base, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	waitpid(child_pid, &exit_status, 0);
 	if (WIFSIGNALED(exit_status))
-	{
 		g_received_signal = exit_status;
-	}
+	else
+		g_received_signal = 0;
 	return (WEXITSTATUS(exit_status));
 }
 
