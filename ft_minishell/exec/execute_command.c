@@ -24,7 +24,8 @@ void	execute_command(t_base *base, t_line *node)
 	if (!node->arg[0][0] || !ft_strcmp(node->arg[0], "..")
 		|| !ft_strcmp(node->arg[0], "."))
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
-	if (is_directory(node->arg[0]) == 1 || !ft_strcmp(node->arg[0], "~"))
+	//if (is_directory(node->arg[0]) == 1 || !ft_strcmp(node->arg[0], "~"))
+	if (is_directory(node->arg[0]) == 1)
 		exit (error_in_child(base, 126, node->arg[0], "Is a directory"));
 	if (strchr(node->arg[0], '/') || access(node->arg[0], X_OK) == 0)
 	{

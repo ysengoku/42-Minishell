@@ -161,6 +161,7 @@ char	*handle_malloc_failure(char	*to_free);
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
+char	*expand_path(t_base *base, char *arg);
 char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd);
 void	canonicalize_path(char *curpath, t_line *node);
 /* ft_echo */
