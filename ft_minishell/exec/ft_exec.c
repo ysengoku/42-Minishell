@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 10:57:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:19:51 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ static int	execute_single_command(t_base *base, t_line *node)
 
 static int	execute_external_command(t_base *base, int fd[2])
 {
-	int		exit_status;
 	pid_t	child_pid;
 
-	exit_status = 0;
 	child_pid = ft_fork(fd[IN], fd[OUT]);
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
@@ -71,12 +69,12 @@ static int	execute_external_command(t_base *base, int fd[2])
 		execute_command(base, base->lst);
 	}
 	ft_close(fd[IN], fd[OUT], 0);
-	waitpid(child_pid, &exit_status, 0);
-	if (WIFSIGNALED(exit_status))
-		g_received_signal = exit_status;
+	waitpid(child_pid, &base->exit_code, 0);
+	if (WIFSIGNALED(base->exit_code))
+		g_received_signal = base->exit_code;
 	else
 		g_received_signal = 0;
-	return (WEXITSTATUS(exit_status));
+	return (WEXITSTATUS(base->exit_code));
 }
 
 static pid_t	ft_fork(int fd_in, int fd_out)
