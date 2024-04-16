@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 15:54:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 01:39:41 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,14 @@ static char	*get_path(t_base *base, char *arg)
 	t_env	*oldpwd;
 
 	if (is_home(arg) == true)
+	{
+		if (find_env_var(base, "HOME") == NULL || find_env_var(base, "HOME")->value == NULL)
+		{
+			ft_fprintf(2, "minishell: cd: %s not set\n", "HOME");
+			return (NULL);
+		}
 		path = ft_strdup(getenv("HOME"));
+	}
 	else if (ft_strncmp(arg, "-", 2) == 0)
 	{
 		oldpwd = find_env_var(base, "OLDPWD");
