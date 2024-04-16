@@ -34,6 +34,7 @@ LIBS = -lreadline -lft -lftprintf
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
+		ft_cd_expand.c	\
 		ft_cd_concatenater.c	\
 		ft_cd_canonicalizer.c	\
 		ft_echo.c	\
