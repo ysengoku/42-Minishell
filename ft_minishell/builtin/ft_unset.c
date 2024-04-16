@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 09:17:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:10:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	check_unset_arg(char *str);
 static void	ghost_unset(t_base *base, char *str);
 static void	delete_env(t_base *base, t_line *node, int i);
-static void	delete_node(t_env *node);
+static void	delete_node(t_env *node, t_base *base);
 
 int	ft_unset(t_base *base, t_line *node, int fd[2])
 {
@@ -94,11 +94,13 @@ void	delete_env(t_base *base, t_line *node, int i)
 		previous_node->next = target_node->next;
 	else
 		base->envn = target_node->next;
-	delete_node(target_node);
+	delete_node(target_node, base);
 }
 
-static void	delete_node(t_env *node)
+static void	delete_node(t_env *node, t_base *base)
 {
+	if (ft_strcmp(node->key, OLDPWD) == 0)
+		base->oldpwd_log[0] = '\0';
 	free(node->key);
 	free(node->value);
 	free(node);

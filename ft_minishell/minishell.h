@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 16:06:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:56:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ extern int	g_received_signal;
 # define PWD "pwd"
 # define UNSET "unset"
 # define EXITSTATUS "$?"
+
+# define HOME "HOME"
+# define OLDPWD "OLDPWD"
 
 # define IN 0
 # define OUT 1
@@ -106,6 +109,7 @@ typedef struct s_base
 	char	*error_msg;
 	int		null_env;
 	int		max_arg_export;
+	char	oldpwd_log[PATH_MAX];
 }			t_base;
 
 typedef struct s_norme
