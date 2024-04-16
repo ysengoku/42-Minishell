@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/15 16:38:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:18:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,72 +15,6 @@
 static char	*get_pathname(t_base *base, t_line *node);
 static char	**extract_path(t_base *base, t_line *node);
 static char	*check_path(t_base *base, t_line *node, char **path_list, int i);
-
-// void	not_executable(t_base *base) ////////////////////////////////////////////////
-// {
-// 	if (errno == ENOENT)
-// 		base->exit_code = 127;
-// 	else
-// 		base->exit_code = 126;
-// 	exit(error_in_child(base, base->exit_code, strerror(errno), NULL));
-// }
-
-// void	execute_command(t_base *base, t_line *node)
-// {
-// 	char	*pathname;
-
-// 	pathname = NULL;
-// 	if (!node->arg[0][0] || !ft_strcmp(node->arg[0], "..")
-// 		|| !ft_strcmp(node->arg[0], "."))
-// 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
-// 	if (is_directory(node->arg[0]) == 1 || !ft_strcmp(node->arg[0], "~"))
-// 		exit (error_in_child(base, 126, node->arg[0], "Is a directory"));
-// 	if (access(node->arg[0], X_OK) == 0)
-// 	{
-// 		pathname = ft_strdup(node->arg[0]);
-// 		if (!pathname)
-// 			exit(error_in_child(base, 1, strerror(errno), NULL));
-// 	}
-// 	else if (errno == ENOENT && ft_strchr(node->arg[0], '/'))
-// 		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
-// 	else if (errno == ENOTDIR)
-// 		exit(error_in_child(base, 126, node->arg[0], strerror(errno)));
-// 	else
-// 		pathname = get_pathname(base, node);
-// 	execve(pathname, node->arg, base->env);
-// 	free(pathname);
-// 	exit(error_in_child(base, 1, node->arg[0], strerror(errno)));
-// }
-
-// static void exec_file(t_line *node, t_base *base)
-// {
-// 	char	*pathname;
-
-// 	pathname = strdup(node->arg[0]);
-// 	if (!pathname)
-// 		exit(error_in_child(base, 1, strerror(errno), NULL));
-// 	execve(pathname, node->arg, base->env);
-// 	free(pathname);
-// 	if (errno == EACCES)
-// 		exit(error_in_child(base, 126, node->arg[0], strerror(errno)));
-// 	else if (errno == ENOTDIR)
-// 		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
-// 	exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
-// }
-
-// void	exec_file(t_line *node, t_base *base)
-// {
-// 	char	*pathname;
-
-// 	pathname = strdup(node->arg[0]);
-// 	execve(pathname, node->arg, base->env);
-// 	free(pathname);
-// 	if (errno == EACCES)
-// 		exit(error_in_child(base, 126, node->arg[0], strerror(errno)));
-// 	else if (errno == ENOTDIR)
-// 		exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
-// 	exit(error_in_child(base, 127, node->arg[0], strerror(errno)));
-// }
 
 void	execute_command(t_base *base, t_line *node)
 {

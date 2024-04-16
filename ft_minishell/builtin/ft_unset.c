@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 08:39:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:17:09 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	check_unset_arg(char *str)
 	while (str[++i])
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return(1);
+			return (1);
 	}
 	return (0);
 }
