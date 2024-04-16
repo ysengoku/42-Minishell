@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/15 16:32:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/15 22:46:37 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_minishell(t_base *base)
 		else
 			i = base->exit_code;
 		free_base_content(base);
-		write(1, "\n", 1);
+		//write(1, "\n", 1);
 		exit (i);
 	}
 	ft_free((void *)str, 0);
