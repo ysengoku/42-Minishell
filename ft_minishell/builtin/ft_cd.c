@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 16:35:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:56:58 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 
 static bool	is_home(char *arg) /// If we expand '~', we can remove this function
 {
-	if (arg == NULL || ft_strncmp(arg, "~", 2) == 0
-		|| ft_strncmp(arg, "~/", 3) == 0)
+	if (arg == NULL || ft_strcmp(arg, "--") == 0
+		|| ft_strcmp(arg, "~") == 0 || ft_strcmp(arg, "~/") == 0)
 		return (true);
 	return (false);
 }
@@ -84,7 +84,7 @@ static char	*get_path(t_base *base, char *arg)
 	char	*path;
 
 	path = NULL;
-	if (arg == NULL)
+	if (arg == NULL || ft_strcmp(arg, "--") == 0)
 	{
 		if (!find_env_var(base, HOME) || !find_env_var(base, HOME)->value)
 		{
