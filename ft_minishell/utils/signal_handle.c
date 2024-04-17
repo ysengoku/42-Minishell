@@ -14,12 +14,16 @@
 
 void	handle_sigint(int sig)
 {
-	(void)sig;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_received_signal = SIGINT;
+	g_received_signal = sig;
+}
+
+void	handle_sigint_inexec(int sig)
+{
+	g_received_signal = sig;
 }
 
 void	handle_sigquit(int sig)

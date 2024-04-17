@@ -35,7 +35,7 @@ static void	ft_minishell(t_base *base)
 		if (g_received_signal != 0)
 			exit_code = 128 + g_received_signal;
 		else
-			exit_code = base->exit_code;
+			str = readline(CYAN "minishell >>> " RESET);exit_code = base->exit_code;
 		free_base_content(base);
 		//write(1, "\n", 1);
 		exit (exit_code);
@@ -63,16 +63,6 @@ static int	command_line_mode(t_base *base, char *av2, char **env)
 	return (exit_code);
 }
 
-// void	handle_sigint2(int sig)
-// {
-// 	(void)sig;
-// 	printf("\n");
-// 	rl_replace_line("", 0);
-// 	// rl_on_new_line();
-// 	rl_redisplay();
-// 	g_received_signal = SIGINT;
-// }
-
 int	main(int ac, char **av, char **env)
 {
 	t_base	*base;
@@ -84,15 +74,12 @@ int	main(int ac, char **av, char **env)
 		if (!base)
 			return (1);
 		assign_env(base);
-		signal(SIGINT, handle_sigint);
-		signal(SIGQUIT, handle_sigquit);
+//		signal(SIGINT, handle_sigint);
+//		signal(SIGQUIT, handle_sigquit);
 		while (1)
 		{
-			// if (base->exit_code == 0)
-			// 	signal(SIGINT, handle_sigint);
-			// else
-			// 	signal(SIGINT, handle_sigint2);
-			// signal(SIGQUIT, handle_sigquit);
+			signal(SIGINT, handle_sigint);
+			signal(SIGQUIT, handle_sigquit);
 			ft_minishell(base);
 		}
 	}

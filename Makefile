@@ -27,6 +27,8 @@ PRINTF_DIR	= ./lib/ft_fprintf
 PRINTF		= $(PRINTF_DIR)/libftprintf.a
 
 IFLAGS = ./ft_minishell/minishell.h
+#INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include -I/usr/local/opt/readline/include
+#LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib -L/usr/local/opt/readline/lib
 INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf

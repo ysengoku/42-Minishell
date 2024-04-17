@@ -27,6 +27,7 @@ int	pipex(t_base *base)
 	fd[OUT] = 0;
 	count = 0;
 	current_node = base->lst;
+	signal(SIGINT, handle_sigint_inexec);
 	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
@@ -103,7 +104,10 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 {
 	waitpid(lastchild_pid, &base->exit_code, 0);
 	if (WIFSIGNALED(base->exit_code))
+	{
 		g_received_signal = base->exit_code;
+		write(1, "\n", 1);
+	}
 	else
 		g_received_signal = 0;
 	while (count-- > 0)
