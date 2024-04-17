@@ -196,6 +196,7 @@ t_env	*find_env_var(t_base *base, char *key);
 t_base	*init_base(char **env);
 /* signal */
 void	handle_sigquit(int sig);
+void	handle_sigint_inexec(int sig);
 void	handle_sigint(int sig);
 
 /*----- Parsing --------------------------------------------------------------*/
