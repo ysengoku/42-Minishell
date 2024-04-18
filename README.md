@@ -1,4 +1,19 @@
 ## Minishell  
+
+### Usage
+Interactive mode  
+```bash
+./minishell
+```
+Command line mode  
+```bash
+./minishell -c "commands"
+```
+To ignore leaks from readline with Valgrind
+```bash
+valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full ./minishell
+```
+
 ### Builtin function
 
 #### cd with only a relative or absolute path  
@@ -9,14 +24,6 @@ int chdir(const char *path);
 ```
 ##### Relative path
 ```bash
-# Navigate to user's home
-- cd
-- cd ~
-- cd ~/
-
-# Navigate to root
-cd /
-
 # Navigate to parent directory
 cd ..
 
@@ -25,16 +32,26 @@ cd -
 
 # "Navigate" to the current working directory & update OLDPWD to cwd
 cd ./
-```
 
 If we are in /home/myusername,  
 relative path to /home/myusername/Documents/42/ = "Documents/42/"
+```
 
 ##### Absolute path
 ```bash
 cd /home/$USER
 cd /home/(username)
 cd $HOME
+cd ~/Documents
+
+# Navigate to user's home
+- cd
+- cd ~
+- cd ~/
+- cd --
+
+# Navigate to root
+cd /
 ```
 
 ##### ERROR MESSAGE:  
@@ -63,13 +80,6 @@ The preceding component, all <slash> characters separating the preceding compone
 
 c. An implementation may further simplify curpath by removing any trailing <slash> characters that are not also leading <slash> characters, replacing multiple non-leading consecutive <slash> characters with a single <slash>, and replacing three or more leading <slash> characters with a single <slash>.  
 If, as a result of this canonicalization, the curpath variable is null, no further steps shall be taken.  
-
-###### Longer curpath than PATH_MAX
-If curpath length > {PATH_MAX} bytes && the directory operand length <= {PATH_MAX} bytes (including \0), then curpath shall be converted from an absolute pathname to an equivalent relative pathname if possible.  
-This conversion shall always be considered possible if the value of PWD, with a trailing <slash> added   
-if it does not already have one, is an initial substring of curpath.   
-Whether or not it is considered possible under other circumstances is unspecified.  
-Implementations may also apply this conversion if curpath is not longer than {PATH_MAX} bytes or the directory operand was longer than {PATH_MAX} bytes.  
  
 ###### chdir() called with curpath as the path argument.	
 If these actions fail for any reason, the cd utility shallbdisplay an appropriate error message and the remainder of this step shall not be executed.  
