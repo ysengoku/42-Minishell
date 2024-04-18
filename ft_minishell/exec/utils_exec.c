@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 12:19:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:14:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,25 @@ void	unlink_heredoc(void)
 		unlink(HEREDOC);
 }
 
-int	is_directory(char *name)
+int	is_directory(t_base *base, char *name)
 {
 	DIR	*dir;
 
 	dir = opendir(name);
 	if (dir == NULL)
 		return (0);
+	if (ft_strchr(name, '/'))
+		base->exit_code = print_err(name, "Is a directory", NULL, 126);
+	else
+		base->exit_code = print_err(name, "command not found", NULL, 126);
 	closedir(dir);
 	return (1);
 }
 
 int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
 {
-	print_err(s1, s2, NULL, exit_code);
+	if (s1 || s2)
+		print_err(s1, s2, NULL, exit_code);
 	free_base_content(base);
 	free_envlist(base);
 	free(base);

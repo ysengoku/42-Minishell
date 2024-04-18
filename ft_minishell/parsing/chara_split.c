@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 13:35:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:32:45 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quote_next(char *s, t_base *base, t_line *line, int i)
+static int	check_quote_next(char *s, t_base *base, t_line *line, int i)
 {
 	while (s[i])
 	{
@@ -33,7 +33,7 @@ int	check_quote_next(char *s, t_base *base, t_line *line, int i)
 	return (0);
 }
 
-char	*check_quote(char *s, t_base *base)
+static char	*check_quote(char *s, t_base *base)
 {
 	int			i;
 	t_line		line;

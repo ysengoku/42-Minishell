@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/08 19:19:34 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/13 22:19:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ int	ft_env(t_base *base, t_line *node, int fd[2])
 	{
 		if (tmp->value)
 		{
-			ft_putstr_fd(tmp->key, fd[OUT]);
-			write(fd[OUT], "=", 1);
-			ft_putendl_fd(tmp->value, fd[OUT]);
+			if (tmp->unset == 0)
+			{
+				ft_putstr_fd(tmp->key, fd[OUT]);
+				write(fd[OUT], "=", 1);
+				ft_putendl_fd(tmp->value, fd[OUT]);
+			}
 		}
 		tmp = tmp->next;
 	}

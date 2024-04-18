@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 16:56:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:42:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ extern int	g_received_signal;
 # define COMMANDLINE_USAGE "\n./minishell for interactive mode\n\
 ./minishell -c \"[commande lines]\" for command-line mode"
 # define DELETED_CWD "error retrieving current directory: getcwd:\
- cannot access parent directories: No such file or director"
+ cannot access parent directories: No such file or directory"
 
 # define HEREDOC "here_doc"
 
@@ -49,14 +49,22 @@ extern int	g_received_signal;
 # define UNSET "unset"
 # define EXITSTATUS "$?"
 
+# define HOME "HOME"
+# define OLDPWD "OLDPWD"
+
 # define IN 0
 # define OUT 1
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	int				order;
+	int				unset;
 	struct s_env	*next;
 }	t_env;
 
@@ -92,16 +100,9 @@ typedef struct s_line
 	int					nb_arg;
 	enum e_type_char	char_type;
 	int					error_syntax;
+	int					type_write_char;
 	struct s_line		*next;
 }				t_line;
-
-typedef struct s_norme
-{
-	int		i;
-	int		j;
-	char	*str;
-	t_line	*tmp;
-}				t_norme;
 
 typedef struct s_base
 {
@@ -111,7 +112,18 @@ typedef struct s_base
 	int		exit_code;
 	char	*error_msg;
 	int		null_env;
+	int		max_arg_export;
+	char	oldpwd_log[PATH_MAX];
 }			t_base;
+
+typedef struct s_norme
+{
+	int		i;
+	int		j;
+	char	*str;
+	t_line	*tmp;
+	t_base	*base;
+}				t_norme;
 
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
@@ -132,7 +144,7 @@ void	execute_command(t_base *base, t_line *node);
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 void	unlink_heredoc(void);
-int		is_directory(char *name);
+int		is_directory(t_base *base, char *name);
 int		error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Redirection ----------------------------------------------------------*/
@@ -153,10 +165,9 @@ char	*handle_malloc_failure(char	*to_free);
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */
 int		ft_cd(t_base *base, t_line *node, int fd[2]);
-char	*get_path(t_base *base, char *destination);
-char	*get_pwd(void);
-char	*concatenate_path(t_base *base, char *curpath);
-void	canonicalize_path(char *curpath);
+char	*expand_path(t_base *base, char *arg);
+char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd);
+void	canonicalize_path(char *curpath, t_line *node);
 /* ft_echo */
 int		ft_echo(t_line *node, int fd[2]);
 /* ft_pwd */
@@ -187,22 +198,36 @@ void	free_envlist(t_base *base);
 t_env	*find_env_var(t_base *base, char *key);
 /* init */
 t_base	*init_base(char **env);
+/* signal */
+void	handle_sigquit(int sig);
+void	handle_sigint_inexec(int sig);
+void	handle_sigint(int sig);
 
 /*----- Parsing --------------------------------------------------------------*/
+/* assign env */
+int		assign_env(t_base *base);
+char	*assign_value(char **split);
+/* chara_split */
 int		ft_chara_split(char *s, t_base **base);
+/* count lst */
+int		cnt_param(char **str, t_line *line);
+int		cnt_quote(char *str, t_line *line, int i);
+int		skip_file(char **str, int i);
+/* create node */
+int		create_nod(char *str, t_base *base);
+/*  translate_dollar */
+char	*translate_dollar(char *str, t_base *base, char *before);
+char	*translate_tilde(char *str, t_base *base, char *before);
+/* wite file */
 int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
 int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
-int		cnt_param(char **str, t_line *line);
-int		skip_file(char **str, int i);
-int		cnt_quote(char *str, t_line *line, int i);
-int		enter_quote_mode(char *str, int i, t_line *tmp);
-int		assign_env(t_base *base);
-void	write_nod(int i, t_line *tmp, char *str, t_base *base);
-char	*assign_value(char **split);
-char	*translate_dollar(char *str, t_base *base, char *before);
+/* write on node */
+int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
-int		create_nod(char *str, t_base *base);
-int		index_dollars(char *str, int *ptr_i, t_line *tmp, char *res);
+/* parsing utils */
+int		enter_quote_mode(char *str, int i, t_line *tmp);
+int		index_dollars(t_norme *norm, int *ptr_i, char *res);
+int		index_wave(t_norme *norm, int *ptr_i, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

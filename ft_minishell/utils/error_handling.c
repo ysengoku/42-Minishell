@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:24 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 09:57:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:33:14 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_display_error(int i, t_base *base)
 			base->error_msg);
 	if (i == 3)
 		ft_fprintf(2, "parse error near\n");
+	if (i == 4)
+		ft_fprintf(2, "ambiguous redirect\n");
 	base->exit_code = 2;
 }
 
