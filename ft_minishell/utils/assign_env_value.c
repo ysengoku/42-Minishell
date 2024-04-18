@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/09 15:49:33 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/18 16:43:22 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static void	add(char const *str1, char const *str2, size_t i, char *srep)
 {
+	int	j;
+
+	j = 0;
 	while (str1[i])
 	{
 		srep[i] = (str1[i]);
@@ -21,20 +24,21 @@ static void	add(char const *str1, char const *str2, size_t i, char *srep)
 	}
 	srep[i] = '=';
 	i++;
-	while (str2[i - ft_strlen(str1)])
+	while (str2[j])
 	{
-		srep[i] = (str2[i - ft_strlen(str1)]);
+		srep[i] = (str2[j]);
 		i++;
+		j++;
 	}
 	srep[i] = '\0';
 }
 
-char	*ft_strjoin_char(char const *s1, char const *s2)
+static char	*ft_strjoin_char(char const *s1, char const *s2)
 {
 	char		*srep;
 	size_t		i;
 
-	i = ft_strlen(s1) + ft_strlen(s2) + 1;
+	i = ft_strlen(s1) + ft_strlen(s2) + 2;
 	if (i <= 1)
 	{
 		srep = ft_calloc(1, 1);

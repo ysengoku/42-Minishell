@@ -6,55 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 16:24:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:39:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin_mall(char *s1, char *s2, int last_len);
-
-char	*write_signal(char *str, t_base *base, char *before)
-{
-	char	*res;
-	char	*nbr;
-	int		i;
-
-	i = 0;
-	if (g_received_signal != 0)
-	{
-		base->exit_code = 128 + g_received_signal;
-		g_received_signal = 0;
-	}
-	nbr = ft_itoa(base->exit_code);
-	while (str[i] && str[i] != ' ' && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' && str[i] != 9)
-		i++;
-	res = ft_strjoin_mall(before, nbr, i);
-	free(str);
-	return (free(nbr), res);
-}
-
-char	*ft_search(char *str, t_base *base, int last_len, char *before)
-{
-	t_env	*find;
-
-	if (str[0] == '?')
-		return (write_signal(str, base, before));
-	find = base->envn;
-	while (find && ft_strcmp(find->key, str) != 0)
-		find = find->next;
-	free(str);
-	if (find)
-		return (ft_strjoin_mall(before, find->value, last_len));
-	if (last_len != 0)
-		return (ft_strjoin_mall(before, NULL, last_len));
-	if (before[0] == '\0')
-		return (free(before), NULL);
-	return (before);
-}
-
-char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
+static char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 {
 	char			*res;
 	unsigned int	res_len;
@@ -77,6 +35,46 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	return (res);
 }
 
+static char	*write_signal(char *str, t_base *base, char *before)
+{
+	char	*res;
+	char	*nbr;
+	int		i;
+
+	i = 0;
+	if (g_received_signal != 0)
+	{
+		base->exit_code = 128 + g_received_signal;
+		g_received_signal = 0;
+	}
+	nbr = ft_itoa(base->exit_code);
+	while (str[i] && str[i] != ' ' && str[i] != '<' \
+	&& str[i] != '|' && str[i] != '>' && str[i] != 9)
+		i++;
+	res = ft_strjoin_mall(before, nbr, i);
+	free(str);
+	return (free(nbr), res);
+}
+
+static char	*ft_search(char *str, t_base *base, int last_len, char *before)
+{
+	t_env	*find;
+
+	if (str[0] == '?')
+		return (write_signal(str, base, before));
+	find = base->envn;
+	while (find && ft_strcmp(find->key, str) != 0)
+		find = find->next;
+	free(str);
+	if (find)
+		return (ft_strjoin_mall(before, find->value, last_len));
+	if (last_len != 0)
+		return (ft_strjoin_mall(before, NULL, last_len));
+	if (before[0] == '\0')
+		return (free(before), NULL);
+	return (before);
+}
+
 char	*translate_dollar(char *str, t_base *base, char *before)
 {
 	char	*to_find;
@@ -87,7 +85,7 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	last_len = 0;
 	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && \
+	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && str[i] != '=' && \
 	str[i] != 34 && str[i] != 39 && str[i] != '$' && str[i] != '.')
 	{
 		to_find[i] = str[i];
@@ -104,4 +102,28 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	}
 	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));
+}
+
+char	*translate_tilde(char *str, t_base *base, char *before)
+{
+	int		i;
+	int		last_len;
+	char	*res;
+
+	(void) base;
+	i = 1;
+	last_len = 0;
+	if (str[i] == '\0')
+		res = ft_strjoin_mall(before, getenv(HOME), last_len);
+	else if (str[i] == '/')
+	{
+		i++;
+		last_len++;
+		while (str[i++])
+			last_len++;
+		res = ft_strjoin_mall(before, getenv(HOME), last_len);
+	}
+	else
+		res = ft_strdup(str);
+	return (res);
 }

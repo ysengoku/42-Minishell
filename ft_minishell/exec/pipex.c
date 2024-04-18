@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 13:50:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 08:27:40 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	pipex(t_base *base)
 	fd[OUT] = 0;
 	count = 0;
 	current_node = base->lst;
+	signal(SIGINT, handle_sigint_inexec);
 	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
@@ -101,7 +102,18 @@ static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 
 static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 {
+	int	status;
+
+	status = 0;
 	waitpid(lastchild_pid, &base->exit_code, 0);
 	while (count-- > 0)
-		wait(NULL);
+		wait(&status);
+	if ((WIFSIGNALED(base->exit_code) && WTERMSIG(base->exit_code) == SIGINT)
+		|| (WIFSIGNALED(status) && WTERMSIG(base->exit_code) == SIGINT))
+	{
+		g_received_signal = base->exit_code;
+		write(1, "\n", 1);
+	}
+	else
+		g_received_signal = 0;
 }

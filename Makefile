@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/12 16:57:26 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/18 16:24:38 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,18 @@ PRINTF_DIR	= ./lib/ft_fprintf
 PRINTF		= $(PRINTF_DIR)/libftprintf.a
 
 IFLAGS = ./ft_minishell/minishell.h
+#INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include -I/usr/local/opt/readline/include
+#LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib -L/usr/local/opt/readline/lib
 INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
 
-vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils ./lib/GetNextLine
 SRCS =	main.c	\
 		ft_cd.c	\
-		ft_cd_utils.c	\
-		ft_cd_utils2.c	\
+		ft_cd_expand.c	\
+		ft_cd_concatenater.c	\
+		ft_cd_canonicalizer.c	\
 		ft_echo.c	\
 		ft_env.c \
 		ft_exit.c	\
@@ -66,7 +69,8 @@ SRCS =	main.c	\
 		ft_free.c	\
 		env.c \
 		init.c	\
-		assign_env_value.c 
+		assign_env_value.c \
+		signal_handle.c
 
 DIR_OBJ := .object/
 

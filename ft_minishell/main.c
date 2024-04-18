@@ -6,30 +6,31 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/12 16:55:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:35:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_received_signal;
-
-static void	handle_sigint(int sig)
-{
-	(void)sig;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_received_signal = SIGINT;
-}
+int	g_received_signal = 0;
 
 static void	ft_minishell(t_base *base)
 {
 	char	*str;
-	int		i;
-
-	str = readline(CYAN "minishell >>> " RESET);
+	int		exit_code;
+	
+/* --- Lines for TESTER ------------------------------------------------------- */
+	if (isatty(fileno(stdin)))
+		str = readline(CYAN "minishell >>> " RESET);
+	else
+	{
+		char *line;
+		line = get_next_line(fileno(stdin));
+		str = ft_strtrim(line, "\n");
+		free(line);
+	}
+/* ---------------------------------------------------------------------------- */
+	// str = readline(CYAN "minishell >>> " RESET);
 	if (str && *str)
 	{
 		add_history(str);
@@ -43,21 +44,24 @@ static void	ft_minishell(t_base *base)
 	if (!str)
 	{
 		if (g_received_signal != 0)
-			i = 128 + g_received_signal;
+			exit_code = 128 + g_received_signal;
 		else
-			i = base->exit_code;
+			exit_code = base->exit_code;
 		free_base_content(base);
-		write(1, "\n", 1);
-		exit (i);
+		exit (exit_code);
 	}
 	ft_free((void *)str, 0);
 }
 
-static int	command_line_mode(t_base *base, char *av2)
+static int	command_line_mode(t_base *base, char *av2, char **env)
 {
 	int	exit_code;
 
 	exit_code = 0;
+	base = init_base(env);
+	if (!base)
+		return (1);
+	assign_env(base);
 	if (ft_chara_split(av2, &base) != -1)
 		exit_code = ft_exec(base);
 	else
@@ -73,27 +77,21 @@ int	main(int ac, char **av, char **env)
 {
 	t_base	*base;
 
-	g_received_signal = 0;
+	base = NULL;
 	if (ac == 1)
 	{
 		base = init_base(env);
 		if (!base)
 			return (1);
 		assign_env(base);
-		signal(SIGINT, handle_sigint);
 		while (1)
 		{
-			g_received_signal = 0;
+			signal(SIGINT, handle_sigint);
+			signal(SIGQUIT, handle_sigquit);
 			ft_minishell(base);
 		}
 	}
 	else if (ac == 3 && ft_strncmp(av[1], "-c", 2) == 0)
-	{
-		base = init_base(env);
-		if (!base)
-			return (1);
-		assign_env(base);
-		return (command_line_mode(base, av[2]));
-	}
+		return (command_line_mode(base, av[2], env));
 	return (print_err("Usage", COMMANDLINE_USAGE, NULL, 1));
 }

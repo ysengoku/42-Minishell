@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_print.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:34:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 09:40:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:18:37 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int	export_null(t_base *base, int fd[2])
 	{
 		tmp = base->envn;
 		print = tmp;
-		while (print->order != 0)
+		while (print->order != 0 && tmp->unset != 1)
 			print = print->next;
 		while (tmp)
 		{
+			if (tmp->unset == 1)
+				print->order = 1;
 			if (tmp->order == 0 && strcmp(print->key, tmp->key) > 0)
 				print = tmp;
 			tmp = tmp->next;
