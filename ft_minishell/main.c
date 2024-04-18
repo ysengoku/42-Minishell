@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 08:30:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:12:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,16 @@ static void	ft_minishell(t_base *base)
 {
 	char	*str;
 	int		exit_code;
-
+	
+	// if (isatty(fileno(stdin)))
+	// 	str = readline(CYAN "minishell >>> " RESET);
+	// else
+	// {
+	// 	char *line;
+	// 	line = get_next_line(fileno(stdin));
+	// 	str = ft_strtrim(line, "\n");
+	// 	free(line);
+	// }
 	str = readline(CYAN "minishell >>> " RESET);
 	if (str && *str)
 	{
