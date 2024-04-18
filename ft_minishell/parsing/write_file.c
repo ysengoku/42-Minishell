@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   write_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/15 04:43:47 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/18 16:40:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	attribute_file_nod(t_file *stock, t_line *tmp)
+static void	attribute_file_nod(t_file *stock, t_line *tmp)
 {
 	t_file	*last;
 

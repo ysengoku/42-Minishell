@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:22:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:39:36 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
+static char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 {
 	char			*res;
 	unsigned int	res_len;
@@ -35,7 +35,7 @@ char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	return (res);
 }
 
-char	*write_signal(char *str, t_base *base, char *before)
+static char	*write_signal(char *str, t_base *base, char *before)
 {
 	char	*res;
 	char	*nbr;
@@ -56,7 +56,7 @@ char	*write_signal(char *str, t_base *base, char *before)
 	return (free(nbr), res);
 }
 
-char	*ft_search(char *str, t_base *base, int last_len, char *before)
+static char	*ft_search(char *str, t_base *base, int last_len, char *before)
 {
 	t_env	*find;
 

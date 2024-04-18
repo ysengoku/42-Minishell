@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:26:54 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 08:26:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:28:43 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ char	*expand_path(t_base *base, char *arg)
 		if (!path)
 			ft_perror("malloc", 1);
 	}
-	//else if (ft_strncmp(arg, "~", 2) == 0 || ft_strncmp(arg, "~/", 3) == 0)
-	//{
-	//	path = ft_strdup(getenv(HOME));
-	//	if (!path)
-	//		ft_perror("malloc", 1);
-	//}
 	else if (ft_strncmp(arg, "-", 2) == 0)
 		path = get_oldpwd_path(base);
 	return (path);

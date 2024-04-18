@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   count_lst_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 09:11:31 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 18:59:31 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/18 16:34:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_recreate_str(char *str, int i)
+static void	ft_recreate_str(char *str, int i)
 {
 	int		len;
 	int		len_str;
