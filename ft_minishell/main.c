@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/16 15:48:13 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 08:30:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	ft_minishell(t_base *base)
 		else
 			exit_code = base->exit_code;
 		free_base_content(base);
-		//write(1, "\n", 1);
 		exit (exit_code);
 	}
 	ft_free((void *)str, 0);
@@ -74,8 +73,6 @@ int	main(int ac, char **av, char **env)
 		if (!base)
 			return (1);
 		assign_env(base);
-//		signal(SIGINT, handle_sigint);
-//		signal(SIGQUIT, handle_sigquit);
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);

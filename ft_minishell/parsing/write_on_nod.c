@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/16 20:32:36 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/18 08:29:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	dollars_condition(t_norme *norm, char	**res, t_base *base)
 	norm->tmp->char_type != DOC_DOUBLE_Q)
 		enter_condition_mode(norm, res, 2, base);
 	else if (norm->str[norm->i] == '~' && norm->tmp->char_type == STANDARD && \
-	(norm->str[norm->i + 1] == '/' || norm->str[norm->i + 1] == '\0') &&  norm->j == 0)
+	(norm->str[norm->i + 1] == '/' || norm->str[norm->i + 1] == '\0') && norm->j == 0)
 		enter_condition_mode(norm, res, 4, base);
 	else
 		enter_condition_mode(norm, res, 3, base);
