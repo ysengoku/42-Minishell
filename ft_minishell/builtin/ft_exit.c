@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 16:33:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:54:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 static long long	convert_exitcode(char *s);
 static int			check_value(char *s);
 static int			argument_value_error(char *s);
-static void			clear_before_exit(t_base *base);
+static int			clear_before_exit(t_base *base, int exit_code);
 
 int	ft_exit(t_base *base, t_line *node, int fd[2])
 {
 	int	exit_code;
 
+	write(2, "exit\n", 5);
 	if (node->arg[1])
 	{
 		if (convert_exitcode(node->arg[1]) != -1
@@ -41,8 +42,7 @@ int	ft_exit(t_base *base, t_line *node, int fd[2])
 	else
 		exit_code = base->exit_code;
 	ft_close(fd[IN], fd[OUT], 0);
-	clear_before_exit(base);
-	exit(exit_code);
+	exit(clear_before_exit(base, exit_code));
 	return (0);
 }
 
@@ -101,12 +101,12 @@ static int	argument_value_error(char *s)
 	return (-1);
 }
 
-static void	clear_before_exit(t_base *base)
+static int	clear_before_exit(t_base *base, int exit_code)
 {
 	unlink_heredoc();
 	rl_clear_history();
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
-	write(1, "exit\n", 5);
+	return (exit_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 20:30:14 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/18 11:47:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ extern int	g_received_signal;
 
 # define IN 0
 # define OUT 1
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 typedef struct s_env
 {
@@ -140,7 +144,7 @@ void	execute_command(t_base *base, t_line *node);
 void	dup_input(int fd_in);
 void	dup_output(int fd_out);
 void	unlink_heredoc(void);
-int		is_directory(char *name);
+int		is_directory(t_base *base, char *name);
 int		error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Redirection ----------------------------------------------------------*/

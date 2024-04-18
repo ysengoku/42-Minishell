@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 17:37:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:57:09 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	execute_command(t_base *base, t_line *node)
 	if (!node->arg[0][0] || !ft_strcmp(node->arg[0], "..")
 		|| !ft_strcmp(node->arg[0], "."))
 		exit(error_in_child(base, 127, node->arg[0], "command not found"));
-	//if (is_directory(node->arg[0]) == 1 || !ft_strcmp(node->arg[0], "~"))
-	if (is_directory(node->arg[0]) == 1)
-		exit (error_in_child(base, 126, node->arg[0], "Is a directory"));
+	//if (is_directory(base, node->arg[0])|| !ft_strcmp(node->arg[0], "~"))
+	if (is_directory(base, node->arg[0]) == 1)
+		exit(error_in_child(base, base->exit_code, NULL, NULL));
 	if (strchr(node->arg[0], '/') || access(node->arg[0], X_OK) == 0)
 	{
 		pathname = ft_strdup(node->arg[0]);
