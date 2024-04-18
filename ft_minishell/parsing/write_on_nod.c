@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 14:00:42 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:04:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	enter_condition_mode(t_norme *norm, char **res, int boo, t_base *base)
 	if (boo == 4)
 	{
 		*res = translate_dollar(HOME, base, *res);
-		// *res = translate_dollar(norm->str + norm->i, base, *res);
 		norm->j = index_wave(norm, &norm->i, *res);
 	}
 }
