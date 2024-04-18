@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 10:55:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:14:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	is_directory(t_base *base, char *name)
 
 int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
 {
-	print_err(s1, s2, NULL, exit_code);
+	if (s1 || s2)
+		print_err(s1, s2, NULL, exit_code);
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
