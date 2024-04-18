@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 15:58:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:42:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,20 +204,28 @@ void	handle_sigint_inexec(int sig);
 void	handle_sigint(int sig);
 
 /*----- Parsing --------------------------------------------------------------*/
-int		ft_chara_split(char *s, t_base **base);
-int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
-int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
-int		cnt_param(char **str, t_line *line);
-int		skip_file(char **str, int i);
-int		cnt_quote(char *str, t_line *line, int i);
-int		enter_quote_mode(char *str, int i, t_line *tmp);
+/* assign env */
 int		assign_env(t_base *base);
-int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
+/* chara_split */
+int		ft_chara_split(char *s, t_base **base);
+/* count lst */
+int		cnt_param(char **str, t_line *line);
+int		cnt_quote(char *str, t_line *line, int i);
+int		skip_file(char **str, int i);
+/* create node */
+int		create_nod(char *str, t_base *base);
+/*  translate_dollar */
 char	*translate_dollar(char *str, t_base *base, char *before);
 char	*translate_tilde(char *str, t_base *base, char *before);
+/* wite file */
+int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
+int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
+/* write on node */
+int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
-int		create_nod(char *str, t_base *base);
+/* parsing utils */
+int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		index_dollars(t_norme *norm, int *ptr_i, char *res);
 int		index_wave(t_norme *norm, int *ptr_i, char *res);
 

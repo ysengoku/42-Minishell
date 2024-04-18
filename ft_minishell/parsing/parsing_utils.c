@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 08:31:47 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:38:21 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	enter_quote_mode(char *str, int i, t_line *tmp)
 	return (1);
 }
 
-void	ft_new_arg( t_line *tmp, char *res, int j)
+static void	ft_new_arg( t_line *tmp, char *res, int j)
 {
 	char	*str;
 	int		i;
@@ -62,7 +62,7 @@ void	ft_new_arg( t_line *tmp, char *res, int j)
 	tmp->type_write_char = 2;
 }
 
-int	nxt_index_dollars(char *str, int i, t_line *tmp)
+static int	nxt_index_dollars(char *str, int i, t_line *tmp)
 {
 	while ((str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '='\
 	&& str[i] != '|' && str[i] != '>' && str[i] != '$' && str[i] != '.' \

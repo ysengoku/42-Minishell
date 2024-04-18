@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 16:56:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:28:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 static bool	is_home(char *arg)
 {
 	if (arg == NULL || ft_strcmp(arg, "--") == 0)
-		//|| ft_strcmp(arg, "~") == 0 || ft_strcmp(arg, "~/") == 0)
 		return (true);
 	return (false);
 }

@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 08:31:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:36:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	attribute_nod(t_base *base, t_line	*tmp)
+static void	attribute_nod(t_base *base, t_line	*tmp)
 {
 	t_line	*nxt;
 
@@ -27,7 +27,7 @@ void	attribute_nod(t_base *base, t_line	*tmp)
 	}
 }
 
-void	write_nod(int i, t_line *tmp, char *str, t_base *base)
+static void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 {
 	while (str[i])
 	{

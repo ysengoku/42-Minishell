@@ -6,13 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/11 07:58:23 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:31:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**attribute_null_env(t_base *base)
+static char	**attribute_null_env(t_base *base)
 {
 	char	**env;
 	char	*env3;
@@ -31,7 +31,7 @@ char	**attribute_null_env(t_base *base)
 	return (env);
 }
 
-void	attribute_nod_env(t_base *base, t_env *tmp)
+static void	attribute_nod_env(t_base *base, t_env *tmp)
 {
 	t_env	*last;
 
