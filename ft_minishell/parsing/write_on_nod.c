@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:22:55 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 22:36:35 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_norme	attribute_norm(int *index, t_line *tmp, char *str, t_base *base)
 void	dollars_condition(t_norme *norm, char	**res, t_base *base)
 {
 	if (norm->str[norm->i] == '$' && norm->tmp->char_type != QUOTE \
-	&& norm->tmp->char_type != DOC && ((norm->str[norm->i + 1] >= '0' \
+	&& norm->tmp->char_type != DOC && (((norm->str[norm->i + 1] == 34 || norm->str[norm->i + 1] == 39) && norm->tmp->char_type == STANDARD) || (norm->str[norm->i + 1] >= '0' \
 	&& norm->str[norm->i + 1] <= '9') || (norm->str[norm->i + 1] >= '?' \
 	&& norm->str[norm->i + 1] <= 'Z') || (norm->str[norm->i + 1] >= '_' && \
 	norm->str[norm->i + 1] <= 'z')) && norm->tmp->char_type != DOC_QUOTE && \
