@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 16:33:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:47:47 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ static void	clear_before_exit(t_base *base)
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
-	write(1, "exit\n", 5);
+	//write(1, "exit\n", 5);
 }

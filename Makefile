@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/15 22:18:06 by dvo              ###   ########.fr        #
+#    Updated: 2024/04/17 12:57:18 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
 
-vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils ./lib/GetNextLine
 SRCS =	main.c	\
 		ft_cd.c	\
 		ft_cd_concatenater.c	\
@@ -67,7 +67,9 @@ SRCS =	main.c	\
 		env.c \
 		init.c	\
 		assign_env_value.c \
-		signal_handle.c
+		signal_handle.c \
+		get_next_line.c \
+		get_next_line_utils.c
 
 DIR_OBJ := .object/
 
