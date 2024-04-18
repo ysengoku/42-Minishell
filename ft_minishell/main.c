@@ -35,7 +35,7 @@ static void	ft_minishell(t_base *base)
 		if (g_received_signal != 0)
 			exit_code = 128 + g_received_signal;
 		else
-			str = readline(CYAN "minishell >>> " RESET);exit_code = base->exit_code;
+			exit_code = base->exit_code;
 		free_base_content(base);
 		//write(1, "\n", 1);
 		exit (exit_code);
