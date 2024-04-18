@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 15:06:22 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:22:16 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,6 @@ char	*ft_search(char *str, t_base *base, int last_len, char *before)
 
 	if (str[0] == '?')
 		return (write_signal(str, base, before));
-	if (!ft_strcmp(str, HOME)) ///// Need to check
-	{
-		free(str);
-		return (ft_strjoin_mall(before, getenv(HOME), last_len));
-	}
 	find = base->envn;
 	while (find && ft_strcmp(find->key, str) != 0)
 		find = find->next;
@@ -107,4 +102,28 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 	}
 	to_find[i] = '\0';
 	return (ft_search(to_find, base, last_len, before));
+}
+
+char	*translate_tilde(char *str, t_base *base, char *before)
+{
+	int		i;
+	int		last_len;
+	char	*res;
+
+	(void) base;
+	i = 1;
+	last_len = 0;
+	if (str[i] == '\0')
+		res = ft_strjoin_mall(before, getenv(HOME), last_len);
+	else if (str[i] == '/')
+	{
+		i++;
+		last_len++;
+		while (str[i++])
+			last_len++;
+		res = ft_strjoin_mall(before, getenv(HOME), last_len);
+	}
+	else
+		res = ft_strdup(str);
+	return (res);
 }

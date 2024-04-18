@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 11:47:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:58:09 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int		assign_env(t_base *base);
 int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*assign_value(char **split);
 char	*translate_dollar(char *str, t_base *base, char *before);
+char	*translate_tilde(char *str, t_base *base, char *before);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 int		create_nod(char *str, t_base *base);
 int		index_dollars(t_norme *norm, int *ptr_i, char *res);

@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/18 15:15:57 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/18 16:24:38 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,6 @@ SRCS =	main.c	\
 		init.c	\
 		assign_env_value.c \
 		signal_handle.c
-#		get_next_line.c \
-#		get_next_line_utils.c
 
 DIR_OBJ := .object/
 
