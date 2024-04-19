@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 16:28:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 11:39:56 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	canonicalize_path(curpath, node);
 	if (ft_chdir(curpath, node, fd, &missing_pwd) == 1)
 		return (ft_free((void *)curpath, 1));
-	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
-		ft_putendl_fd(curpath, fd[OUT]);
 	if (missing_pwd != 1)
 		update_pwd(base, curpath);
+	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
+		ft_pwd(base, fd);
 	ft_close(fd[IN], fd[OUT], 0);
 	return (ft_free((void *)curpath, base->exit_code));
 }

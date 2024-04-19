@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/14 15:04:42 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/19 13:13:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_error_export(char *str, t_base *base)
+static int	check_error_export(char *str, t_base *base)
 {
 	int	i;
 
@@ -56,11 +56,11 @@ int	check_max_arg(char *str, t_base *base)
 	return (nbr);
 }
 
-int	atr_nod_from_expt(t_base *base, t_env	*tmp, int i)
+int	atr_nod_from_expt(t_base *base, t_env *tmp, int i)
 {
 	char	**split;
 
-	split = ft_split(base->lst->arg[i], '=');
+	split = split_export_arg(base->lst->arg[i]);
 	if (!split)
 		return (-1);
 	tmp->key = ft_strdup(split[0]);
@@ -107,6 +107,7 @@ int	ft_export(t_base *base, int fd[2])
 	i = 1;
 	if (base->lst->arg[1] == NULL)
 		return (export_null(base, fd));
+	ft_close(fd[IN], fd[OUT], 0);
 	if (base->lst->arg[i][0] == '-')
 		return (print_err(EXPORT, base->lst->arg[1], "invalid option", 2));
 	while (base->lst->arg[i])
