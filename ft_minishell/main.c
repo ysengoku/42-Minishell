@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 08:24:05 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:34:55 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int ac, char **av, char **env)
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);
-			signal(SIGQUIT, handle_sigquit);
+			signal(SIGQUIT, SIG_IGN);
 			ft_minishell(base);
 		}
 	}
