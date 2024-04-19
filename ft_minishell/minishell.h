@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 15:03:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/19 17:23:50 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,10 @@ t_env	*find_env_var(t_base *base, char *key);
 /* init */
 t_base	*init_base(char **env);
 /* signal */
-void	handle_sigquit(int sig);
 void	handle_sigint_inexec(int sig);
 void	handle_sigint(int sig);
+// void	here_doc_sig(int sig);
+void	here_doc_sig(int sig, siginfo_t *info, void *arg);
 
 /*----- Parsing --------------------------------------------------------------*/
 /* assign env */
