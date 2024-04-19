@@ -6,14 +6,15 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 08:43:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:49:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc);
-static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc);
+static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc,
+				t_file *file);
+static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc);
 static char	*ft_expand_heredoc(t_base *base, char *line);
 
 int	check_heredoc(t_base *base, t_line *node)
@@ -24,7 +25,8 @@ int	check_heredoc(t_base *base, t_line *node)
 	current = node->file;
 	while (current)
 	{
-		if (current->type == HERE_DOC && current->filename[0])
+		if ((current->type == HERE_DOC || current->type == HERE_DOC_NO)
+			&& current->filename[0])
 		{
 			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if (fd_heredoc == -1)
@@ -33,7 +35,7 @@ int	check_heredoc(t_base *base, t_line *node)
 				base->exit_code = 1;
 				return (1);
 			}
-			if (get_heredoc_lines(base, current->filename, fd_heredoc) == 1)
+			if (get_heredoc_lines(base, current, fd_heredoc) == 1)
 			{
 				base->exit_code = 1;
 				return (1);
@@ -44,7 +46,7 @@ int	check_heredoc(t_base *base, t_line *node)
 	return (0);
 }
 
-static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
+static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 {
 	char	*line;
 	char	*delimiter_checker;
@@ -56,9 +58,9 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 		delimiter_checker = ft_strtrim(line, "\n");
 		if (!delimiter_checker)
 			return (print_err("minishell", "malloc failed", NULL, 1));
-		if (ft_strcmp(delimiter_checker, delimiter) == 0)
+		if (ft_strcmp(delimiter_checker, file->filename) == 0)
 			break ;
-		if (stock_line_on_heredoc(base, line, fd_heredoc) == 1)
+		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
 			return (ft_free((void *)delimiter_checker, 1));
 		free(delimiter_checker);
 	}
@@ -68,11 +70,12 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 	return (0);
 }
 
-static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc)
+static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc,
+	t_file *file)
 {
 	char	*tmp;
 
-	if (ft_strchr(line, '$') != NULL)
+	if (file->type == 4 && ft_strchr(line, '$') != NULL)
 	{
 		tmp = line;
 		line = ft_expand_heredoc(base, line);
