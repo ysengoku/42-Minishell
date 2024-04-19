@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 15:03:32 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/19 16:36:26 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ enum e_file_type
 
 enum e_type_char
 {
-	STANDARD,
-	QUOTE,
-	DOUBLE_Q,
-	DOC,
-	DOC_DOUBLE_Q,
-	DOC_QUOTE,
+	STANDARD = 1,
+	QUOTE = 2,
+	DOUBLE_Q = 3,
+	DOC = 4,
+	DOC_DOUBLE_Q = 5,
+	DOC_QUOTE = 6
 };
 
 typedef struct s_file
