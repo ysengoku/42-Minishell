@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 15:03:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/19 15:47:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
-void	check_quote_here_doc (int i, char *str, t_file	*stock)
+void	check_quote_here_doc(int i, char *str, t_file *stock)
 {
-	while(str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
+	while (str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
