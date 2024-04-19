@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 16:42:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:36:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_line
 	int					nb_arg;
 	enum e_type_char	char_type;
 	int					error_syntax;
-	int					type_write_char;
+	int					typ_write_chr;
 	struct s_line		*next;
 }				t_line;
 
@@ -116,14 +116,14 @@ typedef struct s_base
 	char	oldpwd_log[PATH_MAX];
 }			t_base;
 
-typedef struct s_norme
+typedef struct s_norm
 {
 	int		i;
 	int		j;
 	char	*str;
 	t_line	*tmp;
 	t_base	*base;
-}				t_norme;
+}				t_norm;
 
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
@@ -222,12 +222,11 @@ char	*translate_tilde(char *str, t_base *base, char *before);
 int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
 int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
 /* write on node */
-int		write_arg(int i, t_line *tmp, char *str, t_base *base);
 char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 /* parsing utils */
 int		enter_quote_mode(char *str, int i, t_line *tmp);
-int		index_dollars(t_norme *norm, int *ptr_i, char *res);
-int		index_wave(t_norme *norm, int *ptr_i, char *res);
+int		index_dollars(t_norm *norm, int *ptr_i, char *res);
+int		index_tilde(t_norm *norm, int *ptr_i, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"

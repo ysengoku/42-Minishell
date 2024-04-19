@@ -6,11 +6,26 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:36:30 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:12:32 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	write_arg(int i, t_line *tmp, char *str, t_base *base)
+{
+	char	*arg;
+	int		last_nod;
+
+	arg = write_char(&i, tmp, str, base);
+	if (!arg)
+		return (i);
+	last_nod = 0;
+	while (tmp->arg[last_nod])
+		last_nod++;
+	tmp->arg[last_nod] = arg;
+	return (i);
+}
 
 static void	attribute_nod(t_base *base, t_line	*tmp)
 {

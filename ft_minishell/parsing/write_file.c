@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:40:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:32:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 		stock->type = OUT_TRUNC;
 	while (str[i] == ' ')
 		i++;
-	tmp->type_write_char = 1;
+	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (!stock->filename)
 		tmp->error_syntax = 1;
-	tmp->type_write_char = 0;
+	tmp->typ_write_chr = 0;
 	attribute_file_nod(stock, tmp);
 	return (i);
 }
@@ -73,13 +73,13 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 		i++;
 	if (stock->type == HERE_DOC)
 		tmp->char_type = DOC;
-	tmp->type_write_char = 1;
+	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (!stock->filename)
 		tmp->error_syntax = 1;
 	if (stock->type == HERE_DOC)
 		tmp->char_type = STANDARD;
-	tmp->type_write_char = 0;
+	tmp->typ_write_chr = 0;
 	attribute_file_nod(stock, tmp);
 	return (i);
 }
