@@ -6,13 +6,14 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:46:58 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/10 09:55:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:14:02 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	add_new(t_base *base, t_env *last, t_env *tmp);
+static int	get_length(int *len1, char *arg);
 
 void	export_add_on_nod(t_base *base, t_env *tmp)
 {
@@ -23,6 +24,33 @@ void	export_add_on_nod(t_base *base, t_env *tmp)
 		base->envn = tmp;
 	else
 		add_new(base, last, tmp);
+}
+
+char	**split_export_arg(char *arg)
+{
+	char	**split;
+	int		len1;
+	int		len2;
+
+	len1 = 0;
+	len2 = get_length(&len1, arg);
+	split = ft_calloc(3, sizeof(char *));
+	if (!split)
+		return (NULL);
+	split[0] = ft_substr(arg, 0, len1);
+	if (!split[0])
+	{
+		free(split);
+		return (NULL);
+	}
+	split[1] = ft_substr(arg, len1 + 1, len2);
+	if (!split[1])
+	{
+		free(split);
+		free(split[0]);
+		return (NULL);
+	}
+	return (split);
 }
 
 static void	add_new(t_base *base, t_env *last, t_env *tmp)
@@ -50,4 +78,20 @@ static void	add_new(t_base *base, t_env *last, t_env *tmp)
 		last = last->next;
 	}
 	last->next = tmp;
+}
+
+static int	get_length(int *len1, char *arg)
+{
+	int	len;
+
+	while (arg[*len1])
+	{
+		if (arg[*len1] == '=')
+			break ;
+		(*len1)++;
+	}
+	len = *len1;
+	while (arg[len])
+		len++;
+	return (len - *len1);
 }

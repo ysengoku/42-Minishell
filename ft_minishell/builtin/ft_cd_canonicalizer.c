@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:39:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 07:49:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:23:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	canonicalize_path(char *curpath, t_line *node)
 	dest = 0;
 	while (curpath[src])
 		ft_canonicalize(&src, &dest, curpath);
+	if (curpath[dest - 1] == '/')
+		curpath[dest - 1] = '\0';
 	curpath[dest] = '\0';
 	if (!curpath[0])
 		ft_strcpy(curpath, "/");

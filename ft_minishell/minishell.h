@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 10:36:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:13:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,9 @@ int		ft_env(t_base *base, t_line *node, int fd[2]);
 int		ft_exit(t_base *base, t_line *node, int fd[2]);
 /* ft_export */
 int		ft_export(t_base *base, int fd[2]);
-int		check_error_export(char *str, t_base *base);
 int		export_null(t_base *base, int fd[2]);
 void	export_add_on_nod(t_base *base, t_env *tmp);
+char	**split_export_arg(char *arg);
 /* ft_unset */
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 
