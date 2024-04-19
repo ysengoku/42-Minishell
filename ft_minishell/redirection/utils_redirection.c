@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:13:43 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/09 16:57:45 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 08:53:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ char	*get_expanded_str(size_t *i, char *line, t_base *base)
 	}
 	else
 	{
-		buf = ft_calloc(1 + ft_strlen(key) + 1, sizeof(char));
+		buf = ft_strdup("");
 		if (!buf)
 			return (handle_malloc_failure(NULL));
-		ft_strcpy(buf, "$");
-		ft_strcat(buf, key);
 	}
 	*i = j;
 	return (buf);
