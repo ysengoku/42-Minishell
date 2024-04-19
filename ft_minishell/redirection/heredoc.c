@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/12 08:22:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 08:43:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	get_heredoc_lines(t_base *base, char *delimiter, int fd_heredoc)
 
 	while (1)
 	{
-		write(1, "> ", 2);
+		// write(1, "> ", 2); ///// commented for tester
 		line = get_next_line(STDIN_FILENO);
 		delimiter_checker = ft_strtrim(line, "\n");
 		if (!delimiter_checker)
