@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 16:36:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:14:40 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <signal.h>
 # include <dirent.h>
 # include <limits.h>
 # include <linux/limits.h>
+# include <signal.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -200,9 +200,9 @@ t_env	*find_env_var(t_base *base, char *key);
 /* init */
 t_base	*init_base(char **env);
 /* signal */
-void	handle_sigquit(int sig);
 void	handle_sigint_inexec(int sig);
 void	handle_sigint(int sig);
+void	set_heredoc_signal(void);
 
 /*----- Parsing --------------------------------------------------------------*/
 /* assign env */

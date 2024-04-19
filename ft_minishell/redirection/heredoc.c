@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 15:49:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:13:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,17 @@ int	check_heredoc(t_base *base, t_line *node)
 
 static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 {
-	char	*line;
-	char	*delimiter_checker;
+	char				*line;
+	char				*delimiter_checker;
 
+	set_heredoc_signal();
 	while (1)
 	{
 		// write(1, "> ", 2); ///// commented for tester
 		line = get_next_line(STDIN_FILENO);
 		delimiter_checker = ft_strtrim(line, "\n");
+		if (g_received_signal != 0)
+			break ;
 		if (!delimiter_checker)
 			return (print_err("minishell", "malloc failed", NULL, 1));
 		if (ft_strcmp(delimiter_checker, file->filename) == 0)
@@ -63,10 +66,11 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
 			return (ft_free((void *)delimiter_checker, 1));
 		free(delimiter_checker);
+		delimiter_checker = NULL;
 	}
 	close(fd_heredoc);
 	ft_free((void *)line, 0);
-	free(delimiter_checker);
+	ft_free((void *)delimiter_checker, 0);
 	return (0);
 }
 
