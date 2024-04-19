@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 10:35:23 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:25:23 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 		res[i++] = res[j++];
 	while (res[i])
 		res[i++] = '\0';
-	tmp->typ_write_chr = 2;
 }
 
 static int	nxt_index_dollars(char *str, int i, t_line *tmp)
@@ -58,37 +57,35 @@ static int	nxt_index_dollars(char *str, int i, t_line *tmp)
 	return (i);
 }
 
-static int	check_type(int i, int j, t_norm *norm, char *res)
+static int	check_type(int j, t_norm *norm, char *res)
 {
-	if ((j >= i || norm->tmp->typ_write_chr == 2) \
-	&& res[j] == ' ' && norm->tmp->char_type == STANDARD)
+	if (res[j] == ' ' && norm->tmp->char_type == STANDARD)
 		return (1);
 	return (0);
 }
 
 int	index_dollars(t_norm *norm, int *ptr_i, char *res)
 {
-	int	j;
 	int	i;
+	int	j;
 
+	j = norm->j;
 	i = *ptr_i + 1;
-	j = 0;
 	while (res && res[j])
 	{
-		if (check_type(i, j, norm, res) == 1)
+		if (check_type(j, norm, res) == 1)
 		{
-			if (norm->tmp->typ_write_chr == 0 || norm->tmp->typ_write_chr == 2)
+			if (norm->tmp->typ_write_chr == 0)
 				ft_new_arg(norm->tmp, res, j);
 			else
 			{
 				ft_display_error(4, norm->base);
 				return (-1);
 			}
-			j = 0;
+			j = norm->j;
 		}
 		j++;
 	}
-	norm->tmp->typ_write_chr = 0;
 	if (norm->str[i] != '?')
 		i = nxt_index_dollars(norm->str, i, norm->tmp);
 	*ptr_i = i;
