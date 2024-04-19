@@ -6,34 +6,11 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:38:21 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:35:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	enter_quote_mode(char *str, int i, t_line *tmp)
-{
-	if (str[i] == 34 && tmp->char_type == STANDARD)
-		tmp->char_type = DOUBLE_Q;
-	else if (str[i] == 39 && tmp->char_type == STANDARD)
-		tmp->char_type = QUOTE;
-	else if (str[i] == 34 && tmp->char_type == DOUBLE_Q)
-		tmp->char_type = STANDARD;
-	else if (str[i] == 39 && tmp->char_type == QUOTE)
-		tmp->char_type = STANDARD;
-	else if (str[i] == 34 && tmp->char_type == DOC)
-		tmp->char_type = DOC_DOUBLE_Q;
-	else if (str[i] == 39 && tmp->char_type == DOC)
-		tmp->char_type = DOC_QUOTE;
-	else if (str[i] == 34 && tmp->char_type == DOC_DOUBLE_Q)
-		tmp->char_type = DOC;
-	else if (str[i] == 39 && tmp->char_type == DOC_QUOTE)
-		tmp->char_type = DOC;
-	else
-		return (0);
-	return (1);
-}
 
 static void	ft_new_arg( t_line *tmp, char *res, int j)
 {
@@ -59,7 +36,7 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 		res[i++] = res[j++];
 	while (res[i])
 		res[i++] = '\0';
-	tmp->type_write_char = 2;
+	tmp->typ_write_chr = 2;
 }
 
 static int	nxt_index_dollars(char *str, int i, t_line *tmp)
@@ -81,7 +58,15 @@ static int	nxt_index_dollars(char *str, int i, t_line *tmp)
 	return (i);
 }
 
-int	index_dollars(t_norme *norm, int *ptr_i, char *res)
+static int	check_type(int i, int j, t_norm *norm, char *res)
+{
+	if ((j >= i || norm->tmp->typ_write_chr == 2) \
+	&& res[j] == ' ' && norm->tmp->char_type == STANDARD)
+		return (1);
+	return (0);
+}
+
+int	index_dollars(t_norm *norm, int *ptr_i, char *res)
 {
 	int	j;
 	int	i;
@@ -90,9 +75,9 @@ int	index_dollars(t_norme *norm, int *ptr_i, char *res)
 	j = 0;
 	while (res && res[j])
 	{
-		if ((j >= i || norm->tmp->type_write_char == 2) && res[j] == ' ' && norm->tmp->char_type == STANDARD)
+		if (check_type(i, j, norm, res) == 1)
 		{
-			if (norm->tmp->type_write_char == 0 || norm->tmp->type_write_char == 2)
+			if (norm->tmp->typ_write_chr == 0 || norm->tmp->typ_write_chr == 2)
 				ft_new_arg(norm->tmp, res, j);
 			else
 			{
@@ -103,26 +88,9 @@ int	index_dollars(t_norme *norm, int *ptr_i, char *res)
 		}
 		j++;
 	}
-	norm->tmp->type_write_char = 0;
+	norm->tmp->typ_write_chr = 0;
 	if (norm->str[i] != '?')
 		i = nxt_index_dollars(norm->str, i, norm->tmp);
-	*ptr_i = i;
-	return (j);
-}
-
-int	index_wave(t_norme *norm, int *ptr_i, char *res)
-{
-	int	j;
-	int	i;
-
-	i = *ptr_i + 1;
-	j = 0;
-	while (res && res[j])
-		j++;
-	norm->tmp->type_write_char = 0;
-	while (norm->str[i] && norm->str[i] != ' ' && norm->str[i] != '/')
-		i++;
-	i--;
 	*ptr_i = i;
 	return (j);
 }

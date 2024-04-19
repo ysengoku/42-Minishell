@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/19 07:51:13 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/19 10:21:37 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRCS =	main.c	\
 		assign_env.c \
 		translate_dollar.c	\
 		parsing_utils.c \
+		parsing_utils2.c \
 		error_handling.c	\
 		ft_free.c	\
 		env.c \
