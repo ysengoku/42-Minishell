@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 15:47:53 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:05:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,23 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
-void	check_quote_here_doc(int i, char *str, t_file *stock)
+static void	check_quote_here_doc(int i, char *str, t_file *stock, t_line *tmp)
 {
-	while (str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
+	if (stock->type == HERE_DOC)
 	{
-		if (str[i] == 34 || str[i] == 39)
+		while (str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
 		{
-			stock->type = HERE_DOC_NO;
-			return ;
+			if (str[i] == 34 || str[i] == 39)
+			{
+				stock->type = HERE_DOC_NO;
+				if (str[i] == 34)
+					tmp->char_type = DOC_DOUBLE_Q;
+				else
+					tmp->char_type = DOC_QUOTE;
+				return ;
+			}
+			i++;
 		}
-		i++;
 	}
 }
 
@@ -84,7 +91,7 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 		stock->type = INFILE;
 	while (str[i] == ' ' || str[i] == 9)
 		i++;
-	check_quote_here_doc(i, str, stock);
+	check_quote_here_doc(i, str, stock, tmp);
 	if (stock->type == HERE_DOC)
 		tmp->char_type = DOC;
 	tmp->typ_write_chr = 1;

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 10:22:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:29:09 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_norm	attribute_norm(int *index, t_line *tmp, char *str, t_base *base)
 	return (norm);
 }
 
-static void	dollars_condition(t_norm *norm, char	**res, t_base *base)
+static void	dollars_condition(t_norm *norm, char **res, t_base *base)
 {
 	if (norm->str[norm->i] == '$' && norm->tmp->char_type != QUOTE \
 	&& norm->tmp->char_type != DOC \
