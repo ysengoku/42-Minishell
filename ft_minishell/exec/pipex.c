@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 08:27:40 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:40:58 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 	fd[OUT] = STDOUT_FILENO;
 	if (check_redirection(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (ft_close(fd_in, fd[OUT], -1));
-	if (!base->lst->arg[0])
+	if (!node->arg[0])
 		return (ft_close(fd_in, fd[OUT], -2));
 	fd[IN] = fd_in;
 	lastchild_pid = fork();
