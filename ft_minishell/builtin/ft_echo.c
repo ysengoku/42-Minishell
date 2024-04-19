@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:16:05 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/05 09:23:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 11:04:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	check_newline(char **arg, int *i, int *newline)
 	int	j;
 
 	j = 0;
-	if (arg[*i][j] != '-')
+	if (arg[*i][j] != '-' || (arg[*i][j] == '-' && !arg[*i][j + 1]))
 		return ;
 	j++;
 	while (arg[*i][j])
