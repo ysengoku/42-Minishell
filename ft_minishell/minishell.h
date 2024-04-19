@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 13:13:23 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:03:32 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ enum e_file_type
 	INFILE = 1,
 	OUT_TRUNC = 2,
 	OUT_APPEND = 3,
-	HERE_DOC = 4
+	HERE_DOC = 4,
+	HERE_DOC_NO = 5
 };
 
 enum e_type_char
