@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 10:32:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:03:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
+void	check_quote_here_doc (int i, char *str, t_file	*stock)
+{
+	while(str[i] && str[i] != ' ' && str[i] != '<' && str[i] != '>')
+	{
+		if (str[i] == 34 || str[i] == 39)
+		{
+			stock->type = HERE_DOC_NO;
+			return ;
+		}
+		i++;
+	}
+}
+
 int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 {
 	t_file	*stock;
@@ -71,6 +84,7 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 		stock->type = INFILE;
 	while (str[i] == ' ' || str[i] == 9)
 		i++;
+	check_quote_here_doc(i, str, stock);
 	if (stock->type == HERE_DOC)
 		tmp->char_type = DOC;
 	tmp->typ_write_chr = 1;
