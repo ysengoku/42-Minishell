@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 16:10:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:08:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void	ghost_unset(t_base *base, char *str)
 			break ;
 		target_node = target_node->next;
 	}
+	if (!target_node)
+		return ;
 	target_node->unset = 1;
 }
 

@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/19 10:21:37 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/19 14:08:47 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
 
-vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec \
+./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
 		ft_cd_expand.c	\
