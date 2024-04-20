@@ -47,7 +47,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
 		return (ft_exit(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
-		return (ft_export(base, fd));
+		return (ft_export(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
 		return (ft_pwd(base, fd));
 	else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
