@@ -43,12 +43,13 @@ char	**split_export_arg(char *arg)
 		free(split);
 		return (NULL);
 	}
+	if (arg[len1] == '+')
+		len1 += 2;
 	split[1] = ft_substr(arg, len1 + 1, len2);
 	if (!split[1])
 	{
 		free(split);
 		free(split[0]);
-		return (NULL);
 	}
 	return (split);
 }
@@ -87,6 +88,8 @@ static int	get_length(int *len1, char *arg)
 	while (arg[*len1])
 	{
 		if (arg[*len1] == '=')
+			break ;
+		if (arg[*len1] == '+' && arg[(*len1) + 1] == '=')
 			break ;
 		(*len1)++;
 	}

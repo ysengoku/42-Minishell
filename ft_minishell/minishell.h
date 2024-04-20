@@ -178,10 +178,12 @@ int		ft_env(t_base *base, t_line *node, int fd[2]);
 /* ft_exit */
 int		ft_exit(t_base *base, t_line *node, int fd[2]);
 /* ft_export */
-int		ft_export(t_base *base, int fd[2]);
+int		ft_export(t_base *base, t_line *node, int fd[2]);
 int		export_null(t_base *base, int fd[2]);
 void	export_add_on_nod(t_base *base, t_env *tmp);
 char	**split_export_arg(char *arg);
+int		add_env_value(t_base *base, t_line *node, int i);
+int		create_nod_from_arg(t_base *base, t_line *node, int i);
 /* ft_unset */
 int		ft_unset(t_base *base, t_line *node, int fd[2]);
 

@@ -46,6 +46,7 @@ SRCS =	main.c	\
 		ft_export.c \
 		ft_export_add.c	\
 		ft_export_print.c	\
+		ft_export_append.c	\
 		ft_pwd.c \
 		ft_unset.c	\
 		ft_exec.c	\
