@@ -61,7 +61,7 @@ void	pipe_execute_builtin(t_base *base, t_line *node, int fd[2])
 	else if (ft_strcmp(node->arg[0], EXIT) == 0)
 		ft_exit(base, node, fd);
 	else if (ft_strcmp(node->arg[0], EXPORT) == 0)
-		exit_code = ft_export(base, fd);
+		exit_code = ft_export(base, node, fd);
 	else if (ft_strcmp(node->arg[0], PWD) == 0)
 		exit_code = ft_pwd(base, fd);
 	else if (ft_strcmp(node->arg[0], UNSET) == 0)
