@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	check_error_export(char *str, t_base *base)
+static int	check_syntax(char *str, t_base *base)
 {
 	int	i;
 
@@ -24,8 +24,7 @@ static int	check_error_export(char *str, t_base *base)
 		ft_display_error(2, base);
 		return (-1);
 	}
-//	while (str[i] && !(str[i] == '=' || (str[i] == '+' && str[i + 1] == '=')))
-	while (str[i] && str[i] != '=')
+	while (str[i] && !(str[i] == '=' || (str[i] == '+' && str[i + 1] == '=')))
 	{
 		if (str[i] < '0' || (str[i] > '9' && str[i] < 'A') || \
 		(str[i] > 'Z' && str[i] < '_') || str[i] == 96 || \
@@ -37,10 +36,12 @@ static int	check_error_export(char *str, t_base *base)
 		}
 		i++;
 	}
+	if (str[i] == '+' && str[i + 1] == '=')
+		return (1);
 	return (0);
 }
 
-int	check_max_arg(char *str, t_base *base)
+static int	check_max_arg(char *str, t_base *base)
 {
 	int	nbr;
 	int	i;
@@ -58,7 +59,7 @@ int	check_max_arg(char *str, t_base *base)
 	return (nbr);
 }
 
-int	atr_nod_from_expt(t_base *base, t_line *node, t_env *tmp, int i)
+static int	atr_nod_from_expt(t_base *base, t_line *node, t_env *tmp, int i)
 {
 	char	**split;
 
@@ -85,7 +86,7 @@ int	create_nod_from_arg(t_base *base, t_line *node, int i)
 
 	tmp = ft_calloc(1, sizeof(t_env));
 	if (!tmp)
-		return (-1);
+		return (1);
 	if (ft_strchr(node->arg[i], '=') == NULL)
 	{
 		tmp->key = ft_strdup(node->arg[i]);
@@ -94,7 +95,7 @@ int	create_nod_from_arg(t_base *base, t_line *node, int i)
 	else
 	{
 		if (atr_nod_from_expt(base, node, tmp, i) == -1)
-			return (-1);
+			return (1);
 	}
 	export_add_on_nod(base, tmp);
 	return (0);
@@ -103,9 +104,9 @@ int	create_nod_from_arg(t_base *base, t_line *node, int i)
 int	ft_export(t_base *base, t_line *node, int fd[2])
 {
 	int		i;
-	int		error;
+	int		status;
 
-	error = 0;
+	status = 0;
 	i = 1;
 	if (node->arg[1] == NULL)
 		return (export_null(base, fd));
@@ -114,17 +115,21 @@ int	ft_export(t_base *base, t_line *node, int fd[2])
 		return (print_err(EXPORT, node->arg[1], "invalid option", 2));
 	while (node->arg[i])
 	{
-		if (check_error_export(node->arg[i], base) == -1)
+		status = check_syntax(node->arg[i], base);
+		if (status == -1)
 			return (1);
-		if (base->lst->arg[i][0] == '=' || base->lst->arg[i][0] == ' ' || \
-		base->lst->arg[i][0] == '\0')
-		{
-			base->error_msg = base->lst->arg[i];
-			ft_display_error(2, base);
-			error = 1;
-		}
-		create_nod_from_arg(base, node, i);
+//		if (node->arg[i][0] == '=' || node->arg[i][0] == ' ' || \
+//		node->arg[i][0] == '\0')
+//		{
+//			base->error_msg = base->lst->arg[i];
+//			ft_display_error(2, base);
+//			status = 1;
+//		}
+		if (status == 1)
+			status = add_env_value(base, node, i);
+		else
+			status = create_nod_from_arg(base, node, i);
 		i++;
 	}
-	return (error);
+	return (status);
 }
