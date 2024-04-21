@@ -28,7 +28,7 @@ char	*expand_path(t_base *base, char *arg)
 		}
 		path = ft_strdup(getenv(HOME));
 		if (!path)
-			ft_perror("malloc", 1);
+			return (1);
 	}
 	else if (ft_strncmp(arg, "-", 2) == 0)
 		path = get_oldpwd_path(base);
