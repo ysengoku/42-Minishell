@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 18:13:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:21:52 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,22 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 	char				*line;
 	char				*delimiter_checker;
 
-	set_heredoc_signal();
+	delimiter_checker = NULL;
 	while (1)
 	{
+		set_heredoc_signal();
 		// write(1, "> ", 2); ///// commented for tester
 		line = get_next_line(STDIN_FILENO);
 		delimiter_checker = ft_strtrim(line, "\n");
 		if (g_received_signal != 0)
 			break ;
 		if (!delimiter_checker)
-			return (print_err("minishell", "malloc failed", NULL, 1));
+			return (print_err("warning: here-document at line 1 delimited by end-of-file (wanted '", file->filename, "')", 1));
 		if (ft_strcmp(delimiter_checker, file->filename) == 0)
 			break ;
 		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
 			return (ft_free((void *)delimiter_checker, 1));
 		free(delimiter_checker);
-		delimiter_checker = NULL;
 	}
 	close(fd_heredoc);
 	ft_free((void *)line, 0);

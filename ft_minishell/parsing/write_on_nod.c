@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 16:29:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/21 22:02:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_base *base)
 	}
 	if (boo == 2)
 	{
-		*res = translate_dollar(norm->str + norm->i + 1, base, *res);
+		*res = translate_dollar(norm->str + norm->i + 1, base, *res, norm->tmp);
 		norm->j = index_dollars(norm, &norm->i, *res);
 	}
 	if (boo == 3)

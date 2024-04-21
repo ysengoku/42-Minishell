@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:39:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:44:53 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	*ft_search(char *str, t_base *base, int last_len, char *before)
 	return (before);
 }
 
-char	*translate_dollar(char *str, t_base *base, char *before)
+char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp)
 {
 	char	*to_find;
 	int		i;
@@ -91,11 +91,13 @@ char	*translate_dollar(char *str, t_base *base, char *before)
 		to_find[i] = str[i];
 		i++;
 	}
-	if (str[i] == 39 || str[i] == 34 || str[i] == '/' || str[i] == '$')
+	if (str[i] == 39 || str[i] == 34 || str[i] == '/' || str[i] == '$' || tmp->char_type != STANDARD)
 	{
-		while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
-	&& str[i] != '|' && str[i] != '>')
+		while ((str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
+	&& str[i] != '|' && str[i] != '>') || tmp->char_type != STANDARD)
 		{
+			if (str[i] == 39 || str[i] == 34)
+				break ;
 			i++;
 			last_len++;
 		}

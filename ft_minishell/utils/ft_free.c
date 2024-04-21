@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/13 00:48:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/21 20:04:46 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_free(void *to_free, int exit_status)
 {
 	if (to_free)
 		free(to_free);
+	to_free = NULL;
 	return (exit_status);
 }
 
