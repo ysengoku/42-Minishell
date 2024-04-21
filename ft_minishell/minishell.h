@@ -37,6 +37,8 @@ extern int	g_received_signal;
 ./minishell -c \"[commande lines]\" for command-line mode"
 # define DELETED_CWD "error retrieving current directory: getcwd:\
  cannot access parent directories: No such file or directory"
+# define NULL_DELIM "warning: here-document at line 1 delimited\
+	by end-of-file (wanted '"
 
 # define HEREDOC "here_doc"
 
