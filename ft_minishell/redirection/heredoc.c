@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 07:55:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:35:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 		if (g_received_signal != 0)
 			break ;
 		if (!delimiter_checker)
-			return (print_err(NULL_DELIM, file->filename, "')", 1));
+			return (print_warning(NULL_DELIM, file->filename, "')", 1));
 		if (ft_strcmp(delimiter_checker, file->filename) == 0)
 			break ;
 		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
