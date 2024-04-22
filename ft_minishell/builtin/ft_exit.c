@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 23:13:49 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 07:58:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exit(t_base *base, t_line *node, int fd[2])
 {
 	int	exit_code;
 
-	//write(2, "exit\n", 5);
+	//write(2, "exit\n", 5); ///// commented for Tester
 	if (node->arg[1])
 	{
 		if (convert_exitcode(node->arg[1]) != -1
