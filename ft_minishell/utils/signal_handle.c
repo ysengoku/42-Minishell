@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 14:49:27 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 16:59:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	set_heredoc_signal(void)
 	struct sigaction	act;
 	struct sigaction	act_quit;
 
-	ft_bzero(&act_quit, sizeof(struct sigaction));
+	// ft_bzero(&act_quit, sizeof(struct sigaction));
 	act_quit.sa_handler = SIG_IGN;
 	sigemptyset(&act_quit.sa_mask);
 	act_quit.sa_flags = 0;
-	ft_bzero(&act, sizeof(struct sigaction));
+	// ft_bzero(&act, sizeof(struct sigaction));
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = 0;
 	act.sa_sigaction = here_doc_sig;

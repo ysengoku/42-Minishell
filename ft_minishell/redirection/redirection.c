@@ -6,13 +6,14 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 15:06:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:06:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_syntax(t_base *base, t_line *node);
+static int	check_heredoc(t_base *base, t_line *node);
 
 int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -49,6 +50,35 @@ static int	check_syntax(t_base *base, t_line *node)
 	{
 		base->exit_code = 2;
 		return (1);
+	}
+	return (0);
+}
+
+static int	check_heredoc(t_base *base, t_line *node)
+{
+	int		fd_heredoc;
+	t_file	*current;
+
+	current = node->file;
+	while (current)
+	{
+		if ((current->type == HERE_DOC || current->type == HERE_DOC_NO)
+			&& current->filename[0])
+		{
+			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			if (fd_heredoc == -1)
+			{
+				perror("heredoc");
+				base->exit_code = 1;
+				return (1);
+			}
+			if (get_heredoc_lines(base, current, fd_heredoc) == 1)
+			{
+				base->exit_code = 1;
+				return (1);
+			}
+		}
+		current = current->next;
 	}
 	return (0);
 }
