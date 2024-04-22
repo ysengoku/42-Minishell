@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:26:54 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 16:28:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 08:02:43 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*expand_path(t_base *base, char *arg)
 		}
 		path = ft_strdup(getenv(HOME));
 		if (!path)
-			return (1);
+			return (NULL);
 	}
 	else if (ft_strncmp(arg, "-", 2) == 0)
 		path = get_oldpwd_path(base);
