@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/19 14:08:47 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/22 14:54:52 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS =	main.c	\
 		ft_echo.c	\
 		ft_env.c \
 		ft_exit.c	\
+		ft_exit_convert.c	\
 		ft_export.c \
 		ft_export_add.c	\
 		ft_export_print.c	\
