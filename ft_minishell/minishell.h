@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:05:17 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:36:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ extern int	g_received_signal;
 ./minishell -c \"[commande lines]\" for command-line mode"
 # define DELETED_CWD "error retrieving current directory: getcwd:\
  cannot access parent directories: No such file or directory"
-# define NULL_DELIM "warning: here-document at line 1 delimited\
-	by end-of-file (wanted '"
+# define NULL_DELIM "here-document at line 1 delimited\
+by end-of-file (wanted `"
 
 # define HEREDOC "here_doc"
 
@@ -218,6 +218,7 @@ int		ft_unset(t_base *base, t_line *node, int fd[2]);
 /*----- Utils ----------------------------------------------------------------*/
 /* error handling */
 int		print_err(char *s1, char *s2, char *s3, int exit_status);
+int		print_warning(char *s1, char *s2, char *s3, int exit_status);
 void	ft_display_error(int i, t_base *base);
 int		ft_perror(const char *s, int exit_status);
 /* free */
