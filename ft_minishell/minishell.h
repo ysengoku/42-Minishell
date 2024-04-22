@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 18:14:40 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:42:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ int		skip_file(char **str, int i);
 /* create node */
 int		create_nod(char *str, t_base *base);
 /*  translate_dollar */
-char	*translate_dollar(char *str, t_base *base, char *before);
+char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp);
 char	*translate_tilde(char *str, t_base *base, char *before);
 /* wite file */
 int		write_in_file(int i, t_line *tmp, char *str, t_base *base);

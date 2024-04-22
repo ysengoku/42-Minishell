@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 14:25:23 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/21 22:05:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,16 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	char	*str;
 	int		i;
 	int		last_nod;
+	int		check;
 
+	check = j;
+	while (res && res[check] && res[check] == ' ')
+		check++;
+	if (!res[check])
+	{
+		res[j] = '\0';
+		return ;
+	}
 	i = 0;
 	str = ft_calloc(j + 2, sizeof(char));
 	while (i < j)

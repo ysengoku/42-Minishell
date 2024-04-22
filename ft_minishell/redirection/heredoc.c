@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 18:13:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 07:55:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 	char				*line;
 	char				*delimiter_checker;
 
-	set_heredoc_signal();
+	delimiter_checker = NULL;
 	while (1)
 	{
+		set_heredoc_signal();
 		// write(1, "> ", 2); ///// commented for tester
 		line = get_next_line(STDIN_FILENO);
 		delimiter_checker = ft_strtrim(line, "\n");
@@ -66,7 +67,6 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
 			return (ft_free((void *)delimiter_checker, 1));
 		free(delimiter_checker);
-		delimiter_checker = NULL;
 	}
 	close(fd_heredoc);
 	ft_free((void *)line, 0);

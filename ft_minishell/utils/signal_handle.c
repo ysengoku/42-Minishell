@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 18:15:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:22:16 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	set_heredoc_signal(void)
 {
 	struct sigaction	act;
 
+	//signal(SIGQUIT, SIG_IGN);
 	ft_bzero(&act, sizeof(struct sigaction));
 	sigemptyset(&act.sa_mask);
 	act.sa_sigaction = here_doc_sig;
 	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
 }
