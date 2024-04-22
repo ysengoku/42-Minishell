@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:36:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:57:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
 int		enter_quote_mode(char *str, int i, t_line *tmp);
 int		index_dollars(t_norm *norm, int *ptr_i, char *res);
 int		index_tilde(t_norm *norm, int *ptr_i, char *res);
+int		count_last_len_dollars(char *str, int i, t_line *tmp);
 
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
