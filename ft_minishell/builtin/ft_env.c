@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 11:08:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:10:27 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_env(t_base *base, t_line *node, int fd[2])
 // 	t_env	*tgt;
 // 	char	*tmp;
 // 	char	pwd[PATH_MAX];
-	
+
 // 	tgt = find_env_var(base, "_");
 // 	if (!tgt)
 // 		return ;
