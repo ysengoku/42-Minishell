@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 10:36:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:05:17 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ extern int	g_received_signal;
 # define UNSET "unset"
 # define EXITSTATUS "$?"
 
+//# define FTENV "/ft_minishell/builtin/ft_env"
 # define HOME "HOME"
 # define OLDPWD "OLDPWD"
 
