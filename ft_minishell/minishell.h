@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 18:07:01 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:30:19 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ void		ft_close_in_child(int fd1, int fd2);
 
 /* redirection.c */
 int			check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out);
-// int			check_heredoc(t_base *base, t_line *node);
 int			get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc);
 char		*get_expanded_str(size_t *i, char *line, t_base *base);
 char		*append_buf(char *expanded_line, char *buf);
