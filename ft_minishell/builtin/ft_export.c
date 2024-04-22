@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 13:13:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:45:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,6 @@ int	ft_export(t_base *base, t_line *node, int fd[2])
 		status = check_syntax(node->arg[i], base);
 		if (status == -1)
 			return (1);
-//		if (node->arg[i][0] == '=' || node->arg[i][0] == ' ' || \
-//		node->arg[i][0] == '\0')
-//		{
-//			base->error_msg = base->lst->arg[i];
-//			ft_display_error(2, base);
-//			status = 1;
-//		}
 		if (status == 1)
 			status = add_env_value(base, node, i);
 		else
