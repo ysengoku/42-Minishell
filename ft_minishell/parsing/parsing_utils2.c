@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:20:50 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 10:32:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:58:02 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,20 @@ int	index_tilde(t_norm *norm, int *ptr_i, char *res)
 	i--;
 	*ptr_i = i;
 	return (j);
+}
+
+int	count_last_len_dollars(char *str, int i, t_line *tmp)
+{
+	int		last_len;
+
+	last_len = 0;
+	while ((str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
+	&& str[i] != '|' && str[i] != '>') || tmp->char_type != STANDARD)
+	{
+		if (str[i] == 39 || str[i] == 34)
+			break ;
+		i++;
+		last_len++;
+	}
+	return (last_len);
 }

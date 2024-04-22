@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 13:54:38 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 16:57:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// add_arg_to_node()
+// {
+// 	int		last_nod;
+
+// 	last_nod = 0;
+// 	while (tmp->arg[last_nod])
+// 		last_nod++;
+// 	tmp->arg[last_nod] = str;
+// }
 
 static void	ft_new_arg( t_line *tmp, char *res, int j)
 {
@@ -20,19 +30,23 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	int		check;
 
 	check = j;
-	while (res && res[check] && res[check] == ' ')
+	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
 	if (!res[check])
 	{
 		res[j] = '\0';
-		return ;
+		// return ;
 	}
 	i = 0;
+	check = 0;
+	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
+		check++;
 	str = ft_calloc(j + 2, sizeof(char));
-	while (res[i] != ' ' && res[i] != '\t')
+	while (res[check] && res[check] != ' ' && res[check] != '\t')
 	{
-		str[i] = res[i];
+		str[i] = res[check];
 		i++;
+		check++;
 	}
 	str[i] = '\0';
 	last_nod = 0;
@@ -40,11 +54,10 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 		last_nod++;
 	tmp->arg[last_nod] = str;
 	i = 0;
-	j++;
-	while (res[j] && (res[j] == ' ' || res[j] == '\t'))
-		j++;
-	while (res[j])
-		res[i++] = res[j++];
+	while (res[check] && (res[check] == ' ' || res[check] == '\t'))
+		check++;
+	while (res[check])
+		res[i++] = res[check++];
 	while (res[i])
 		res[i++] = '\0';
 }
@@ -93,7 +106,7 @@ int	index_dollars(t_norm *norm, int *ptr_i, char *res)
 				ft_display_error(4, norm->base);
 				return (-1);
 			}
-			j = norm->j;
+			j = -1;
 		}
 		j++;
 	}
