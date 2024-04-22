@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:05:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/08 10:06:19 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:52:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	pipe_execute_builtin(t_base *base, t_line *node, int fd[2])
 	else if (ft_strcmp(node->arg[0], ENV) == 0)
 		exit_code = ft_env(base, node, fd);
 	else if (ft_strcmp(node->arg[0], EXIT) == 0)
-		ft_exit(base, node, fd);
+		ft_exit(base, node, fd, true);
 	else if (ft_strcmp(node->arg[0], EXPORT) == 0)
 		exit_code = ft_export(base, node, fd);
 	else if (ft_strcmp(node->arg[0], PWD) == 0)

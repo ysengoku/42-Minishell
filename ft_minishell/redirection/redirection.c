@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 15:42:04 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:06:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_syntax(t_base *base, t_line *node);
 
-int	check_redirection(t_base *base, t_line *node, int *fd_in, int *fd_out)
+int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
 	t_file	*current_file;
 

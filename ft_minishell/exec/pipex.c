@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 17:40:58 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:06:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	if (init_pipe(&pipe) == 1)
 		return (EXIT_FAILURE);
 	*fd_out = pipe[OUT];
-	if (check_redirection(base, node, fd_in, fd_out) == 1 || !node->arg[0]
+	if (check_redir(base, node, fd_in, fd_out) == 1 || !node->arg[0]
 		|| pipe[OUT] == -1)
 	{
 		ft_close(pipe[OUT], *fd_in, 0);
@@ -79,7 +79,7 @@ static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 	int		fd[2];
 
 	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
+	if (check_redir(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (ft_close(fd_in, fd[OUT], -1));
 	if (!node->arg[0])
 		return (ft_close(fd_in, fd[OUT], -2));
