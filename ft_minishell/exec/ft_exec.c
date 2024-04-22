@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/16 13:19:51 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:06:16 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 
 	fd[IN] = STDIN_FILENO;
 	fd[OUT] = STDOUT_FILENO;
-	if (check_redirection(base, node, &fd[IN], &fd[OUT]) == 1 || fd[OUT] == -1)
+	if (check_redir(base, node, &fd[IN], &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (base->exit_code);
 	if (!base->lst->arg[0])
 		return (0);
@@ -45,7 +45,7 @@ static int	execute_single_command(t_base *base, t_line *node)
 	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
 		return (ft_env(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
-		return (ft_exit(base, node, fd));
+		return (ft_exit(base, node, fd, false));
 	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
 		return (ft_export(base, node, fd));
 	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
