@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/21 21:21:52 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 07:55:39 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 		if (g_received_signal != 0)
 			break ;
 		if (!delimiter_checker)
-			return (print_err("warning: here-document at line 1 delimited by end-of-file (wanted '", file->filename, "')", 1));
+			return (print_err(NULL_DELIM, file->filename, "')", 1));
 		if (ft_strcmp(delimiter_checker, file->filename) == 0)
 			break ;
 		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)

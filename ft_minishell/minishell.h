@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/21 21:42:20 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 10:36:58 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ extern int	g_received_signal;
 ./minishell -c \"[commande lines]\" for command-line mode"
 # define DELETED_CWD "error retrieving current directory: getcwd:\
  cannot access parent directories: No such file or directory"
+# define NULL_DELIM "warning: here-document at line 1 delimited\
+	by end-of-file (wanted '"
 
 # define HEREDOC "here_doc"
 
@@ -126,6 +128,31 @@ typedef struct s_norm
 	t_base	*base;
 }				t_norm;
 
+/*----- Parsing --------------------------------------------------------------*/
+/* assign env */
+int		assign_env(t_base *base);
+char	*assign_value(char **split);
+/* chara_split */
+int		ft_chara_split(char *s, t_base **base);
+/* count lst */
+int		cnt_param(char **str, t_line *line);
+int		cnt_quote(char *str, t_line *line, int i);
+int		skip_file(char **str, int i);
+/* create node */
+int		create_nod(char *str, t_base *base);
+/*  translate_dollar */
+char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp);
+char	*translate_tilde(char *str, t_base *base, char *before);
+/* wite file */
+int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
+int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
+/* write on node */
+char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
+/* parsing utils */
+int		enter_quote_mode(char *str, int i, t_line *tmp);
+int		index_dollars(t_norm *norm, int *ptr_i, char *res);
+int		index_tilde(t_norm *norm, int *ptr_i, char *res);
+
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int		ft_exec(t_base *base);
@@ -201,35 +228,11 @@ void	free_envlist(t_base *base);
 t_env	*find_env_var(t_base *base, char *key);
 /* init */
 t_base	*init_base(char **env);
+void	check_shell_level(char **env);
 /* signal */
 void	handle_sigint_inexec(int sig);
 void	handle_sigint(int sig);
 void	set_heredoc_signal(void);
-
-/*----- Parsing --------------------------------------------------------------*/
-/* assign env */
-int		assign_env(t_base *base);
-char	*assign_value(char **split);
-/* chara_split */
-int		ft_chara_split(char *s, t_base **base);
-/* count lst */
-int		cnt_param(char **str, t_line *line);
-int		cnt_quote(char *str, t_line *line, int i);
-int		skip_file(char **str, int i);
-/* create node */
-int		create_nod(char *str, t_base *base);
-/*  translate_dollar */
-char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp);
-char	*translate_tilde(char *str, t_base *base, char *before);
-/* wite file */
-int		write_in_file(int i, t_line *tmp, char *str, t_base *base);
-int		write_out_file(int i, t_line *tmp, char *str, t_base *base);
-/* write on node */
-char	*write_char(int *i, t_line *tmp, char *str, t_base *base);
-/* parsing utils */
-int		enter_quote_mode(char *str, int i, t_line *tmp);
-int		index_dollars(t_norm *norm, int *ptr_i, char *res);
-int		index_tilde(t_norm *norm, int *ptr_i, char *res);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
