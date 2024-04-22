@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/13 22:19:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 11:08:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static void	update_env_lastcommand(t_base *base);
 
 int	ft_env(t_base *base, t_line *node, int fd[2])
 {
@@ -21,6 +23,7 @@ int	ft_env(t_base *base, t_line *node, int fd[2])
 		ft_fprintf(2, "env: '%s': No such file or directory\n", node->arg[1]);
 		return (127);
 	}
+	// update_env_lastcommand(base);
 	tmp = base->envn;
 	while (tmp)
 	{
@@ -38,3 +41,25 @@ int	ft_env(t_base *base, t_line *node, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	return (0);
 }
+
+// static void	update_env_lastcommand(t_base *base)
+// {
+// 	t_env	*tgt;
+// 	char	*tmp;
+// 	char	pwd[PATH_MAX];
+	
+// 	tgt = find_env_var(base, "_");
+// 	if (!tgt)
+// 		return ;
+// 	tmp = tgt->value;
+// 	getcwd(pwd, PATH_MAX);
+// 	tgt->value = ft_calloc(ft_strlen(pwd) + ft_strlen(FTENV) + 1, sizeof(char));
+// 	if (tgt->value)
+// 		tgt->value = tmp;
+// 	else
+// 	{
+// 		ft_strcpy(tgt->value, pwd);
+// 		ft_strcat(tgt->value, FTENV);
+// 		free(tmp);
+// 	}
+// }
