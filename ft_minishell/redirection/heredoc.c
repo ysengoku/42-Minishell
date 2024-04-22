@@ -3,78 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:49:17 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 18:28:07 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc,
-				t_file *file);
-static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc);
+static int	check_delimiter(char *line, char *delimiter);
+static int	stock_hdoc(t_base *base, char *line, int fd_heredoc, t_file *file);
 static char	*ft_expand_heredoc(t_base *base, char *line);
+static int	free_heredoc(char *line, int fd);
 
-int	check_heredoc(t_base *base, t_line *node)
+int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 {
-	int		fd_heredoc;
-	t_file	*current;
+	char	*line;
+	int		check;
 
-	current = node->file;
-	while (current)
-	{
-		if ((current->type == HERE_DOC || current->type == HERE_DOC_NO)
-			&& current->filename[0])
-		{
-			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
-			if (fd_heredoc == -1)
-			{
-				perror("heredoc");
-				base->exit_code = 1;
-				return (1);
-			}
-			if (get_heredoc_lines(base, current, fd_heredoc) == 1)
-			{
-				base->exit_code = 1;
-				return (1);
-			}
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
-static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
-{
-	char				*line;
-	char				*delimiter_checker;
-
-	delimiter_checker = NULL;
+	set_heredoc_signal();
 	while (1)
 	{
-		set_heredoc_signal();
+		g_received_signal = 0;
 		line = get_next_line(STDIN_FILENO);
-		delimiter_checker = ft_strtrim(line, "\n");
-		if (g_received_signal != 0)
-			break ;
-		if (!delimiter_checker)
-			return (print_warning(NULL_DELIM, file->filename, "')", 1));
-		if (ft_strcmp(delimiter_checker, file->filename) == 0)
-			break ;
-		if (stock_line_on_heredoc(base, line, fd_heredoc, file) == 1)
-			return (ft_free((void *)delimiter_checker, 1));
-		free(delimiter_checker);
+		if (g_received_signal == 0)
+		{
+			if (!line && g_received_signal == 0)
+			{
+				print_warning(NULL_DELIM, file->filename, "')", 1);
+				break ;
+			}
+			check = check_delimiter(line, file->filename);
+			if (check == 0)
+				break ;
+			else if (check == -1)
+				return (1);
+			if (stock_hdoc(base, line, fd_heredoc, file) == 1)
+				return (1);
+		}
 	}
-	close(fd_heredoc);
-	ft_free((void *)line, 0);
-	ft_free((void *)delimiter_checker, 0);
-	return (0);
+	return (free_heredoc(line, fd_heredoc));
 }
 
-static int	stock_line_on_heredoc(t_base *base, char *line, int fd_heredoc,
-	t_file *file)
+static int	check_delimiter(char *line, char *delimiter)
+{
+	char	*delimiter_checker;
+
+	if (line[0] == '\n')
+		return (1);
+	delimiter_checker = ft_strtrim(line, "\n");
+	if (!delimiter_checker)
+		return (ft_free((void *)line, -1));
+	if (ft_strcmp(delimiter_checker, delimiter) == 0)
+		return (ft_free((void *)delimiter_checker, 0));
+	return (ft_free((void *)delimiter_checker, 1));
+}
+
+static int	stock_hdoc(t_base *base, char *line, int fd_heredoc, t_file *file)
 {
 	char	*tmp;
 
@@ -118,4 +104,11 @@ static char	*ft_expand_heredoc(t_base *base, char *line)
 			return (handle_malloc_failure(NULL));
 	}
 	return (expanded_line);
+}
+
+static int	free_heredoc(char *line, int fd)
+{
+	close(fd);
+	ft_free(line, 0);
+	return (0);
 }
