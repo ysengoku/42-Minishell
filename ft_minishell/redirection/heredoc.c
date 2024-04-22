@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:35:28 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:49:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 	while (1)
 	{
 		set_heredoc_signal();
-		// write(1, "> ", 2); ///// commented for tester
 		line = get_next_line(STDIN_FILENO);
 		delimiter_checker = ft_strtrim(line, "\n");
 		if (g_received_signal != 0)
