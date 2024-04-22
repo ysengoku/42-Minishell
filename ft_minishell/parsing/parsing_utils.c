@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/21 22:05:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 13:54:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	}
 	i = 0;
 	str = ft_calloc(j + 2, sizeof(char));
-	while (i < j)
+	while (res[i] != ' ' && res[i] != '\t')
 	{
 		str[i] = res[i];
 		i++;
@@ -41,6 +41,8 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	tmp->arg[last_nod] = str;
 	i = 0;
 	j++;
+	while (res[j] && (res[j] == ' ' || res[j] == '\t'))
+		j++;
 	while (res[j])
 		res[i++] = res[j++];
 	while (res[i])

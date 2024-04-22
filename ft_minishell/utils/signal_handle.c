@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/21 20:22:16 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/22 14:01:51 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,15 @@ static void	here_doc_sig(int sig, siginfo_t *info, void *arg)
 void	set_heredoc_signal(void)
 {
 	struct sigaction	act;
+	struct sigaction	act_quit;
 
+	sigemptyset(&act_quit.sa_mask);
+	ft_bzero(&act_quit, sizeof(struct sigaction));
 	//signal(SIGQUIT, SIG_IGN);
+	act_quit.sa_handler = SIG_IGN;
 	ft_bzero(&act, sizeof(struct sigaction));
 	sigemptyset(&act.sa_mask);
 	act.sa_sigaction = here_doc_sig;
 	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
+	sigaction(SIGQUIT, &act_quit, NULL);
 }
