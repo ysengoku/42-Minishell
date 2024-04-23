@@ -3,56 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 16:57:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:15:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// add_arg_to_node()
-// {
-// 	int		last_nod;
+static void	add_arg_to_node(t_line *tmp, char *str)
+{
+	int		last_nod;
 
-// 	last_nod = 0;
-// 	while (tmp->arg[last_nod])
-// 		last_nod++;
-// 	tmp->arg[last_nod] = str;
-// }
+	last_nod = 0;
+	while (tmp->arg[last_nod])
+		last_nod++;
+	tmp->arg[last_nod] = str;
+}
 
 static void	ft_new_arg( t_line *tmp, char *res, int j)
 {
 	char	*str;
 	int		i;
-	int		last_nod;
 	int		check;
 
 	check = j;
 	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
 	if (!res[check])
-	{
 		res[j] = '\0';
-		// return ;
-	}
 	i = 0;
 	check = 0;
 	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
 	str = ft_calloc(j + 2, sizeof(char));
 	while (res[check] && res[check] != ' ' && res[check] != '\t')
-	{
-		str[i] = res[check];
-		i++;
-		check++;
-	}
+		str[i++] = res[check++];
 	str[i] = '\0';
-	last_nod = 0;
-	while (tmp->arg[last_nod])
-		last_nod++;
-	tmp->arg[last_nod] = str;
+	add_arg_to_node(tmp, str);
 	i = 0;
 	while (res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
