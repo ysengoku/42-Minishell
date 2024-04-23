@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/18 16:31:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:45:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	assign_env(t_base *base)
 	while (base->env[i])
 	{
 		tmp = ft_calloc(1, sizeof(t_env));
+		if (!tmp)
+			return (-1);
 		if (ft_strchr(base->env[i], '=') == NULL)
 		{
 			tmp->key = ft_strdup(base->env[i]);
@@ -68,6 +70,8 @@ int	assign_env(t_base *base)
 			split = ft_split(base->env[i], '=');
 			tmp->key = ft_strdup(split[0]);
 			tmp->value = assign_value(split);
+			if (!tmp->value)
+				return (-1);
 		}
 		i++;
 		attribute_nod_env(base, tmp);
