@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/11 09:52:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:20:16 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	open_infile(t_file *infile, t_base *base, int previous_fd)
 	}
 	else
 	{
-		fd_in = open("here_doc", O_RDONLY);
+		fd_in = open(HEREDOC, O_RDONLY);
 		if (fd_in == -1)
 		{
 			base->exit_code = 1;

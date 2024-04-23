@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 16:55:17 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 16:24:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:38:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	check_shell_level(char **env)
 	{
 		level = ft_atoi(shlevel + 6) + 1;
 		tmp = ft_itoa(level);
+		if (!tmp)
+			return ;
 		ft_strcpy(shlevel + 6, tmp);
 		free(tmp);
 	}

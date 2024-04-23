@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/18 16:14:24 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:01:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ void	dup_output(int fd_out)
 		exit(EXIT_FAILURE);
 	}
 	ft_close(fd_out, 0, 0);
-}
-
-void	unlink_heredoc(void)
-{
-	if (access(HEREDOC, F_OK) != -1)
-		unlink(HEREDOC);
 }
 
 int	is_directory(t_base *base, char *name)
