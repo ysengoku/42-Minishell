@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_add.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:46:58 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 13:14:02 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:38:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,54 @@ char	**split_export_arg(char *arg)
 	return (split);
 }
 
-static void	add_new(t_base *base, t_env *last, t_env *tmp)
+static void	add_new_loop(t_env *last, t_env *tmp)
 {
-	if (ft_strcmp(last->key, tmp->key) == 0)
-	{
-		tmp->next = last->next;
-		free(last->key);
-		free(last->value);
-		free(last);
-		base->envn = tmp;
-		return ;
-	}
 	while (last->next)
 	{
 		if (ft_strcmp(last->next->key, tmp->key) == 0)
 		{
-			tmp->next = last->next->next;
-			free(last->next->key);
-			free(last->next->value);
-			free(last->next);
-			last->next = tmp;
+			if (tmp->value)
+			{
+				tmp->next = last->next->next;
+				free(last->next->key);
+				free(last->next->value);
+				free(last->next);
+				last->next = tmp;
+			}
+			else
+			{
+				free(tmp->key);
+				free(tmp->value);
+				free(tmp);
+			}
 			return ;
 		}
 		last = last->next;
 	}
 	last->next = tmp;
+}
+
+static void	add_new(t_base *base, t_env *last, t_env *tmp)
+{
+	if (ft_strcmp(last->key, tmp->key) == 0)
+	{
+		if (tmp->value)
+		{
+			tmp->next = last->next;
+			free(last->key);
+			free(last->value);
+			free(last);
+			base->envn = tmp;
+		}
+		else
+		{
+			free(tmp->key);
+			free(tmp->value);
+			free(tmp);
+		}
+		return ;
+	}
+	add_new_loop(last, tmp);
 }
 
 static int	get_length(int *len1, char *arg)
