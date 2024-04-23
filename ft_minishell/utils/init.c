@@ -42,6 +42,8 @@ void	check_shell_level(char **env)
 	if (shlevel)
 	{
 		level = ft_atoi(shlevel + 6) + 1;
+		if (level >= 255)
+			return ;
 		tmp = ft_itoa(level);
 		if (!tmp)
 			return ;
