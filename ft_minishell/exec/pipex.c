@@ -108,12 +108,12 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 	waitpid(lastchild_pid, &base->exit_code, 0);
 	while (count-- > 0)
 		wait(&status);
-	if ((WIFSIGNALED(base->exit_code) && WTERMSIG(base->exit_code) == SIGINT)
-		|| (WIFSIGNALED(status) && WTERMSIG(base->exit_code) == SIGINT))
-	{
+	if (WIFSIGNALED(base->exit_code))
 		g_received_signal = base->exit_code;
-		write(1, "\n", 1);
-	}
+	else if (WIFSIGNALED(status))
+		g_received_signal = status;
 	else
 		g_received_signal = 0;
+	if (g_received_signal == SIGINT)
+		write(1, "\n", 1);
 }
