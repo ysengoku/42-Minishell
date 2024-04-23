@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 13:23:57 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/23 13:26:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_minishell(t_base *base)
 	char	*str;
 	int		exit_code;
 
-    str = readline(CYAN "minishell >>> " RESET);
+	str = readline(CYAN "minishell >>> " RESET);
 	if (str && *str)
 	{
 		add_history(str);

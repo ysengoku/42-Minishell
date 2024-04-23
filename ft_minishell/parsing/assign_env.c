@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 13:05:15 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/23 13:27:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	assign_value_key_to_env(t_env *tmp, int i, t_base *base)
 		if (!tmp->value)
 			return (-1);
 	}
-	return(0);
+	return (0);
 }
 
 int	free_error_env(t_env *tmp, int i, t_base *base)
@@ -100,7 +100,7 @@ int	assign_env(t_base *base)
 		if (assign_value_key_to_env(tmp, i, base) == -1)
 			return (-1);
 		if (!tmp->key)
-		return (free_error_env(tmp, i, base));
+			return (free_error_env(tmp, i, base));
 		i++;
 		attribute_nod_env(base, tmp);
 	}
