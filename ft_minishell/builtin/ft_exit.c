@@ -6,20 +6,20 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 15:10:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 11:51:43 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_exit(bool is_pipe); ///// commented for Tester
+static void	print_exit(bool is_pipe);
 static int	clear_before_exit(t_base *base, int exit_code);
 
 int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 {
 	int	exit_code;
 
-	print_exit(is_pipe);  ///// commented for Tester
+	print_exit(is_pipe);
 	if (node->arg[1])
 	{
 		if (convert_exitcode(node->arg[1]) != -1
@@ -46,9 +46,8 @@ int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 
 static void	print_exit(bool is_pipe)
 {
-	// if (is_pipe == false)
-	// 	write(2, "exit\n", 5); ///// commented for Tester
-	(void) is_pipe;  ///// for Tester
+	if (is_pipe == false)
+		write(2, "exit\n", 5);
 }
 
 static int	clear_before_exit(t_base *base, int exit_code)

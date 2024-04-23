@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 18:28:07 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:08:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 	set_heredoc_signal();
 	while (1)
 	{
-		g_received_signal = 0;
+		reset_heredoc();
 		line = get_next_line(STDIN_FILENO);
 		if (g_received_signal == 0)
 		{
