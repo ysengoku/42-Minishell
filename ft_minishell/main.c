@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 11:54:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:26:53 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ static int	command_line_mode(t_base *base, char *av2, char **env)
 	base = init_base(env);
 	if (!base)
 		return (1);
-	assign_env(base);
+	if (assign_env(base) == -1)
+	{
+		free(base);
+		return (1);
+	}
 	if (ft_chara_split(av2, &base) != -1)
 		exit_code = ft_exec(base);
 	else
@@ -74,7 +78,11 @@ int	main(int ac, char **av, char **env)
 		base = init_base(env);
 		if (!base)
 			return (1);
-		assign_env(base);
+		if (assign_env(base) == -1)
+		{
+			free (base);
+			return (1);
+		}
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_print.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 09:34:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/13 22:18:37 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/23 13:09:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	export_null(t_base *base, int fd[2])
 		{
 			if (tmp->unset == 1)
 				print->order = 1;
-			if (tmp->order == 0 && strcmp(print->key, tmp->key) > 0)
+			if (tmp->order == 0 && ft_strcmp(print->key, tmp->key) > 0)
 				print = tmp;
 			tmp = tmp->next;
 		}
-		if (strcmp(print->key, "_") != 0)
+		if (ft_strcmp(print->key, "_") != 0)
 			print_line(fd[OUT], print);
 		print->order = 1;
 	}

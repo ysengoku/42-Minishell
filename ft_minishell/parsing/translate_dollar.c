@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 14:57:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/23 13:08:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp)
 
 	i = 0;
 	last_len = 0;
-	to_find = ft_calloc(strlen(str) + 1, sizeof(char));
+	to_find = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && str[i] != '=' && \
 	str[i] != 34 && str[i] != 39 && str[i] != '$' && str[i] != '.')
