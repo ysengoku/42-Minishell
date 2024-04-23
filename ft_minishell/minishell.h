@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 12:07:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:02:12 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ extern int	g_received_signal;
 # define NULL_DELIM "here-document at line 1 delimited\
 by end-of-file (wanted `"
 
-# define HEREDOC "here_doc"
+# define HEREDOC ".here_doc"
 
 # define CD "cd"
 # define ECHO "echo"
@@ -173,7 +173,6 @@ void		execute_command(t_base *base, t_line *node);
 /* utils_exec.c */
 void		dup_input(int fd_in);
 void		dup_output(int fd_out);
-void		unlink_heredoc(void);
 int			is_directory(t_base *base, char *name);
 int			error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
@@ -192,6 +191,7 @@ char		*get_expanded_str(size_t *i, char *line, t_base *base);
 char		*append_buf(char *expanded_line, char *buf);
 char		*get_str(size_t *i, char *line);
 char		*handle_malloc_failure(char	*to_free);
+void		unlink_heredoc(void);
 
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */

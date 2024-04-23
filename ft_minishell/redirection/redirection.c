@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 18:06:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:20:44 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	check_heredoc(t_base *base, t_line *node)
 		if ((current->type == HERE_DOC || current->type == HERE_DOC_NO)
 			&& current->filename[0])
 		{
-			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			fd_heredoc = open(HEREDOC, O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if (fd_heredoc == -1)
 			{
 				perror("heredoc");

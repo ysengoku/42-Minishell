@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 15:06:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:43:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ static int	execute_single_command(t_base *base, t_line *node)
 		return (base->exit_code);
 	if (!base->lst->arg[0])
 		return (0);
-	if (ft_strcmp(base->lst->arg[0], CD) == 0)
+	if (ft_strcmp(node->arg[0], CD) == 0)
 		return (ft_cd(base, node, fd));
-	else if (ft_strcmp(base->lst->arg[0], ECHO) == 0)
+	else if (ft_strcmp(node->arg[0], ECHO) == 0)
 		return (ft_echo(base->lst, fd));
-	else if (ft_strcmp(base->lst->arg[0], ENV) == 0)
+	else if (ft_strcmp(node->arg[0], ENV) == 0)
 		return (ft_env(base, node, fd));
-	else if (ft_strcmp(base->lst->arg[0], EXIT) == 0)
+	else if (ft_strcmp(node->arg[0], EXIT) == 0)
 		return (ft_exit(base, node, fd, false));
-	else if (ft_strcmp(base->lst->arg[0], EXPORT) == 0)
+	else if (ft_strcmp(node->arg[0], EXPORT) == 0)
 		return (ft_export(base, node, fd));
-	else if (ft_strcmp(base->lst->arg[0], PWD) == 0)
+	else if (ft_strcmp(node->arg[0], PWD) == 0)
 		return (ft_pwd(base, fd));
-	else if (ft_strcmp(base->lst->arg[0], UNSET) == 0)
+	else if (ft_strcmp(node->arg[0], UNSET) == 0)
 		return (ft_unset(base, node, fd));
 	return (execute_external_command(base, fd));
 }
