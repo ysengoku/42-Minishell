@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 11:51:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:24:13 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 	if (node->arg[1])
 	{
 		if (convert_exitcode(node->arg[1]) != -1
-			|| (strcmp(node->arg[1], "-1") == 0))
+			|| (ft_strcmp(node->arg[1], "-1") == 0))
 		{
 			exit_code = convert_exitcode(node->arg[1]) % 256;
 			if (node->arg[2])

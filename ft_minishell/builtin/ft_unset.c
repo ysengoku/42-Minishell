@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 14:08:39 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:09:57 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	ghost_unset(t_base *base, char *str)
 	target_node = base->envn;
 	while (target_node)
 	{
-		if (strcmp(target_node->key, str) == 0)
+		if (ft_strcmp(target_node->key, str) == 0)
 			break ;
 		target_node = target_node->next;
 	}
@@ -85,7 +85,7 @@ void	delete_env(t_base *base, t_line *node, int i)
 	previous_node = NULL;
 	while (target_node)
 	{
-		if (strcmp(target_node->key, node->arg[i]) == 0)
+		if (ft_strcmp(target_node->key, node->arg[i]) == 0)
 			break ;
 		previous_node = target_node;
 		target_node = target_node->next;
