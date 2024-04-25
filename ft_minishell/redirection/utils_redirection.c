@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:13:43 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 08:53:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:45:13 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static size_t	get_keyend(char *line, size_t start)
 
 	end = start;
 	while (line[end] && line[end] != ' ' && line[end] != '\t'
-		&& line[end] != '$' && line[end] != '\n')
+		&& line[end] != '$' && line[end] != '\n'
+		&& line[end] != '\'' && line[end] != '\"')
 		end++;
 	return (end);
 }
