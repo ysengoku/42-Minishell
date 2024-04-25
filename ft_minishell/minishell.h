@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 10:39:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:18:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct s_line
 	enum e_type_char	char_type;
 	int					error_syntax;
 	int					typ_write_chr;
+	char				heredoc[NAME_MAX];
+	int					index;
 	struct s_line		*next;
 }				t_line;
 
@@ -175,8 +177,8 @@ int			error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 
 /*----- Redirection ----------------------------------------------------------*/
 /* open_file.c */
-int			open_infile(t_file *infile, t_base *base, int previous_fd);
-int			open_outfile(t_file *outfile, t_base *base, int previous_fd);
+int			open_infile(t_base *base, t_line *node, t_file *infile, int old_fd);
+int			open_outfile(t_file *outfile, t_base *base, int old_fd);
 int			ft_close(int fd1, int fd2, int exit_code);
 void		ft_close_in_child(int fd1, int fd2, int fd3);
 /* redirection.c */
@@ -187,7 +189,7 @@ char		*get_expanded_str(size_t *i, char *line, t_base *base);
 char		*append_buf(char *expanded_line, char *buf);
 char		*get_str(size_t *i, char *line);
 char		*handle_malloc_failure(char	*to_free);
-void		unlink_heredoc(void);
+void		unlink_heredoc(t_base *base);
 
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */

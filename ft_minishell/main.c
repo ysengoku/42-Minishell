@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/25 11:21:21 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:13:00 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_minishell(t_base *base)
 			base->exit_code = ft_exec(base);
 		else
 			base->exit_code = 2;
-		unlink_heredoc();
+		unlink_heredoc(base);
 		free_base_content(base);
 	}
 	if (!str)
@@ -58,7 +58,7 @@ static int	command_line_mode(t_base *base, char *av2, char **env)
 		exit_code = ft_exec(base);
 	else
 		exit_code = 2;
-	unlink_heredoc();
+	unlink_heredoc(base);
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
