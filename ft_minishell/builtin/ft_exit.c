@@ -6,14 +6,13 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 09:18:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:42:30 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	print_exit(bool is_pipe);
-static int	clear_before_exit(t_base *base, int exit_code);
 
 int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 {
@@ -48,17 +47,4 @@ static void	print_exit(bool is_pipe)
 {
 	if (is_pipe == false)
 		write(2, "exit\n", 5);
-}
-
-static int	clear_before_exit(t_base *base, int exit_code)
-{
-	unlink_heredoc();
-	rl_clear_history();
-	free_base_content(base);
-	free_envlist(base);
-	free(base);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-	return (exit_code);
 }
