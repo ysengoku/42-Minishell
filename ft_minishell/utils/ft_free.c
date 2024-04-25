@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:52 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 10:43:09 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:12:24 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	free_envlist(t_base *base)
 
 int	clear_before_exit(t_base *base, int exit_code)
 {
-	unlink_heredoc();
+	unlink_heredoc(base);
 	rl_clear_history();
 	free_base_content(base);
 	free_envlist(base);

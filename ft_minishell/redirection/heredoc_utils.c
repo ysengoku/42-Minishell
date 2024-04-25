@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:03:01 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/24 11:38:37 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:16:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,18 @@ void	reset_heredoc(void)
 	g_received_signal = 0;
 }
 
-void	unlink_heredoc(void)
+void	unlink_heredoc(t_base *base)
 {
-	if (access(HEREDOC, F_OK) != -1)
-		unlink(HEREDOC);
+	t_line	*current;
+
+	current = base->lst;
+	while (current)
+	{
+		if (current->heredoc[0])
+		{
+			if (access(current->heredoc, F_OK) != -1)
+				unlink(current->heredoc);
+		}
+		current = current->next;
+	}
 }
