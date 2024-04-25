@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:14:23 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 17:01:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:48:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int	error_in_child(t_base *base, int exit_code, char *s1, char *s2)
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
+	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 	return (exit_code);
 }
