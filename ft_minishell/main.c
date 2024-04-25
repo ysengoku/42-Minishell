@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/25 10:44:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:21:21 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static int	command_line_mode(t_base *base, char *av2, char **env)
 	free_base_content(base);
 	free_envlist(base);
 	free(base);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	return (exit_code);
 }
 
