@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 17:02:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 08:53:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ int			count_last_len_dollars(char *str, int i, t_line *tmp);
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
 int			ft_exec(t_base *base);
-
 /* pipex.c & pipex_utils.c */
 int			pipex(t_base *base);
 int			init_pipe(int (*pipefd)[2]);
@@ -166,10 +165,8 @@ pid_t		ft_fork_pipex(int pipe[2]);
 void		pipe_child(t_base *base, t_line *node, int fd_in, int fd_out);
 void		pipe_execute_builtin(t_base *base, t_line *node, int fd[2]);
 void		free_all_in_child(t_base *base);
-
 /* execute command */
 void		execute_command(t_base *base, t_line *node);
-
 /* utils_exec.c */
 void		dup_input(int fd_in);
 void		dup_output(int fd_out);
@@ -181,8 +178,7 @@ int			error_in_child(t_base *base, int exit_code, char *s1, char *s2);
 int			open_infile(t_file *infile, t_base *base, int previous_fd);
 int			open_outfile(t_file *outfile, t_base *base, int previous_fd);
 int			ft_close(int fd1, int fd2, int exit_code);
-void		ft_close_in_child(int fd1, int fd2);
-
+void		ft_close_in_child(int fd1, int fd2, int fd3);
 /* redirection.c */
 int			check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out);
 void		reset_heredoc(void);

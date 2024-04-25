@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:09:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 17:20:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 08:52:20 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int	ft_close(int fd1, int fd2, int exit_code)
 	return (exit_code);
 }
 
-void	ft_close_in_child(int fd1, int fd2)
+void	ft_close_in_child(int fd1, int fd2, int fd3)
 {
 	close(fd1);
 	close(fd2);
+	close(fd3);
 }

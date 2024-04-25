@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:05:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:52:12 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 09:22:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	pipe_execute_builtin(t_base *base, t_line *node, int fd[2])
 	else
 		return ;
 	free_all_in_child(base);
-	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
+	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 	exit(exit_code);
 }
 
