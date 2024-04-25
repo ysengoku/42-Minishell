@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 16:55:17 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:09:42 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:38:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,22 @@ void	check_shell_level(char **env)
 	char	*tmp;
 
 	i = 0;
+	shlevel = NULL;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
 			shlevel = env[i];
 		i++;
 	}
-	level = ft_atoi(shlevel + 6) + 1;
-	tmp = ft_itoa(level);
-	ft_strcpy(shlevel + 6, tmp);
-	free(tmp);
+	if (shlevel)
+	{
+		level = ft_atoi(shlevel + 6) + 1;
+		if (level >= 255)
+			return ;
+		tmp = ft_itoa(level);
+		if (!tmp)
+			return ;
+		ft_strcpy(shlevel + 6, tmp);
+		free(tmp);
+	}
 }

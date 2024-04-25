@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 13:12:14 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:49:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ static char	*get_pathname(t_base *base, t_line *node)
 		i++;
 	}
 	ft_free_strarr(path_list);
-	ft_close_in_child(STDIN_FILENO, STDOUT_FILENO);
 	if (base->exit_code == 127)
-		exit(error_in_child(base, 127, node->arg[0], "command not found"));
+		exit(error_in_child(base, 127, node->arg[0], "Command not found"));
 	else
 		exit(error_in_child(base, 126, node->arg[0], "Permission denied"));
 }

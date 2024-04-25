@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 12:08:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:59:05 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	stock_hdoc(t_base *base, char *line, int fd_heredoc, t_file *file)
 {
 	char	*tmp;
 
-	if (file->type == 4 && ft_strchr(line, '$') != NULL)
+	if (file->type == HERE_DOC && ft_strchr(line, '$') != NULL)
 	{
 		tmp = line;
 		line = ft_expand_heredoc(base, line);

@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 18:06:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:21:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	check_syntax(t_base *base, t_line *node);
 static int	check_heredoc(t_base *base, t_line *node);
+static int	open_heredoc(t_line *node);
 
 int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
@@ -29,7 +30,7 @@ int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 		if (current_file->type == INFILE || current_file->type == HERE_DOC
 			|| current_file->type == HERE_DOC_NO)
 		{
-			*fd_in = open_infile(current_file, base, *fd_in);
+			*fd_in = open_infile(base, node, current_file, *fd_in);
 			if (*fd_in == -1)
 				return (ft_close(*fd_in, *fd_out, 1));
 		}
@@ -65,7 +66,7 @@ static int	check_heredoc(t_base *base, t_line *node)
 		if ((current->type == HERE_DOC || current->type == HERE_DOC_NO)
 			&& current->filename[0])
 		{
-			fd_heredoc = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			fd_heredoc = open_heredoc(node);
 			if (fd_heredoc == -1)
 			{
 				perror("heredoc");
@@ -81,4 +82,19 @@ static int	check_heredoc(t_base *base, t_line *node)
 		current = current->next;
 	}
 	return (0);
+}
+
+static int	open_heredoc(t_line *node)
+{
+	char	*id;
+	int		fd;
+
+	id = ft_itoa(node->index);
+	if (node->index != 0 && !id)
+		return (-1);
+	ft_strcpy(node->heredoc, HEREDOC);
+	ft_strcat(node->heredoc, id);
+	fd = open(node->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	free(id);
+	return (fd);
 }

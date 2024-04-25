@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_nod.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:00 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/25 13:55:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,27 @@ static int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 	return (i);
 }
 
-static void	attribute_nod(t_base *base, t_line	*tmp)
+static void	attribute_nod(t_base *base, t_line *tmp)
 {
 	t_line	*nxt;
+	int		index;
 
 	nxt = base->lst;
+	index = 1;
 	if (base->lst == NULL)
+	{
 		base->lst = tmp;
+		tmp->index = 0;
+	}
 	else
 	{
 		while (nxt->next)
+		{
 			nxt = nxt->next;
+			index++;
+		}
 		nxt->next = tmp;
+		tmp->index = index;
 	}
 }
 
