@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/23 12:07:38 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/25 08:15:27 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,10 @@ INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
 
-vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin ./ft_minishell/exec \
-./ft_minishell/redirection ./ft_minishell/utils
+#HEADERLIB = $(LIBFT_DIR)/libft.h $(PRINTF_DIR)/ft_printf.h
+
+vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin \
+./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
 SRCS =	main.c	\
 		ft_cd.c	\
 		ft_cd_expand.c	\
@@ -83,18 +85,18 @@ OBJS = $(patsubst %.c, $(DIR_OBJ)%.o, $(SRCS))
 
 all: mlibft mfprintf $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJS) $(LIBFT) $(PRINTF) Makefile
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) $(LIB_DIR) $(LIBS) -o $(NAME)
 	@printf "$(LIGHT_GREEN)minishell is ready to launch\n$(RESET)"
 
-$(DIR_OBJ)%.o: %.c $(IFLAGS) Makefile
+$(DIR_OBJ)%.o: %.c $(IFLAGS) Makefile $(LIBFT) $(PRINTF)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
-mlibft:
+mlibft: FORCE
 	@make -C $(LIBFT_DIR)
 
-mfprintf:
+mfprintf: FORCE
 	@make -C $(PRINTF_DIR)
 	
 clean:
@@ -107,6 +109,8 @@ fclean: clean
 	@make -C $(PRINTF_DIR) fclean
 	rm -f $(NAME)
 
-re : fclean all
+re: fclean all
 
-.PHONY: all clean fclean re mlibft mfprintf
+FORCE:
+
+.PHONY: all clean fclean re mlibft mfprintf FORCE
