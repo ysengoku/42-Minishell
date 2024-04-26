@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 13:34:46 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:19:03 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int			count_last_len_dollars(char *str, int i, t_line *tmp);
 /* ft_exec.c */
 int			ft_exec(t_base *base);
 /* pipex.c & pipex_utils.c */
-int			pipex(t_base *base);
+int			ft_pipex(t_base *base);
 int			init_pipe(int (*pipefd)[2]);
 pid_t		ft_fork_pipex(int pipe[2]);
 void		pipe_child(t_base *base, t_line *node, int fd_in, int fd_out);
@@ -182,7 +182,11 @@ int			open_outfile(t_file *outfile, t_base *base, int old_fd);
 int			ft_close(int fd1, int fd2, int exit_code);
 void		ft_close_in_child(int fd1, int fd2, int fd3);
 /* redirection.c */
+int			check_redir_syntax(t_base *base, t_line *node);
 int			check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out);
+int			check_heredoc(t_base *base, t_line *node);
+int			check_redir_p(t_base *base, t_line *node, int *fd_in, int *fd_out);
+int			check_heredoc_p(t_base *base);
 void		reset_heredoc(void);
 int			get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc);
 char		*get_expanded_str(size_t *i, char *line, t_base *base);

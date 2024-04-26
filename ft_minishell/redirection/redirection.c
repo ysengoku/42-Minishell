@@ -6,14 +6,12 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 13:51:06 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:19:37 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_syntax(t_base *base, t_line *node);
-static int	check_heredoc(t_base *base, t_line *node);
 static int	open_heredoc(t_line *node);
 
 int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
@@ -23,7 +21,7 @@ int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	if (check_heredoc(base, node) == 1)
 		return (1);
 	current_file = node->file;
-	if (check_syntax(base, node) == 1)
+	if (check_redir_syntax(base, node) == 1)
 		return (ft_close(*fd_in, *fd_out, 1));
 	while (current_file && current_file->filename[0])
 	{
@@ -45,7 +43,7 @@ int	check_redir(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	return (0);
 }
 
-static int	check_syntax(t_base *base, t_line *node)
+int	check_redir_syntax(t_base *base, t_line *node)
 {
 	if (node->error_syntax == 1)
 	{
@@ -55,7 +53,7 @@ static int	check_syntax(t_base *base, t_line *node)
 	return (0);
 }
 
-static int	check_heredoc(t_base *base, t_line *node)
+int	check_heredoc(t_base *base, t_line *node)
 {
 	int		fd_heredoc;
 	t_file	*current;
