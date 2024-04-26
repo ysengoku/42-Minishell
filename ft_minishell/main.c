@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:48 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/26 12:34:18 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/26 14:29:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_minishell(t_base *base)
 	}
 	if (!str)
 	{
-		if (g_received_signal != 0)
+		if (g_received_signal == SIGINT)
 			exit_code = 128 + g_received_signal;
 		else
 			exit_code = base->exit_code;
