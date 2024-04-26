@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/26 12:03:17 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*write_signal(char *str, t_base *base, char *before)
 	int		i;
 
 	i = 0;
-	if (g_received_signal != 0)
+	if (g_received_signal == SIGINT)
 	{
 		base->exit_code = 128 + g_received_signal;
 		g_received_signal = 0;
