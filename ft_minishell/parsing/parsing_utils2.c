@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:20:50 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 14:38:41 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:02:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,15 @@ int	count_last_len_dollars(char *str, int i, t_line *tmp)
 	{
 		if ((str[i] == 39 && tmp->char_type == QUOTE) || \
 		(str[i] == 34 && tmp->char_type == DOUBLE_Q))
+		{
+			while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
+			&& str[i] != '|' && str[i] != '>')
+			{
+				i++;
+				last_len++;
+			}
 			break ;
+		}
 		i++;
 		last_len++;
 	}
