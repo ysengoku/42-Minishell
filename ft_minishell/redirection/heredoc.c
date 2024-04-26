@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 14:59:05 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:50:43 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	check_delimiter(char *line, char *delimiter);
 static int	stock_hdoc(t_base *base, char *line, int fd_heredoc, t_file *file);
 static char	*ft_expand_heredoc(t_base *base, char *line);
-static int	free_heredoc(char *line, int fd);
 
 int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 {
@@ -27,23 +26,22 @@ int	get_heredoc_lines(t_base *base, t_file *file, int fd_heredoc)
 	{
 		reset_heredoc();
 		line = get_next_line(STDIN_FILENO);
-		if (g_received_signal == 0)
+		if (g_received_signal == SIGINT)
+			return (free_heredoc(line, fd_heredoc, 2));
+		if (!line && g_received_signal == 0)
 		{
-			if (!line && g_received_signal == 0)
-			{
-				print_warning(NULL_DELIM, file->filename, "')", 1);
-				break ;
-			}
-			check = check_delimiter(line, file->filename);
-			if (check == 0)
-				break ;
-			else if (check == -1)
-				return (1);
-			if (stock_hdoc(base, line, fd_heredoc, file) == 1)
-				return (1);
+			print_warning(NULL_DELIM, file->filename, "')", 1);
+			break ;
 		}
+		check = check_delimiter(line, file->filename);
+		if (check == 0)
+			break ;
+		else if (check == -1)
+			return (1);
+		if (stock_hdoc(base, line, fd_heredoc, file) == 1)
+			return (1);
 	}
-	return (free_heredoc(line, fd_heredoc));
+	return (free_heredoc(line, fd_heredoc, 0));
 }
 
 static int	check_delimiter(char *line, char *delimiter)
@@ -104,11 +102,4 @@ static char	*ft_expand_heredoc(t_base *base, char *line)
 			return (handle_malloc_failure(NULL));
 	}
 	return (expanded_line);
-}
-
-static int	free_heredoc(char *line, int fd)
-{
-	close(fd);
-	ft_free(line, 0);
-	return (0);
 }

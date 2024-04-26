@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 07:55:07 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 14:21:31 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:51:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ static int	check_heredoc(t_base *base, t_line *node)
 				base->exit_code = 1;
 				return (1);
 			}
-			if (get_heredoc_lines(base, current, fd_heredoc) == 1)
-			{
-				base->exit_code = 1;
+			base->exit_code = get_heredoc_lines(base, current, fd_heredoc);
+			if (base->exit_code != 0)
 				return (1);
-			}
 		}
 		current = current->next;
 	}
