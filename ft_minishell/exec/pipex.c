@@ -6,28 +6,29 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 15:06:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:13:05 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void		init_value(int *fd_in, int *fd_out, int *count);
 static int		pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out);
 static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
 
-int	pipex(t_base *base)
+int	ft_pipex(t_base *base)
 {
 	int		fd[2];
 	pid_t	lastchild_pid;
 	int		count;
 	t_line	*current_node;
 
-	fd[IN] = STDIN_FILENO;
-	fd[OUT] = 0;
-	count = 0;
+	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
 	signal(SIGINT, handle_sigint_inexec);
+	if (check_heredoc_p(base) == 1)
+		return (base->exit_code);
 	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
@@ -44,6 +45,13 @@ int	pipex(t_base *base)
 	return (WEXITSTATUS(base->exit_code));
 }
 
+static void	init_value(int *fd_in, int *fd_out, int *count)
+{
+	*fd_in = STDIN_FILENO;
+	*fd_out = 0;
+	*count = 0;
+}
+
 static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 {
 	pid_t	child_pid;
@@ -52,7 +60,7 @@ static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 	if (init_pipe(&pipe) == 1)
 		return (EXIT_FAILURE);
 	*fd_out = pipe[OUT];
-	if (check_redir(base, node, fd_in, fd_out) == 1 || !node->arg[0]
+	if (check_redir_p(base, node, fd_in, fd_out) == 1 || !node->arg[0]
 		|| pipe[OUT] == -1)
 	{
 		ft_close(pipe[OUT], *fd_in, 0);
@@ -79,7 +87,7 @@ static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in)
 	int		fd[2];
 
 	fd[OUT] = STDOUT_FILENO;
-	if (check_redir(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
+	if (check_redir_p(base, node, &fd_in, &fd[OUT]) == 1 || fd[OUT] == -1)
 		return (ft_close(fd_in, fd[OUT], -1));
 	if (!node->arg[0])
 		return (ft_close(fd_in, fd[OUT], -2));
