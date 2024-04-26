@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 15:06:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:30:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,15 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 	while (count-- > 0)
 		wait(&status);
 	if (WIFSIGNALED(base->exit_code))
+	{	
+		printf("signal last command\n");
 		g_received_signal = base->exit_code;
+	}
 	else if (WIFSIGNALED(status))
+	{
+		printf("signal pipe\n");
 		g_received_signal = status;
+	}
 	else
 		g_received_signal = 0;
 	if (g_received_signal == SIGINT)
