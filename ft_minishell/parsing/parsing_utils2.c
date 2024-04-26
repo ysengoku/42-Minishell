@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:20:50 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:58:02 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/26 12:02:24 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	count_last_len_dollars(char *str, int i, t_line *tmp)
 	while ((str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>') || tmp->char_type != STANDARD)
 	{
-		if (str[i] == 39 || str[i] == 34)
+		if ((str[i] == 39 && tmp->char_type == QUOTE) || (str[i] == 34  && tmp->char_type == DOUBLE_Q))
 			break ;
 		i++;
 		last_len++;
