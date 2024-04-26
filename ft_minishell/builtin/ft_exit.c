@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 14:26:54 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/26 14:52:55 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	print_exit(bool is_pipe);
+static void	print_exit(bool is_pipe);
 
 int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 {
 	int	exit_code;
 
-	//print_exit(is_pipe);
-	(void) is_pipe;
+	print_exit(is_pipe);
 	if (node->arg[1])
 	{
 		if (convert_exitcode(node->arg[1]) != -1
@@ -44,8 +43,8 @@ int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 	return (0);
 }
 
-// static void	print_exit(bool is_pipe)
-// {
-// 	if (is_pipe == false)
-// 		write(2, "exit\n", 5);
-// }
+static void	print_exit(bool is_pipe)
+{
+	if (is_pipe == false)
+		write(2, "exit\n", 5);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:20:50 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 12:05:05 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/26 14:38:41 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	count_last_len_dollars(char *str, int i, t_line *tmp)
 	&& str[i] != '|' && str[i] != '>') || tmp->char_type != STANDARD)
 	{
 		if ((str[i] == 39 && tmp->char_type == QUOTE) || \
-		(str[i] == 34  && tmp->char_type == DOUBLE_Q))
+		(str[i] == 34 && tmp->char_type == DOUBLE_Q))
 			break ;
 		i++;
 		last_len++;

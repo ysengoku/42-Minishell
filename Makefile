@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/26 14:20:08 by yusengok         ###   ########.fr        #
+#    Updated: 2024/04/26 14:53:31 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,9 @@ PRINTF_DIR	= ./lib/ft_fprintf
 PRINTF		= $(PRINTF_DIR)/libftprintf.a
 
 IFLAGS = ./ft_minishell/minishell.h
-#INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include -I/usr/local/opt/readline/include
-#LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib -L/usr/local/opt/readline/lib
 INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
 LIBS = -lreadline -lft -lftprintf
-
-#HEADERLIB = $(LIBFT_DIR)/libft.h $(PRINTF_DIR)/ft_printf.h
 
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin \
 ./ft_minishell/exec ./ft_minishell/redirection ./ft_minishell/utils
