@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:03:01 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 14:16:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:34:05 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,11 @@ void	unlink_heredoc(t_base *base)
 		}
 		current = current->next;
 	}
+}
+
+int	free_heredoc(char *line, int fd, int status)
+{
+	close(fd);
+	ft_free(line, 0);
+	return (status);
 }

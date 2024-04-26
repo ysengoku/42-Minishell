@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 14:18:23 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:34:46 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ char		*append_buf(char *expanded_line, char *buf);
 char		*get_str(size_t *i, char *line);
 char		*handle_malloc_failure(char	*to_free);
 void		unlink_heredoc(t_base *base);
+int			free_heredoc(char *line, int fd, int status);
 
 /*----- Builtin commands -----------------------------------------------------*/
 /* ft_cd */
