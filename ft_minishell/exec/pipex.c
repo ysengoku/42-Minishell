@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 14:35:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:23:46 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_pipex(t_base *base)
 
 	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
-	signal(SIGINT, handle_sigint_inexec);
+	set_exec_signal();
+	printf("|%i|", g_received_signal);
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
 	while (current_node->next && current_node->error_syntax == 0)
@@ -122,6 +123,7 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		g_received_signal = status;
 	else
 		g_received_signal = 0;
+		
 	if (g_received_signal == SIGINT)
 		write(1, "\n", 1);
 }

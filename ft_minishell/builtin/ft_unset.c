@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:03:38 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 13:09:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:49:56 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_unset_arg(char *str);
-static void	ghost_unset(t_base *base, char *str);
 static void	delete_env(t_base *base, t_line *node, int i);
 static void	delete_node(t_env *node, t_base *base);
 
@@ -34,11 +33,7 @@ int	ft_unset(t_base *base, t_line *node, int fd[2])
 			i++;
 		else
 		{
-			if (ft_strcmp(node->arg[i], "PWD") == 0 || \
-			ft_strcmp(node->arg[i], "USER") == 0)
-				ghost_unset(base, node->arg[i]);
-			else
-				delete_env(base, node, i);
+			delete_env(base, node, i);
 			i++;
 		}
 	}
@@ -58,22 +53,6 @@ static int	check_unset_arg(char *str)
 			return (1);
 	}
 	return (0);
-}
-
-static void	ghost_unset(t_base *base, char *str)
-{
-	t_env	*target_node;
-
-	target_node = base->envn;
-	while (target_node)
-	{
-		if (ft_strcmp(target_node->key, str) == 0)
-			break ;
-		target_node = target_node->next;
-	}
-	if (!target_node)
-		return ;
-	target_node->unset = 1;
 }
 
 void	delete_env(t_base *base, t_line *node, int i)
