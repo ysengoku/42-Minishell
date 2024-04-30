@@ -50,7 +50,7 @@ void	ft_display_error(int i, t_base *base)
 		ft_fprintf(2, "export : '%s' : not a valid identifier\n",
 			base->error_msg);
 	if (i == 3)
-		ft_fprintf(2, "parse error near\n");
+		ft_fprintf(2, "parse error\n");
 	if (i == 4)
 		ft_fprintf(2, "ambiguous redirect\n");
 	base->exit_code = 2;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,7 +19,7 @@ int	init_pipe(int (*pipefd)[2])
 	return (0);
 }
 
-pid_t	ft_fork_pipex(int pipe[2])
+pid_t	ft_fork_pipe(int pipe[2])
 {
 	pid_t	pid;
 

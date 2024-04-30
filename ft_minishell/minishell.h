@@ -37,8 +37,7 @@ extern int	g_received_signal;
 ./minishell -c \"[commande lines]\" for command-line mode"
 # define DELETED_CWD "error retrieving current directory: getcwd:\
  cannot access parent directories: No such file or directory"
-# define NULL_DELIM "here-document at line 1 delimited\
-by end-of-file (wanted `"
+# define NULL_DELIM "here-document delimited by end-of-file (wanted `"
 
 # define HEREDOC ".here_doc"
 
@@ -59,6 +58,10 @@ by end-of-file (wanted `"
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
+# endif
+
+# ifndef NAME_MAX
+#  define NAME_MAX 255
 # endif
 
 typedef struct s_env
@@ -161,9 +164,9 @@ int			count_last_len_dollars(char *str, int i, t_line *tmp);
 /* ft_exec.c */
 int			ft_exec(t_base *base);
 /* pipex.c & pipex_utils.c */
-int			ft_pipex(t_base *base);
+int			exec_pipe(t_base *base);
 int			init_pipe(int (*pipefd)[2]);
-pid_t		ft_fork_pipex(int pipe[2]);
+pid_t		ft_fork_pipe(int pipe[2]);
 void		pipe_child(t_base *base, t_line *node, int fd_in, int fd_out);
 void		pipe_execute_builtin(t_base *base, t_line *node, int fd[2]);
 void		free_all_in_child(t_base *base);
