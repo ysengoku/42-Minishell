@@ -25,7 +25,7 @@ int	ft_exec(t_base *base)
 	}
 	if (base->lst->next == NULL)
 		return (execute_single_command(base, base->lst));
-	return (ft_pipex(base));
+	return (exec_pipe(base));
 }
 
 static int	execute_single_command(t_base *base, t_line *node)

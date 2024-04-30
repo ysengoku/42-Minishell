@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@ static int		pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out);
 static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
 
-int	ft_pipex(t_base *base)
+int	exec_pipe(t_base *base)
 {
 	int		fd[2];
 	pid_t	lastchild_pid;
@@ -67,7 +67,7 @@ static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 		*fd_in = pipe[IN];
 		return (-1);
 	}
-	child_pid = ft_fork_pipex(pipe);
+	child_pid = ft_fork_pipe(pipe);
 	if (child_pid == -1)
 		return (-1);
 	if (child_pid == 0)

@@ -29,6 +29,8 @@ PRINTF		= $(PRINTF_DIR)/libftprintf.a
 IFLAGS = ./ft_minishell/minishell.h
 INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include
 LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib
+#INCLUDE = -I./ft_minishell -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I/usr/local/include -I/usr/local/opt/readline/include
+#LIB_DIR = -L$(LIBFT_DIR) -L$(PRINTF_DIR) -L/usr/local/lib -L/usr/local/opt/readline/lib
 LIBS = -lreadline -lft -lftprintf
 
 vpath %c ./ft_minishell ./ft_minishell/parsing ./ft_minishell/builtin \
@@ -49,8 +51,8 @@ SRCS =	main.c	\
 		ft_pwd.c \
 		ft_unset.c	\
 		ft_exec.c	\
-		pipex.c	\
-		pipex_utils.c	\
+		exec_pipe.c	\
+		pipe_utils.c	\
 		execute_command.c	\
 		utils_exec.c	\
 		redirection.c	\
