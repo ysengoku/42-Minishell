@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 20:23:46 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/30 23:03:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_pipex(t_base *base)
 	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
 	set_exec_signal();
-	printf("|%i|", g_received_signal);
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
 	while (current_node->next && current_node->error_syntax == 0)

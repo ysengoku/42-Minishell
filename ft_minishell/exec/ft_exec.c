@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 20:54:41 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/30 22:58:28 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	execute_external_command(t_base *base, int fd[2])
 	pid_t	child_pid;
 
 	signal(SIGINT, handle_sigint_inexec);
-	set_exec_signal();
+	signal(SIGQUIT, exec_sigquit);
 	child_pid = ft_fork(fd[IN], fd[OUT]);
 	if (child_pid == -1)
 		return (EXIT_FAILURE);
@@ -72,12 +72,8 @@ static int	execute_external_command(t_base *base, int fd[2])
 	}
 	ft_close(fd[IN], fd[OUT], 0);
 	waitpid(child_pid, &base->exit_code, 0);
-	printf("|%i|", g_received_signal);
 	if (WIFSIGNALED(base->exit_code))
-	{
-		g_received_signal = base->exit_code;
 		write(1, "\n", 1);
-	}
 	else
 		g_received_signal = 0;
 	return (WEXITSTATUS(base->exit_code));
