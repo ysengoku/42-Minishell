@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 23:03:39 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/30 23:47:29 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_pipex(t_base *base)
 
 	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
-	set_exec_signal();
+	signal(SIGINT, handle_sigint_inexec);
+	signal(SIGQUIT, exec_sigquit);
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
 	while (current_node->next && current_node->error_syntax == 0)
@@ -122,7 +123,6 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		g_received_signal = status;
 	else
 		g_received_signal = 0;
-		
-	if (g_received_signal == SIGINT)
+	if (g_received_signal == SIGINT || g_received_signal == SIGQUIT)
 		write(1, "\n", 1);
 }

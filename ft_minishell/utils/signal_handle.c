@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/30 23:03:47 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/30 23:07:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,3 @@ void	set_heredoc_signal(void)
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
 
-void	set_exec_signal(void)
-{
-	struct sigaction	act_quit;
-
-	ft_bzero(&act_quit, sizeof(struct sigaction));
-	act_quit.sa_handler = SIG_IGN;
-	sigemptyset(&act_quit.sa_mask);
-	act_quit.sa_flags = 0;
-	//act_quit.sa_sigaction = exec_sigquit;
-	sigaction(SIGQUIT, &act_quit, NULL);
-}

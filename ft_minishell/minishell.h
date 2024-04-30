@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 23:04:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/04/30 23:07:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,6 @@ void		handle_sigint_inexec(int sig);
 void		handle_sigint(int sig);
 void		set_heredoc_signal(void);
 void		exec_sigquit(int sig);
-void		set_exec_signal(void);
 
 # define RED "\033[1;31m"
 # define MAGENTA "\033[1;35m"
