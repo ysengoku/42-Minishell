@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 11:48:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:20:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,20 @@ void	handle_sigint_inexec(int sig)
 	g_received_signal = sig;
 }
 
-static void	here_doc_sig(int sig, siginfo_t *info, void *arg)
+static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
 {
 	(void)arg;
 	(void)info;
 	g_received_signal = sig;
 	write(0, "\n", 1);
+}
+
+static void	exec_sigquit(int sig, siginfo_t *info, void *arg)
+{
+	(void)arg;
+	(void)info;
+	g_received_signal = sig;
+	write(0, "Quit (core dumped)\n", 20);
 }
 
 void	set_heredoc_signal(void)
@@ -46,7 +54,19 @@ void	set_heredoc_signal(void)
 	act_quit.sa_flags = 0;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = 0;
-	act.sa_sigaction = here_doc_sig;
+	act.sa_sigaction = here_doc_sigint;
 	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act_quit, NULL);
+}
+
+void	set_exec_signal(void)
+{
+	struct sigaction	act_quit;
+
+	ft_bzero(&act_quit, sizeof(struct sigaction));
+	act_quit.sa_handler = SIG_IGN;
+	sigemptyset(&act_quit.sa_mask);
+	act_quit.sa_flags = 0;
+	act_quit.sa_sigaction = exec_sigquit;
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
