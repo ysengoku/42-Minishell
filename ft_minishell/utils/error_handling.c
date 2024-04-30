@@ -62,3 +62,9 @@ int	ft_perror(const char *s, int exit_status)
 	perror(s);
 	return (exit_status);
 }
+
+int	print_err_malloc(void)
+{
+	write(2, "minishell: Fatal: memory allocation failed\n", 44);
+	return (1);
+}
