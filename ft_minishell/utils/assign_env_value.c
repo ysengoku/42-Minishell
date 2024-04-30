@@ -44,9 +44,12 @@ static char	*ft_strjoin_char(char const *s1, char const *s2)
 		srep = ft_calloc(1, 1);
 		return (srep);
 	}
-	srep = malloc(sizeof(char) * i);
-	if (srep == 0)
-		return (0);
+	srep = malloc(sizeof(char) * i); //ok
+	if (srep == NULL)
+	{
+		perror("minishell");
+		return (NULL);
+	}
 	i = 0;
 	add(s1, s2, i, srep);
 	return (srep);

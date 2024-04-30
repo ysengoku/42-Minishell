@@ -35,8 +35,6 @@ extern int	g_received_signal;
 
 # define COMMANDLINE_USAGE "\n./minishell for interactive mode\n\
 ./minishell -c \"[commande lines]\" for command-line mode"
-# define DELETED_CWD "error retrieving current directory: getcwd:\
- cannot access parent directories: No such file or directory"
 # define NULL_DELIM "here-document delimited by end-of-file (wanted `"
 
 # define HEREDOC ".here_doc"
@@ -228,6 +226,7 @@ int			ft_unset(t_base *base, t_line *node, int fd[2]);
 /* error handling */
 int			print_err(char *s1, char *s2, char *s3, int exit_status);
 int			print_warning(char *s1, char *s2, char *s3, int exit_status);
+int			print_err_malloc(void);
 void		ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
 /* free */
