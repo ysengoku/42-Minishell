@@ -26,9 +26,11 @@ int	exec_pipe(t_base *base)
 
 	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
-	set_exec_signal();
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
+	//	set_exec_signal();
+	signal(SIGINT, exec_sigint);
+	signal(SIGQUIT, exec_sigquit);
 	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
@@ -122,7 +124,6 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		g_received_signal = status;
 	else
 		g_received_signal = 0;
-		
 	if (g_received_signal == SIGINT)
 		write(1, "\n", 1);
 }
