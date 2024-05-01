@@ -14,7 +14,8 @@
 
 static bool	is_home(char *arg);
 static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd);
-static void	update_pwd(t_base *base, char *curpath);
+static int	update_pwd(t_base *base, char *curpath);
+static int	update_oldpwd(t_base *base);
 
 int	ft_cd(t_base *base, t_line *node, int fd[2])
 {
@@ -27,7 +28,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (is_home(node->arg[1]) == true || !ft_strncmp(node->arg[1], "-", 2))
 		curpath = expand_path(base, node->arg[1]);
 	else
-		curpath = ft_strdup(node->arg[1]); // ok (does not print error message)
+		curpath = ft_strdup(node->arg[1]); // ok (cannot print error message)
 	if (!curpath)
 		return (1);
 	if (curpath[0] != '/')
@@ -37,10 +38,10 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	canonicalize_path(curpath, node);
 	if (ft_chdir(curpath, node, fd, &missing_pwd) == 1)
 		return (ft_free((void *)curpath, 1));
-	if (missing_pwd != 1)
-		update_pwd(base, curpath);
 	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
 		ft_pwd(base, fd);
+//	if (missing_pwd != 1)
+	update_pwd(base, curpath, missing_pwd);
 	ft_close(fd[IN], fd[OUT], 0);
 	return (ft_free((void *)curpath, base->exit_code));
 }
@@ -67,31 +68,44 @@ static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd)
 	return (0);
 }
 
-static void	update_pwd(t_base *base, char *curpath)
+static int	update_oldpwd(t_base *base)
 {
 	t_env	*pwd;
 	t_env	*oldpwd;
 	char	*tmp;
 
+	ft_strcpy(base->oldpwd_log, base->pwd_log);
 	pwd = find_env_var(base, "PWD");
 	oldpwd = find_env_var(base, OLDPWD);
-	ft_strcpy(base->oldpwd_log, pwd->value);
-	if (oldpwd == NULL)
-	{
-		tmp = pwd->value;
-		pwd->value = ft_strdup(curpath);
-		free(tmp);
-		return ;
-	}
-	else
+	if (oldpwd && oldpwd->value)
 	{
 		tmp = oldpwd->value;
-		oldpwd->value = pwd->value;
+		if (pwd && pwd->value)
+			oldpwd->value = pwd->value;
+		else
+			oldpwd->value = ft_strdup(base->pwd_log); //ok
 		free(tmp);
-		pwd->value = ft_strdup(curpath);
 	}
-	if (!pwd->value)
-		base->exit_code = (ft_perror("malloc", 1));
-	else
-		base->exit_code = 0;
+	else if (oldpwd && !oldpwd->value)
+		oldpwd->value = ft_strdup(base->pwd_log); ///// segfault checking
+	if (!oldpwd->value)
+		return (ft_perror("malloc", 1));
+	return (0);	
+}
+
+static int	update_pwd(t_base *base, char *curpath)
+{
+	t_env	*pwd;
+
+	ft_strcpy(base->pwd_log, curpath);
+	if (update_oldpwd(base) == 1)
+		return (1);
+	pwd = find_env_var(base, "PWD");
+	if (pwd && pwd->value)
+	{
+		pwd->value = ft_strdup(curpath); //ok
+		if (!pwd->value)
+			return (ft_perror("malloc", 1));
+	}
+	return (0);
 }
