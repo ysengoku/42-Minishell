@@ -59,8 +59,8 @@ static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd)
 	{
 		if (*missing_pwd == 1)
 			return (print_err("chdir", "error retrieving current directory: \
-			getcwd: cannot access parent directories", \
-			"No such file or directory", 0));
+getcwd: cannot access parent directories", \
+"No such file or directory", 0));
 		ft_close(fd[IN], fd[OUT], 0);
 		return (print_err(CD, node->arg[1], strerror(errno), 1));
 	}
@@ -86,7 +86,7 @@ static int	update_oldpwd(t_base *base)
 			oldpwd->value = ft_strdup(base->pwd_log); //ok
 		free(tmp);
 	}
-	if (oldpwd && !oldpwd->value)
+	else if (oldpwd && !oldpwd->value)
 	{
 		oldpwd->value = ft_strdup(base->pwd_log);
 		if (!oldpwd->value)
@@ -99,9 +99,9 @@ static int	update_pwd(t_base *base, char *curpath)
 {
 	t_env	*pwd;
 
-	ft_strcpy(base->pwd_log, curpath);
 	if (update_oldpwd(base) == 1)
 		return (1);
+	ft_strcpy(base->pwd_log, curpath);
 	pwd = find_env_var(base, "PWD");
 	if (pwd && pwd->value)
 	{
