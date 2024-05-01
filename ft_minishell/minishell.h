@@ -244,7 +244,7 @@ void		check_shell_level(char **env);
 void		handle_sigint(int sig);
 void		exec_sigint(int sig);
 void		exec_sigquit(int sig);
-void		set_exec_signal(void);
+//void		set_exec_signal(void);////////////////////////////To DELETE if we don't use it
 void		set_heredoc_signal(void);
 
 # define RED "\033[1;31m"

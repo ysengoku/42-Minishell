@@ -29,7 +29,7 @@ void	exec_sigint(int sig)
 void	exec_sigquit(int sig)
 {
 	g_received_signal = sig;
-	write(0, "Quit (core dumped)", 19);
+	write(2, "Quit (core dumped)", 19);
 }
 
 static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
@@ -57,6 +57,7 @@ void	set_heredoc_signal(void)
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
 
+/*
 void	set_exec_signal(void)
 {
 	struct sigaction	act_quit;
@@ -68,3 +69,4 @@ void	set_exec_signal(void)
 	//act_quit.sa_sigaction = exec_sigquit;
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
+*/
