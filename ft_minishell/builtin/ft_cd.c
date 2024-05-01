@@ -38,10 +38,10 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	canonicalize_path(curpath, node);
 	if (ft_chdir(curpath, node, fd, &missing_pwd) == 1)
 		return (ft_free((void *)curpath, 1));
+	if (missing_pwd != 1)
+		update_pwd(base, curpath);
 	if (node->arg[1] && ft_strncmp(node->arg[1], "-", 2) == 0)
 		ft_pwd(base, fd);
-//	if (missing_pwd != 1)
-	update_pwd(base, curpath, missing_pwd);
 	ft_close(fd[IN], fd[OUT], 0);
 	return (ft_free((void *)curpath, base->exit_code));
 }
@@ -86,10 +86,12 @@ static int	update_oldpwd(t_base *base)
 			oldpwd->value = ft_strdup(base->pwd_log); //ok
 		free(tmp);
 	}
-	else if (oldpwd && !oldpwd->value)
-		oldpwd->value = ft_strdup(base->pwd_log); ///// segfault checking
-	if (!oldpwd->value)
-		return (ft_perror("malloc", 1));
+	if (oldpwd && !oldpwd->value)
+	{
+		oldpwd->value = ft_strdup(base->pwd_log);
+		if (!oldpwd->value)
+			return (ft_perror("malloc", 1));
+	}
 	return (0);	
 }
 

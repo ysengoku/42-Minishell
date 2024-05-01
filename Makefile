@@ -18,7 +18,7 @@ CYAN = \033[1;36m
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR	= ./lib/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
