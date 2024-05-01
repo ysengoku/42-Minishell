@@ -78,3 +78,16 @@ char	*assign_value(char **split)
 	ft_free_strarr(split);
 	return (join1);
 }
+
+void	set_pwdlog(t_base *base)
+{
+	t_env	*pwd;
+	t_env	*oldpwd;
+
+	pwd = find_env_var(base, "PWD");
+	if (pwd && pwd->value)
+		ft_strcpy(base->pwd_log, pwd->value);
+	oldpwd = find_env_var(base, OLDPWD);
+	if (oldpwd && oldpwd->value)
+		ft_strcpy(base->oldpwd_log, oldpwd->value);
+}

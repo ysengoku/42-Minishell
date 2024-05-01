@@ -28,14 +28,14 @@ char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
 		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
 	else
 	{
-		concatenated = ft_calloc(ft_strlen(pwd->value)
+		concatenated = ft_calloc(ft_strlen(buf)
 				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
 		if (!concatenated)
 		{
 			base->exit_code = print_err_malloc();
 			return (NULL);
 		}
-		ft_strcpy(concatenated, pwd->value);
+		ft_strcpy(concatenated, buf);
 		if (concatenated[ft_strlen(concatenated) - 1] != '/')
 			ft_strcat(concatenated, "/");
 		ft_strcat(concatenated, curpath);
@@ -83,14 +83,17 @@ static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 	if (concatenated[ft_strlen(concatenated) - 1] != '/')
 		ft_strcat(concatenated, "/");
 	ft_strcat(concatenated, path);
-	tmp = pwd->value;
-	pwd->value = ft_strdup(concatenated); // ok (does not print error message)
-	if (!pwd->value)
+	if (pwd)
 	{
-		pwd->value = tmp;
-		return (NULL);
+		tmp = pwd->value;
+		pwd->value = ft_strdup(concatenated); // ok (does not print error message)
+		if (!pwd->value)
+		{
+			pwd->value = tmp;
+			return (NULL);
+		}
+		else
+			free(tmp);
 	}
-	else
-		free(tmp);
 	return (concatenated);
 }

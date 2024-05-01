@@ -119,6 +119,7 @@ typedef struct s_base
 	char	*error_msg;
 	int		null_env;
 	int		max_arg_export;
+	char	pwd_log[PATH_MAX];
 	char	oldpwd_log[PATH_MAX];
 }			t_base;
 
@@ -135,6 +136,7 @@ typedef struct s_norm
 /* assign env */
 int			assign_env(t_base *base);
 char		*assign_value(char **split);
+void		set_pwdlog(t_base *base);
 /* chara_split */
 int			ft_chara_split(char *s, t_base **base);
 /* count lst */

@@ -104,5 +104,6 @@ int	assign_env(t_base *base)
 		i++;
 		attribute_nod_env(base, tmp);
 	}
+	set_pwdlog(base);
 	return (0);
 }

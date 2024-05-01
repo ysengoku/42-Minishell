@@ -18,7 +18,7 @@ int	ft_pwd(t_base *base, int fd[2])
 	t_env	*pwd;
 
 	pwd = find_env_var(base, "PWD");
-	if (pwd)
+	if (pwd && pwd->value)
 		ft_strcpy(buf, pwd->value);
 	else
 	{
