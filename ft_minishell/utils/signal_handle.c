@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/30 23:07:13 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/01 19:09:31 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ void	handle_sigint(int sig)
 	g_received_signal = sig;
 }
 
-void	handle_sigint_inexec(int sig)
+void	exec_sigint(int sig)
 {
 	g_received_signal = sig;
+}
+
+void	exec_sigquit(int sig)
+{
+	g_received_signal = sig;
+	write(2, "Quit (core dumped)", 19);
 }
 
 static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
@@ -32,12 +38,6 @@ static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
 	(void)info;
 	g_received_signal = sig;
 	write(0, "\n", 1);
-}
-
-void	exec_sigquit(int sig)
-{
-	g_received_signal = sig;
-	write(0, "Quit (core dumped)", 19);
 }
 
 void	set_heredoc_signal(void)
@@ -57,3 +57,16 @@ void	set_heredoc_signal(void)
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
 
+/*
+void	set_exec_signal(void)
+{
+	struct sigaction	act_quit;
+
+	ft_bzero(&act_quit, sizeof(struct sigaction));
+	act_quit.sa_handler = SIG_IGN;
+	sigemptyset(&act_quit.sa_mask);
+	act_quit.sa_flags = 0;
+	//act_quit.sa_sigaction = exec_sigquit;
+	sigaction(SIGQUIT, &act_quit, NULL);
+}
+*/

@@ -29,10 +29,10 @@ char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
 	else
 	{
 		concatenated = ft_calloc(ft_strlen(pwd->value)
-				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
+				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
 		if (!concatenated)
 		{
-			base->exit_code = ft_perror("malloc", 1);
+			base->exit_code = print_err_malloc();
 			return (NULL);
 		}
 		ft_strcpy(concatenated, pwd->value);
@@ -73,10 +73,10 @@ static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 
 	*flag = 1;
 	concatenated = ft_calloc(ft_strlen(pwd->value)
-			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
+			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
 	if (!concatenated)
 	{
-		base->exit_code = ft_perror("malloc", 1);
+		base->exit_code = print_err_malloc();
 		return (NULL);
 	}
 	ft_strcpy(concatenated, pwd->value);
@@ -84,12 +84,13 @@ static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 		ft_strcat(concatenated, "/");
 	ft_strcat(concatenated, path);
 	tmp = pwd->value;
-	pwd->value = ft_strdup(concatenated);
-	free(tmp);
+	pwd->value = ft_strdup(concatenated); // ok (does not print error message)
 	if (!pwd->value)
 	{
-		base->exit_code = ft_perror("malloc", 1);
+		pwd->value = tmp;
 		return (NULL);
 	}
+	else
+		free(tmp);
 	return (concatenated);
 }

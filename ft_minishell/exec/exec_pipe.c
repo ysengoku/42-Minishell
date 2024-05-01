@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 23:47:29 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/01 19:09:51 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out);
 static pid_t	pipe_last_command(t_base *base, t_line *node, int fd_in);
 static void		wait_children(t_base *base, pid_t lastchild_pid, int count);
 
-int	ft_pipex(t_base *base)
+int	exec_pipe(t_base *base)
 {
 	int		fd[2];
 	pid_t	lastchild_pid;
@@ -26,10 +26,11 @@ int	ft_pipex(t_base *base)
 
 	init_value(&fd[IN], &fd[OUT], &count);
 	current_node = base->lst;
-	signal(SIGINT, handle_sigint_inexec);
-	signal(SIGQUIT, exec_sigquit);
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
+	//	set_exec_signal();
+	signal(SIGINT, exec_sigint);
+	signal(SIGQUIT, exec_sigquit);
 	while (current_node->next && current_node->error_syntax == 0)
 	{
 		if (pipe_loop(base, current_node, &fd[IN], &fd[OUT]) != -1)
@@ -68,7 +69,7 @@ static int	pipe_loop(t_base *base, t_line *node, int *fd_in, int *fd_out)
 		*fd_in = pipe[IN];
 		return (-1);
 	}
-	child_pid = ft_fork_pipex(pipe);
+	child_pid = ft_fork_pipe(pipe);
 	if (child_pid == -1)
 		return (-1);
 	if (child_pid == 0)
@@ -123,6 +124,6 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		g_received_signal = status;
 	else
 		g_received_signal = 0;
-	if (g_received_signal == SIGINT || g_received_signal == SIGQUIT)
+	if (g_received_signal == SIGINT)
 		write(1, "\n", 1);
 }

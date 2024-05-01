@@ -27,7 +27,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (is_home(node->arg[1]) == true || !ft_strncmp(node->arg[1], "-", 2))
 		curpath = expand_path(base, node->arg[1]);
 	else
-		curpath = ft_strdup(node->arg[1]);
+		curpath = ft_strdup(node->arg[1]); // ok (does not print error message)
 	if (!curpath)
 		return (1);
 	if (curpath[0] != '/')
@@ -57,7 +57,9 @@ static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd)
 	if (chdir(curpath) == -1)
 	{
 		if (*missing_pwd == 1)
-			return (print_err("chdir", DELETED_CWD, NULL, 0));
+			return (print_err("chdir", "error retrieving current directory: \
+			getcwd: cannot access parent directories", \
+			"No such file or directory", 0));
 		ft_close(fd[IN], fd[OUT], 0);
 		return (print_err(CD, node->arg[1], strerror(errno), 1));
 	}

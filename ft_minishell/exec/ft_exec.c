@@ -25,7 +25,7 @@ int	ft_exec(t_base *base)
 	}
 	if (base->lst->next == NULL)
 		return (execute_single_command(base, base->lst));
-	return (ft_pipex(base));
+	return (exec_pipe(base));
 }
 
 static int	execute_single_command(t_base *base, t_line *node)
@@ -59,7 +59,7 @@ static int	execute_external_command(t_base *base, int fd[2])
 {
 	pid_t	child_pid;
 
-	signal(SIGINT, handle_sigint_inexec);
+	signal(SIGINT, exec_sigint);
 	signal(SIGQUIT, exec_sigquit);
 	child_pid = ft_fork(fd[IN], fd[OUT]);
 	if (child_pid == -1)
@@ -73,7 +73,10 @@ static int	execute_external_command(t_base *base, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	waitpid(child_pid, &base->exit_code, 0);
 	if (WIFSIGNALED(base->exit_code))
+//	{
+//		g_received_signal = base->exit_code;
 		write(1, "\n", 1);
+//	}
 	else
 		g_received_signal = 0;
 	return (WEXITSTATUS(base->exit_code));

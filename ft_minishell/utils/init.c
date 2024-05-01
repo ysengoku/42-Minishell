@@ -16,9 +16,12 @@ t_base	*init_base(char **env)
 {
 	t_base	*base;
 
-	base = ft_calloc(1, sizeof(t_base));
+	base = ft_calloc(1, sizeof(t_base)); //ok
 	if (!base)
-		perror("malloc");
+	{
+		perror("minishell");
+		return (NULL);
+	}
 	base->env = env;
 	base->exit_code = 0;
 	return (base);
@@ -44,7 +47,7 @@ void	check_shell_level(char **env)
 		level = ft_atoi(shlevel + 6) + 1;
 		if (level >= 255)
 			return ;
-		tmp = ft_itoa(level);
+		tmp = ft_itoa(level); //ok
 		if (!tmp)
 			return ;
 		ft_strcpy(shlevel + 6, tmp);
