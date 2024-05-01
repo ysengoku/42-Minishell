@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 11:28:22 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 14:52:55 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:06:24 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_exit(t_base *base, t_line *node, int fd[2], bool is_pipe)
 		else
 			exit_code = 2;
 	}
-	else if (g_received_signal == SIGINT)
+	else if (g_received_signal == SIGINT || g_received_signal == SIGQUIT)
 		exit_code = 128 + g_received_signal;
 	else
 		exit_code = base->exit_code;
