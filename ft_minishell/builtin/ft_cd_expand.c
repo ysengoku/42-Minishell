@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:26:54 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 08:02:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 10:44:20 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ static char	*get_oldpwd_path(t_base *base)
 		}
 		path = ft_strdup(base->oldpwd_log); //ok
 		if (!path)
+		{
 			perror("minishell");
+			return (NULL);
+		}
 		return (path);
 	}
 	path = ft_strdup(oldpwd->value); //ok
