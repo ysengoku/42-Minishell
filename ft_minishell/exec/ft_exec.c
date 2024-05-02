@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:24:46 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 22:58:28 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 09:24:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ static int	execute_external_command(t_base *base, int fd[2])
 	ft_close(fd[IN], fd[OUT], 0);
 	waitpid(child_pid, &base->exit_code, 0);
 	if (WIFSIGNALED(base->exit_code))
-//	{
-//		g_received_signal = base->exit_code;
-		write(1, "\n", 1);
-//	}
+		g_received_signal = WTERMSIG(base->exit_code);
 	else
 		g_received_signal = 0;
+	if (g_received_signal == SIGINT)
+		write(1, "\n", 1);
+	if (g_received_signal == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
 	return (WEXITSTATUS(base->exit_code));
 }
 

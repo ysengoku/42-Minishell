@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 23:03:39 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 09:14:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,13 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 	while (count-- > 0)
 		wait(&status);
 	if (WIFSIGNALED(base->exit_code))
-		g_received_signal = base->exit_code;
-	else if (WIFSIGNALED(status))
-		g_received_signal = status;
+		g_received_signal = WTERMSIG(base->exit_code);
+	// else if (WIFSIGNALED(status))
+	// 	g_received_signal = status;
 	else
 		g_received_signal = 0;
 	if (g_received_signal == SIGINT)
 		write(1, "\n", 1);
+	if (g_received_signal == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
 }
