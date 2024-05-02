@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 15:52:03 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 20:14:26 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int			cnt_param(char **str, t_line *line);
 int			cnt_quote(char *str, t_line *line, int i);
 int			skip_file(char **str, int i);
 /* create node */
-int			create_nod(char *str, t_base *base);
+int			create_nod(char *str, t_base *base, char **srep);
 /*  translate_dollar */
 char		*translate_dollar(char *str, t_base *base, char *before, \
 t_line *tmp);
@@ -218,7 +218,7 @@ long long	convert_exitcode(char *s);
 int			ft_export(t_base *base, t_line *node, int fd[2]);
 int			export_null(t_base *base, int fd[2]);
 void		export_add_on_nod(t_base *base, t_env *tmp);
-char		**split_export_arg(char *arg);
+char		**split_export_arg(t_base *base, char *arg, t_env *tmp);
 int			add_env_value(t_base *base, t_line *node, int i);
 int			create_nod_from_arg(t_base *base, t_line *node, int i);
 /* ft_unset */
@@ -231,13 +231,15 @@ int			print_warning(char *s1, char *s2, char *s3, int exit_status);
 void		ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
 int			print_err_malloc(void);
-void		exit_after_malloc_fail(t_base *base);
+void		exit_after_malloc_fail(t_base *base, void *s, char **arr);
 /* free */
 int			ft_free(void *to_free, int exit_status);
 void		ft_free_strarr(char **arr);
 void		free_base_content(t_base *base);
 void		free_envlist(t_base *base);
 int			clear_before_exit(t_base *base, int exit_code);
+int			free_error_env(t_env *tmp, int i, t_base *base);
+void		check_error_write_char(t_norm *norm, char *res);
 /* envp */
 t_env		*find_env_var(t_base *base, char *key);
 /* init */
@@ -247,7 +249,6 @@ void		check_shell_level(char **env);
 void		handle_sigint(int sig);
 void		exec_sigint(int sig);
 void		exec_sigquit(int sig);
-//void		set_exec_signal(void);////////////////////////////To DELETE if we don't use it
 void		set_heredoc_signal(void);
 
 # define RED "\033[1;31m"

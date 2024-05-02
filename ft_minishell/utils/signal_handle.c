@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 15:51:54 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 18:45:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	exec_sigint(int sig)
 void	exec_sigquit(int sig)
 {
 	g_received_signal = sig;
-	// write(2, "Quit (core dumped)", 19);
 }
 
 static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
@@ -56,17 +55,3 @@ void	set_heredoc_signal(void)
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act_quit, NULL);
 }
-
-/*
-void	set_exec_signal(void)
-{
-	struct sigaction	act_quit;
-
-	ft_bzero(&act_quit, sizeof(struct sigaction));
-	act_quit.sa_handler = SIG_IGN;
-	sigemptyset(&act_quit.sa_mask);
-	act_quit.sa_flags = 0;
-	//act_quit.sa_sigaction = exec_sigquit;
-	sigaction(SIGQUIT, &act_quit, NULL);
-}
-*/

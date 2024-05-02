@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 14:02:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:14:05 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void	dollars_condition(t_norm *norm, char **res, t_base *base)
 
 static int	ft_check(char *res, char *str, t_line *tmp, t_norm norm)
 {
+	if (norm.j == -1)
+		return (0);
 	if (res && norm.j != -1 && str[norm.i] && ((str[norm.i] != '<' && \
 	str[norm.i] != '>' && str[norm.i] != '|' && str[norm.i] != ' ' && \
 	str[norm.i] != 9) || (tmp->char_type == QUOTE || \
@@ -87,9 +89,12 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	t_norm	norm;
 
 	norm = attribute_norm(index, tmp, str, base);
-	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Freeze in case of malloc fail
+	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
+	{
+		norm.j = -1;
 		return (NULL);
+	}
 	norm.j = 0;
 	while (ft_check(res, str, tmp, norm) == 1)
 	{
@@ -99,10 +104,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 			dollars_condition(&norm, &res, base);
 		norm.i++;
 	}
-	if (norm.j == -1)
-	{
-		return (free(res), NULL);
-	}
+	check_error_write_char(&norm, res);
 	if (res)
 		res[norm.j] = '\0';
 	*index = norm.i;
