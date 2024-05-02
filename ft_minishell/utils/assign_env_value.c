@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 13:14:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:28:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static char	*ft_strjoin_char(char const *s1, char const *s2)
 	size_t		i;
 
 	i = ft_strlen(s1) + ft_strlen(s2) + 2;
-	if (i <= 1)
+	if (i <= 1) /////-------> in what case ?
 	{
-		srep = ft_calloc(1, 1);
+		srep = ft_calloc(1, 1); // Need to check
 		return (srep);
 	}
 	srep = malloc(sizeof(char) * i); //ok
