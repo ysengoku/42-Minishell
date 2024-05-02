@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_concatenater.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 10:15:03 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:25:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*set_concatenated_path(t_base *base, char *curpath, char *cwd)
 	char	*concatenated;
 
 	concatenated = ft_calloc(ft_strlen(cwd)
-			+ ft_strlen(curpath) + 2, sizeof(char)); //ok
+			+ ft_strlen(curpath) + 2, sizeof(char));
 	if (!concatenated)
 	{
 		base->exit_code = print_err_malloc();
@@ -97,7 +97,7 @@ static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 	else
 		cwd = base->pwd_log;
 	concatenated = ft_calloc(ft_strlen(cwd)
-			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
+			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char));
 	if (!concatenated)
 	{
 		base->exit_code = print_err_malloc();

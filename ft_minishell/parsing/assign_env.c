@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 21:34:12 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 23:17:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,16 @@
 static char	**attribute_null_env(t_base *base)
 {
 	char	**env;
-	// char	*env3;
 	char	buf[PATH_MAX];
 
-	env = ft_calloc(5, sizeof(char *)); //ok (Add error message ?)
+	env = ft_calloc(5, sizeof(char *));
 	if (!env)
 		return (NULL);
 	if (getcwd(buf, sizeof(buf)) == 0)
 		return (ft_perror("getcwd", 1), NULL);
-	env[0] = ft_strjoin("PWD=", buf); //ok
-	env[1] = ft_strdup("SHLVL=1"); //ok
-	env[2] = ft_strdup("OLDPWD"); //ok
-	// env3 = ft_strjoin("_=", buf); //-------> [FIXED] segfault in case of malloc fail
-	// if (!env3)
-	// {
-	// 	ft_free_strarr(env);
-	// 	return (NULL);
-	// }
-	// env[3] = ft_strjoin(env3, "/./minishell"); //ok
-	// free(env3);
+	env[0] = ft_strjoin("PWD=", buf);
+	env[1] = ft_strdup("SHLVL=1");
+	env[2] = ft_strdup("OLDPWD");
 	env[3] = ft_calloc(16 + ft_strlen(buf), sizeof(char));
 	if (!env[0] || !env[1] || !env[2] || !env[3])
 	{
@@ -62,33 +53,36 @@ static void	attribute_nod_env(t_base *base, t_env *tmp)
 	}
 }
 
+int	error_malloc_assign_value_key(char **split, t_env *tmp)
+{
+	ft_free_strarr(split);
+	ft_free((void *)tmp->key, -1);
+	return (ft_free((void *)tmp, -1));
+}
+
 int	assign_value_key_to_env(t_env *tmp, int i, t_base *base)
 {
 	char	**split;
 
 	if (ft_strchr(base->env[i], '=') == NULL)
 	{
-		tmp->key = ft_strdup(base->env[i]); //ok
+		tmp->key = ft_strdup(base->env[i]);
 		tmp->value = NULL;
 	}
 	else
 	{
-		split = ft_split(base->env[i], '='); //-------> FIXED
+		split = ft_split(base->env[i], '=');
 		if (!split)
 			return (ft_free((void *)tmp, -1));
-		tmp->key = ft_strdup(split[0]); //-------> FIXED
+		tmp->key = ft_strdup(split[0]);
 		if (!tmp->key)
 		{
 			ft_free_strarr(split);
 			return (ft_free((void *)tmp, -1));
 		}
-		tmp->value = assign_value(split); //-------> FIXED
+		tmp->value = assign_value(split);
 		if (!tmp->value)
-		{
-			ft_free_strarr(split);
-			ft_free((void *)tmp->key, -1);
-			return (ft_free((void *)tmp, -1));
-		}
+			return (error_malloc_assign_value_key(split, tmp));
 	}
 	return (0);
 }
@@ -105,7 +99,7 @@ int	assign_env(t_base *base)
 		return (-1);
 	while (base->env[i])
 	{
-		tmp = ft_calloc(1, sizeof(t_env)); //ok
+		tmp = ft_calloc(1, sizeof(t_env));
 		if (!tmp)
 			return (-1);
 		if (assign_value_key_to_env(tmp, i, base) == -1)

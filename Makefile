@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/05/02 20:08:42 by dvo              ###   ########.fr        #
+#    Updated: 2024/05/02 23:30:29 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ SRCS =	main.c	\
 		init.c	\
 		assign_env_value.c \
 		signal_handle.c \
-		ft_free_error_2.c
+		ft_free_error_2.c \
+		new_arg_expand.c
 
 DIR_OBJ := .object/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_append.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:24:21 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 11:35:21 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:25:02 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	add_env_value(t_base *base, t_line *node, int i)
 	if (target == NULL)
 		return (create_nod_from_arg(base, node, i));
 	tmp = target->value;
-	target->value = ft_strjoin(tmp, node->arg[i] + j + 2); //ok
+	target->value = ft_strjoin(tmp, node->arg[i] + j + 2);
 	if (!target->value)
 	{
 		target->value = tmp;

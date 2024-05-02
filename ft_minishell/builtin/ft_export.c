@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 18:45:53 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 23:24:43 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ static int	atr_nod_from_expt(t_base *base, t_line *node, t_env *tmp, int i)
 	split = split_export_arg(base, node->arg[i], tmp);
 	if (!split)
 		return (-1);
-	tmp->key = ft_strdup(split[0]); // FIXED
+	tmp->key = ft_strdup(split[0]);
 	if (!tmp->key)
 		return (ft_free_strarr(split), -1);
 	if (split[1] == NULL)
 	{
-		tmp->value = ft_calloc(1, sizeof(char)); //ok
+		tmp->value = ft_calloc(1, sizeof(char));
 		ft_free_strarr(split);
 	}
 	else
@@ -84,26 +84,20 @@ int	create_nod_from_arg(t_base *base, t_line *node, int i)
 {
 	t_env	*tmp;
 
-	tmp = ft_calloc(1, sizeof(t_env)); //ok
+	tmp = ft_calloc(1, sizeof(t_env));
 	if (!tmp)
 		return (1);
 	if (ft_strchr(node->arg[i], '=') == NULL)
 	{
-		tmp->key = ft_strdup(node->arg[i]); //FIXED
+		tmp->key = ft_strdup(node->arg[i]);
 		if (!tmp->key)
-		{
-			// free(tmp);
 			exit_after_malloc_fail(base, tmp, NULL);
-		}
 		tmp->value = NULL;
 	}
 	else
 	{
 		if (atr_nod_from_expt(base, node, tmp, i) == -1)
-		{
-			// free (tmp);
 			exit_after_malloc_fail(base, tmp, NULL);
-		}
 	}
 	export_add_on_nod(base, tmp);
 	return (0);
