@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 17:51:52 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:36:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 	int		last_nod;
 
 	arg = write_char(&i, tmp, str, base);
-	if (!arg || i == -1)
+	if (i == -1)
 		return (-1);
 	last_nod = 0;
 	while (tmp->arg[last_nod])
