@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 13:06:11 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 16:02:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,6 @@ static char	*ft_strjoin_char(char const *s1, char const *s2)
 	size_t		i;
 
 	i = ft_strlen(s1) + ft_strlen(s2) + 2;
-	if (i <= 1)
-	{
-		srep = ft_calloc(1, 1);
-		return (srep);
-	}
 	srep = malloc(sizeof(char) * i); //ok
 	if (srep == NULL)
 	{
@@ -62,7 +57,7 @@ char	*assign_value(char **split)
 	char	*join2;
 
 	i = 2;
-	join1 = ft_strdup(split[1]);
+	join1 = ft_strdup(split[1]); //ok
 	if (!join1)
 		return (NULL);
 	while (split[i])
@@ -77,4 +72,17 @@ char	*assign_value(char **split)
 	}
 	ft_free_strarr(split);
 	return (join1);
+}
+
+void	set_pwdlog(t_base *base)
+{
+	t_env	*pwd;
+	t_env	*oldpwd;
+
+	pwd = find_env_var(base, "PWD");
+	if (pwd && pwd->value)
+		ft_strcpy(base->pwd_log, pwd->value);
+	oldpwd = find_env_var(base, OLDPWD);
+	if (oldpwd && oldpwd->value)
+		ft_strcpy(base->oldpwd_log, oldpwd->value);
 }

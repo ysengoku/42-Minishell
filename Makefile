@@ -6,7 +6,7 @@
 #    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/04/26 14:53:31 by yusengok         ###   ########.fr        #
+#    Updated: 2024/05/02 13:50:56 by yusengok         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CYAN = \033[1;36m
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFT_DIR	= ./lib/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
@@ -72,6 +72,7 @@ SRCS =	main.c	\
 		parsing_utils.c \
 		parsing_utils2.c \
 		error_handling.c	\
+		error_handling2.c	\
 		ft_free.c	\
 		env.c \
 		init.c	\

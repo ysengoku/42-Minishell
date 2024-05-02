@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:13:43 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/25 14:45:13 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:11:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ char	*get_expanded_str(size_t *i, char *line, t_base *base)
 	target = find_env_var(base, key);
 	if (target != NULL)
 	{
-		buf = ft_strdup(target->value);
+		buf = ft_strdup(target->value); //ok
 		if (!buf)
-			return (handle_malloc_failure(NULL));
+			return (NULL);
 	}
 	else
 	{
-		buf = ft_strdup("");
+		buf = ft_strdup(""); //ok
 		if (!buf)
-			return (handle_malloc_failure(NULL));
+			return (NULL);
 	}
 	*i = j;
 	return (buf);
@@ -57,7 +57,7 @@ char	*append_buf(char *expanded_line, char *buf)
 {
 	char	*appended_line;
 
-	appended_line = ft_strjoin(expanded_line, buf);
+	appended_line = ft_strjoin(expanded_line, buf); //ok
 	free(expanded_line);
 	free(buf);
 	return (appended_line);
@@ -71,7 +71,7 @@ char	*get_str(size_t *i, char *line)
 	j = *i;
 	while (line[j] && line[j] != '$' && line[j] != '\n')
 		j++;
-	buf = ft_calloc(j - *i + 2, sizeof(char));
+	buf = ft_calloc(j - *i + 2, sizeof(char)); //ok
 	if (!buf)
 		return (NULL);
 	ft_strlcpy(buf, line + *i, j - *i + 1);
@@ -81,7 +81,7 @@ char	*get_str(size_t *i, char *line)
 
 char	*handle_malloc_failure(char	*to_free)
 {
-	print_err("minishell", "malloc failed", NULL, 1);
+	write(2, "minishell: Fatal: memory allocation failed\n", 44);
 	if (to_free != NULL)
 		free(to_free);
 	return (NULL);

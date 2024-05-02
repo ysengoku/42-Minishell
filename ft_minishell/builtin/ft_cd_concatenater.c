@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 08:26:03 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 07:49:57 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 10:15:03 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	is_dot_or_dotdot(char *path);
 static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag);
+static int	update_pwd_in_missingpwd(t_base *base, t_env *pwd, char *path);
+static char	*set_concatenated_path(t_base *base, char *curpath, char *cwd);
 
 char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
 {
@@ -25,22 +27,40 @@ char	*concatenate_path(t_base *base, char *curpath, int *missing_pwd)
 	cwd = getcwd(buf, sizeof(buf));
 	pwd = find_env_var(base, "PWD");
 	if (cwd == NULL && is_dot_or_dotdot(curpath) == 1)
-		return (handle_missingpwd(base, pwd, curpath, missing_pwd));
-	else
 	{
-		concatenated = ft_calloc(ft_strlen(pwd->value)
-				+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
+		concatenated = handle_missingpwd(base, pwd, curpath, missing_pwd);
 		if (!concatenated)
 		{
-			base->exit_code = print_err_malloc();
+			free(curpath);
 			return (NULL);
 		}
-		ft_strcpy(concatenated, pwd->value);
-		if (concatenated[ft_strlen(concatenated) - 1] != '/')
-			ft_strcat(concatenated, "/");
-		ft_strcat(concatenated, curpath);
+	}
+	else
+	{
+		concatenated = set_concatenated_path(base, curpath, cwd);
+		if (!concatenated)
+			return (NULL);
 	}
 	free(curpath);
+	return (concatenated);
+}
+
+static char	*set_concatenated_path(t_base *base, char *curpath, char *cwd)
+{
+	char	*concatenated;
+
+	concatenated = ft_calloc(ft_strlen(cwd)
+			+ ft_strlen(curpath) + 2, sizeof(char)); //ok
+	if (!concatenated)
+	{
+		base->exit_code = print_err_malloc();
+		free(curpath);
+		return (NULL);
+	}
+	ft_strcpy(concatenated, cwd);
+	if (concatenated[ft_strlen(concatenated) - 1] != '/')
+		ft_strcat(concatenated, "/");
+	ft_strcat(concatenated, curpath);
 	return (concatenated);
 }
 
@@ -69,28 +89,43 @@ static int	is_dot_or_dotdot(char *path)
 static char	*handle_missingpwd(t_base *base, t_env *pwd, char *path, int *flag)
 {
 	char	*concatenated;
-	char	*tmp;
+	char	*cwd;
 
 	*flag = 1;
-	concatenated = ft_calloc(ft_strlen(pwd->value)
+	if (pwd)
+		cwd = pwd->value;
+	else
+		cwd = base->pwd_log;
+	concatenated = ft_calloc(ft_strlen(cwd)
 			+ ft_strlen(base->lst->arg[1]) + 2, sizeof(char)); //ok
 	if (!concatenated)
 	{
 		base->exit_code = print_err_malloc();
 		return (NULL);
 	}
-	ft_strcpy(concatenated, pwd->value);
+	ft_strcpy(concatenated, cwd);
 	if (concatenated[ft_strlen(concatenated) - 1] != '/')
 		ft_strcat(concatenated, "/");
 	ft_strcat(concatenated, path);
+	if (pwd)
+	{
+		if (update_pwd_in_missingpwd(base, pwd, concatenated) == 1)
+			return (NULL);
+	}
+	return (concatenated);
+}
+
+static int	update_pwd_in_missingpwd(t_base *base, t_env *pwd, char *path)
+{
+	char	*tmp;
+
 	tmp = pwd->value;
-	pwd->value = ft_strdup(concatenated); // ok (does not print error message)
+	pwd->value = ft_strdup(path);
+	free(tmp);
 	if (!pwd->value)
 	{
-		pwd->value = tmp;
-		return (NULL);
+		base->exit_code = print_err_malloc();
+		return (1);
 	}
-	else
-		free(tmp);
-	return (concatenated);
+	return (0);
 }
