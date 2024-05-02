@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 17:09:16 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:10:59 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,6 @@ char	*translate_tilde(char *str, t_base *base, char *before)
 		res = ft_strjoin_mall(before, getenv(HOME), last_len);
 	}
 	else
-		res = ft_strdup(str); //ok ???
+		res = ft_strdup(str); //ok
 	return (res);
 }
