@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 09:14:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:54:40 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	exec_pipe(t_base *base)
 	current_node = base->lst;
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
-	//	set_exec_signal();
 	signal(SIGINT, exec_sigint);
 	signal(SIGQUIT, exec_sigquit);
 	while (current_node->next && current_node->error_syntax == 0)
@@ -120,8 +119,6 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 		wait(&status);
 	if (WIFSIGNALED(base->exit_code))
 		g_received_signal = WTERMSIG(base->exit_code);
-	// else if (WIFSIGNALED(status))
-	// 	g_received_signal = status;
 	else
 		g_received_signal = 0;
 	if (g_received_signal == SIGINT)
