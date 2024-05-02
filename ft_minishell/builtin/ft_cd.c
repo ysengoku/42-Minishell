@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 09:30:29 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:20:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	is_home(char *arg);
 static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd);
 static int	update_pwd(t_base *base, char *curpath);
-static int	update_oldpwd(t_base *base);
+static int	update_pwd(t_base *base, char *curpath);
 
 int	ft_cd(t_base *base, t_line *node, int fd[2])
 {
@@ -68,16 +68,13 @@ getcwd: cannot access parent directories", \
 	return (0);
 }
 
-static int	update_oldpwd(t_base *base)
+static int	update_oldpwd(t_base *base, t_env *oldpwd)
 {
 	t_env	*pwd;
-	t_env	*oldpwd;
 	char	*tmp;
 
-	ft_strcpy(base->oldpwd_log, base->pwd_log);
 	pwd = find_env_var(base, "PWD");
-	oldpwd = find_env_var(base, OLDPWD);
-	if (oldpwd && oldpwd->value)
+	if (oldpwd->value)
 	{
 		tmp = oldpwd->value;
 		if (pwd && pwd->value)
@@ -85,10 +82,12 @@ static int	update_oldpwd(t_base *base)
 		else
 			oldpwd->value = ft_strdup(base->pwd_log); //ok
 		free(tmp);
+		if (!oldpwd->value)
+			return (ft_perror("malloc", 1));
 	}
-	else if (oldpwd && !oldpwd->value)
+	else if (!oldpwd->value)
 	{
-		oldpwd->value = ft_strdup(base->pwd_log);
+		oldpwd->value = ft_strdup(base->pwd_log); //ok
 		if (!oldpwd->value)
 			return (ft_perror("malloc", 1));
 	}
@@ -97,9 +96,14 @@ static int	update_oldpwd(t_base *base)
 
 static int	update_pwd(t_base *base, char *curpath)
 {
+	t_env	*oldpwd;
 	t_env	*pwd;
 
-	if (update_oldpwd(base) == 1)
+	ft_strcpy(base->oldpwd_log, base->pwd_log);
+	oldpwd = find_env_var(base, OLDPWD);
+	if (!oldpwd)
+		return (1);
+	if (update_oldpwd(base, oldpwd) == 1)
 		return (1);
 	ft_strcpy(base->pwd_log, curpath);
 	pwd = find_env_var(base, "PWD");
