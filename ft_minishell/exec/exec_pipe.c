@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:11:11 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/01 19:09:51 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 15:51:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	exec_pipe(t_base *base)
 	current_node = base->lst;
 	if (check_heredoc_p(base) == 1)
 		return (base->exit_code);
-	//	set_exec_signal();
 	signal(SIGINT, exec_sigint);
 	signal(SIGQUIT, exec_sigquit);
 	while (current_node->next && current_node->error_syntax == 0)
@@ -119,11 +118,11 @@ static void	wait_children(t_base *base, pid_t lastchild_pid, int count)
 	while (count-- > 0)
 		wait(&status);
 	if (WIFSIGNALED(base->exit_code))
-		g_received_signal = base->exit_code;
-	else if (WIFSIGNALED(status))
-		g_received_signal = status;
+		g_received_signal = WTERMSIG(base->exit_code);
 	else
 		g_received_signal = 0;
 	if (g_received_signal == SIGINT)
 		write(1, "\n", 1);
+	if (g_received_signal == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
 }

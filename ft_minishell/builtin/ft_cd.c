@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 11:39:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:20:15 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static bool	is_home(char *arg);
 static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd);
-static void	update_pwd(t_base *base, char *curpath);
+static int	update_pwd(t_base *base, char *curpath);
+static int	update_pwd(t_base *base, char *curpath);
 
 int	ft_cd(t_base *base, t_line *node, int fd[2])
 {
@@ -27,7 +28,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (is_home(node->arg[1]) == true || !ft_strncmp(node->arg[1], "-", 2))
 		curpath = expand_path(base, node->arg[1]);
 	else
-		curpath = ft_strdup(node->arg[1]); // ok (does not print error message)
+		curpath = ft_strdup(node->arg[1]); // ok (cannot print error message)
 	if (!curpath)
 		return (1);
 	if (curpath[0] != '/')
@@ -58,8 +59,8 @@ static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd)
 	{
 		if (*missing_pwd == 1)
 			return (print_err("chdir", "error retrieving current directory: \
-			getcwd: cannot access parent directories", \
-			"No such file or directory", 0));
+getcwd: cannot access parent directories", \
+"No such file or directory", 0));
 		ft_close(fd[IN], fd[OUT], 0);
 		return (print_err(CD, node->arg[1], strerror(errno), 1));
 	}
@@ -67,31 +68,50 @@ static int	ft_chdir(char *curpath, t_line *node, int fd[2], int *missing_pwd)
 	return (0);
 }
 
-static void	update_pwd(t_base *base, char *curpath)
+static int	update_oldpwd(t_base *base, t_env *oldpwd)
 {
 	t_env	*pwd;
-	t_env	*oldpwd;
 	char	*tmp;
 
 	pwd = find_env_var(base, "PWD");
-	oldpwd = find_env_var(base, OLDPWD);
-	ft_strcpy(base->oldpwd_log, pwd->value);
-	if (oldpwd == NULL)
-	{
-		tmp = pwd->value;
-		pwd->value = ft_strdup(curpath);
-		free(tmp);
-		return ;
-	}
-	else
+	if (oldpwd->value)
 	{
 		tmp = oldpwd->value;
-		oldpwd->value = pwd->value;
+		if (pwd && pwd->value)
+			oldpwd->value = pwd->value;
+		else
+			oldpwd->value = ft_strdup(base->pwd_log); //ok
 		free(tmp);
-		pwd->value = ft_strdup(curpath);
+		if (!oldpwd->value)
+			return (ft_perror("malloc", 1));
 	}
-	if (!pwd->value)
-		base->exit_code = (ft_perror("malloc", 1));
-	else
-		base->exit_code = 0;
+	else if (!oldpwd->value)
+	{
+		oldpwd->value = ft_strdup(base->pwd_log); //ok
+		if (!oldpwd->value)
+			return (ft_perror("malloc", 1));
+	}
+	return (0);
+}
+
+static int	update_pwd(t_base *base, char *curpath)
+{
+	t_env	*oldpwd;
+	t_env	*pwd;
+
+	ft_strcpy(base->oldpwd_log, base->pwd_log);
+	oldpwd = find_env_var(base, OLDPWD);
+	if (!oldpwd)
+		return (1);
+	if (update_oldpwd(base, oldpwd) == 1)
+		return (1);
+	ft_strcpy(base->pwd_log, curpath);
+	pwd = find_env_var(base, "PWD");
+	if (pwd && pwd->value)
+	{
+		pwd->value = ft_strdup(curpath); //ok
+		if (!pwd->value)
+			return (ft_perror("malloc", 1));
+	}
+	return (0);
 }

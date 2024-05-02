@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   error_handling2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 08:22:13 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 13:19:08 by yusengok         ###   ########.fr       */
+/*   Created: 2024/05/02 13:50:27 by yusengok          #+#    #+#             */
+/*   Updated: 2024/05/02 13:52:23 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_base *base, int fd[2])
+int	print_err_malloc(void)
 {
-	char	buf[PATH_MAX];
-	t_env	*pwd;
+	write(2, "minishell: Fatal: memory allocation failed\n", 44);
+	return (1);
+}
 
-	pwd = find_env_var(base, "PWD");
-	if (pwd && pwd->value)
-		ft_strcpy(buf, pwd->value);
-	else
-	{
-		if (getcwd(buf, sizeof(buf)) == 0)
-		{
-			ft_close(fd[IN], fd[OUT], 1);
-			return (ft_perror("getcwd", 1));
-		}
-	}
-	ft_putendl_fd(buf, fd[OUT]);
-	ft_close(fd[IN], fd[OUT], 0);
-	return (0);
+void	exit_after_malloc_fail(t_base *base)
+{
+	print_err_malloc();
+	exit(clear_before_exit(base, 1));
 }

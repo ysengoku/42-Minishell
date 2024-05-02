@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_add.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:46:58 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 20:38:44 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 11:33:08 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ char	**split_export_arg(char *arg)
 
 	len1 = 0;
 	len2 = get_length(&len1, arg);
-	split = ft_calloc(3, sizeof(char *));
+	split = ft_calloc(3, sizeof(char *)); /// Leak in case of malloc fail
 	if (!split)
 		return (NULL);
-	split[0] = ft_substr(arg, 0, len1);
+	split[0] = ft_substr(arg, 0, len1); /// Leak in case of malloc fail
 	if (!split[0])
 	{
 		free(split);
@@ -45,7 +45,7 @@ char	**split_export_arg(char *arg)
 	}
 	if (arg[len1] == '+')
 		len1 += 2;
-	split[1] = ft_substr(arg, len1 + 1, len2);
+	split[1] = ft_substr(arg, len1 + 1, len2); /// SEGFAULT & leak in case of malloc fail
 	if (!split[1])
 	{
 		free(split);

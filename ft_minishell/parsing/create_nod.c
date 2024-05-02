@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/25 13:55:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:04:05 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ int	create_nod(char *str, t_base *base)
 		ft_display_error(1, base);
 		tmp->error_syntax = 1;
 	}
-	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *));
+	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *)); //-----> FIXED
+	if (!tmp->arg)
+		exit_after_malloc_fail(base);
 	write_nod(i, tmp, str, base);
 	attribute_nod(base, tmp);
 	if (tmp->error_syntax == 1)

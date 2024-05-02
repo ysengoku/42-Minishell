@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 02:09:34 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/30 22:58:31 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 14:03:28 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ static char	*ft_strjoin_mall(char *s1, char *s2, int last_len)
 	unsigned int	j;
 
 	res_len = ft_strlen(s1) + ft_strlen(s2) + last_len;
-	res = ft_calloc(res_len + 1, sizeof(char));
+	res = ft_calloc(res_len + 1, sizeof(char)); ///-----> Leak in case of malloc fail
 	if (!res)
+	{
+		// free something here...(maybe s1)
 		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -47,7 +50,7 @@ static char	*write_signal(char *str, t_base *base, char *before)
 		base->exit_code = 128 + g_received_signal;
 		g_received_signal = 0;
 	}
-	nbr = ft_itoa(base->exit_code);
+	nbr = ft_itoa(base->exit_code); //ok
 	while (str[i] && str[i] != ' ' && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && str[i] != 9)
 		i++;
@@ -83,7 +86,9 @@ char	*translate_dollar(char *str, t_base *base, char *before, t_line *tmp)
 
 	i = 0;
 	last_len = 0;
-	to_find = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	to_find = ft_calloc(ft_strlen(str) + 1, sizeof(char)); // FIXED
+	if (!to_find)
+		exit_after_malloc_fail(base);
 	while (str[i] && str[i] != ' ' && str[i] != 9 && str[i] != '<' \
 	&& str[i] != '|' && str[i] != '>' && str[i] != 47 && str[i] != '=' && \
 	str[i] != 34 && str[i] != 39 && str[i] != '$' && str[i] != '.')
@@ -118,6 +123,6 @@ char	*translate_tilde(char *str, t_base *base, char *before)
 		res = ft_strjoin_mall(before, getenv(HOME), last_len);
 	}
 	else
-		res = ft_strdup(str);
+		res = ft_strdup(str); //ok ???
 	return (res);
 }

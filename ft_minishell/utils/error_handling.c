@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:24 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/22 14:34:49 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:51:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,4 @@ int	ft_perror(const char *s, int exit_status)
 	write(2, "minishell: ", 11);
 	perror(s);
 	return (exit_status);
-}
-
-int	print_err_malloc(void)
-{
-	write(2, "minishell: Fatal: memory allocation failed\n", 44);
-	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/01 19:09:43 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 15:52:03 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_base
 	char	*error_msg;
 	int		null_env;
 	int		max_arg_export;
+	char	pwd_log[PATH_MAX];
 	char	oldpwd_log[PATH_MAX];
 }			t_base;
 
@@ -135,6 +136,7 @@ typedef struct s_norm
 /* assign env */
 int			assign_env(t_base *base);
 char		*assign_value(char **split);
+void		set_pwdlog(t_base *base);
 /* chara_split */
 int			ft_chara_split(char *s, t_base **base);
 /* count lst */
@@ -226,9 +228,10 @@ int			ft_unset(t_base *base, t_line *node, int fd[2]);
 /* error handling */
 int			print_err(char *s1, char *s2, char *s3, int exit_status);
 int			print_warning(char *s1, char *s2, char *s3, int exit_status);
-int			print_err_malloc(void);
 void		ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
+int			print_err_malloc(void);
+void		exit_after_malloc_fail(t_base *base);
 /* free */
 int			ft_free(void *to_free, int exit_status);
 void		ft_free_strarr(char **arr);
