@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:55:24 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 13:51:10 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:18:56 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	print_warning(char *s1, char *s2, char *s3, int exit_status)
 	return (exit_status);
 }
 
-void	ft_display_error(int i, t_base *base)
+int	ft_display_error(int i, t_base *base)
 {
 	if (i == 1)
 		ft_fprintf(2, "syntax error near unexpected token\n");
@@ -54,6 +54,7 @@ void	ft_display_error(int i, t_base *base)
 	if (i == 4)
 		ft_fprintf(2, "ambiguous redirect\n");
 	base->exit_code = 2;
+	return (-1);
 }
 
 int	ft_perror(const char *s, int exit_status)

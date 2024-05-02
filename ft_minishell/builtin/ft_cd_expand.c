@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 08:26:54 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 10:44:20 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:25:12 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_home_path(t_base *base)
 		ft_fprintf(2, "minishell: cd: %s not set\n", HOME);
 		return (NULL);
 	}
-	path = ft_strdup(home->value); //ok
+	path = ft_strdup(home->value);
 	if (!path)
 	{
 		perror("minishell");
@@ -60,7 +60,7 @@ static char	*get_oldpwd_path(t_base *base)
 			ft_fprintf(2, "minishell: cd: %s not set\n", OLDPWD);
 			return (NULL);
 		}
-		path = ft_strdup(base->oldpwd_log); //ok
+		path = ft_strdup(base->oldpwd_log);
 		if (!path)
 		{
 			perror("minishell");
@@ -68,7 +68,7 @@ static char	*get_oldpwd_path(t_base *base)
 		}
 		return (path);
 	}
-	path = ft_strdup(oldpwd->value); //ok
+	path = ft_strdup(oldpwd->value);
 	if (!path)
 		perror("minishell");
 	return (path);

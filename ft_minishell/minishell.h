@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 20:14:26 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 23:30:19 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int			enter_quote_mode(char *str, int i, t_line *tmp);
 int			index_dollars(t_norm *norm, int *ptr_i, char *res);
 int			index_tilde(t_norm *norm, int *ptr_i, char *res);
 int			count_last_len_dollars(char *str, int i, t_line *tmp);
+int			ft_new_arg( t_line *tmp, char *res, int j);
 
 /*----- Execution ------------------------------------------------------------*/
 /* ft_exec.c */
@@ -228,7 +229,7 @@ int			ft_unset(t_base *base, t_line *node, int fd[2]);
 /* error handling */
 int			print_err(char *s1, char *s2, char *s3, int exit_status);
 int			print_warning(char *s1, char *s2, char *s3, int exit_status);
-void		ft_display_error(int i, t_base *base);
+int			ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
 int			print_err_malloc(void);
 void		exit_after_malloc_fail(t_base *base, void *s, char **arr);

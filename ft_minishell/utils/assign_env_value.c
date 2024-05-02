@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 18:53:15 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 23:13:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static char	*ft_strjoin_char(char const *s1, char const *s2)
 
 	i = ft_strlen(s1) + ft_strlen(s2) + 2;
 	srep = malloc(sizeof(char) * i);
+	if (!srep)
 	{
 		perror("minishell");
 		return (NULL);
