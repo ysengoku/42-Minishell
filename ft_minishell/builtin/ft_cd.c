@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/19 11:39:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 09:30:29 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	update_oldpwd(t_base *base)
 		if (!oldpwd->value)
 			return (ft_perror("malloc", 1));
 	}
-	return (0);	
+	return (0);
 }
 
 static int	update_pwd(t_base *base, char *curpath)

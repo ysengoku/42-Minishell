@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:19:11 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/30 23:03:47 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 08:01:42 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_sigint(int sig)
 void	exec_sigquit(int sig)
 {
 	g_received_signal = sig;
-	write(2, "Quit (core dumped)", 19);
+	// write(2, "Quit (core dumped)", 19);
 }
 
 static void	here_doc_sigint(int sig, siginfo_t *info, void *arg)
