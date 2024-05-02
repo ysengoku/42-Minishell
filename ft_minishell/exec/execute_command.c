@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:12:40 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 12:21:28 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 11:59:06 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	execute_command(t_base *base, t_line *node)
 		exit(error_in_child(base, base->exit_code, NULL, NULL));
 	if (ft_strchr(node->arg[0], '/') || access(node->arg[0], X_OK) == 0)
 	{
-		pathname = ft_strdup(node->arg[0]);
+		pathname = ft_strdup(node->arg[0]); //ok
 		if (!pathname)
 			exit(error_in_child(base, 1, strerror(errno), NULL));
 		execve(pathname, node->arg, base->env);
@@ -94,7 +94,7 @@ static char	*check_path(t_base *base, t_line *node, char **path_list, int i)
 	char	*pathname;
 
 	pathname = ft_calloc(ft_strlen(path_list[i])
-			+ ft_strlen(node->arg[0]) + 2, sizeof(char));
+			+ ft_strlen(node->arg[0]) + 2, sizeof(char)); //ok
 	if (!pathname)
 	{
 		ft_free_strarr(path_list);
