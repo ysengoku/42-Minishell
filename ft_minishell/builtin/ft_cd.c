@@ -101,10 +101,11 @@ static int	update_pwd(t_base *base, char *curpath)
 
 	ft_strcpy(base->oldpwd_log, base->pwd_log);
 	oldpwd = find_env_var(base, OLDPWD);
-	if (!oldpwd)
-		return (1);
-	if (update_oldpwd(base, oldpwd) == 1)
-		return (1);
+	if (oldpwd)
+	{
+		if (update_oldpwd(base, oldpwd) == 1)
+			return (1);
+	}
 	ft_strcpy(base->pwd_log, curpath);
 	pwd = find_env_var(base, "PWD");
 	if (pwd && pwd->value)
