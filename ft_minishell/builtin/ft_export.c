@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:03:21 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 13:08:14 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 11:45:10 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ static int	atr_nod_from_expt(t_base *base, t_line *node, t_env *tmp, int i)
 	split = split_export_arg(node->arg[i]);
 	if (!split)
 		return (-1);
-	tmp->key = ft_strdup(split[0]);
+	tmp->key = ft_strdup(split[0]); // leak in case malloc fail
 	if (!tmp->key)
 		return (ft_free_strarr(split), -1);
 	if (split[1] == NULL)
 	{
-		tmp->value = ft_calloc(1, sizeof(char));
+		tmp->value = ft_calloc(1, sizeof(char)); //ok
 		ft_free_strarr(split);
 	}
 	else
@@ -84,12 +84,12 @@ int	create_nod_from_arg(t_base *base, t_line *node, int i)
 {
 	t_env	*tmp;
 
-	tmp = ft_calloc(1, sizeof(t_env));
+	tmp = ft_calloc(1, sizeof(t_env)); //ok
 	if (!tmp)
 		return (1);
 	if (ft_strchr(node->arg[i], '=') == NULL)
 	{
-		tmp->key = ft_strdup(node->arg[i]);
+		tmp->key = ft_strdup(node->arg[i]); // Segfault in case malloc fail
 		tmp->value = NULL;
 	}
 	else
