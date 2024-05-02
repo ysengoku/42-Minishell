@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 14:02:34 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:23:32 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_base *base)
 	if (boo == 2)
 	{
 		*res = translate_dollar(norm->str + norm->i + 1, base, *res, norm->tmp);
+		if (!*res)
+		{
+			norm->j = -1;
+			return ;
+		}
 		norm->j = index_dollars(norm, &norm->i, *res);
 	}
 	if (boo == 3)
@@ -73,6 +78,8 @@ static void	dollars_condition(t_norm *norm, char **res, t_base *base)
 
 static int	ft_check(char *res, char *str, t_line *tmp, t_norm norm)
 {
+	if (norm.j == -1)
+		return (0);
 	if (res && norm.j != -1 && str[norm.i] && ((str[norm.i] != '<' && \
 	str[norm.i] != '>' && str[norm.i] != '|' && str[norm.i] != ' ' && \
 	str[norm.i] != 9) || (tmp->char_type == QUOTE || \
@@ -87,7 +94,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	t_norm	norm;
 
 	norm = attribute_norm(index, tmp, str, base);
-	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Freeze in case of malloc fail
+	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Fixed
 	if (!res)
 		return (NULL);
 	norm.j = 0;
@@ -101,7 +108,10 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	}
 	if (norm.j == -1)
 	{
-		return (free(res), NULL);
+		free(res);
+		res = NULL;
+		norm.i = -1;
+
 	}
 	if (res)
 		res[norm.j] = '\0';

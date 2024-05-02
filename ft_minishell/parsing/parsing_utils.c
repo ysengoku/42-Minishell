@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 13:26:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:26:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	add_arg_to_node(t_line *tmp, char *str)
 	tmp->arg[last_nod] = str;
 }
 
-static void	ft_new_arg( t_line *tmp, char *res, int j)
+static int	ft_new_arg( t_line *tmp, char *res, int j)
 {
 	char	*str;
 	int		i;
@@ -37,7 +37,9 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	check = 0;
 	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
-	str = ft_calloc(j + 2, sizeof(char)); ///// -----> Need to check malloc protect
+	str = ft_calloc(j + 2, sizeof(char)); ///// -----> Fixed
+	if (!str)
+		return (1);
 	while (res[check] && res[check] != ' ' && res[check] != '\t')
 		str[i++] = res[check++];
 	str[i] = '\0';
@@ -49,6 +51,7 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 		res[i++] = res[check++];
 	while (res[i])
 		res[i++] = '\0';
+	return (0);
 }
 
 static int	nxt_index_dollars(char *str, int i, t_line *tmp)
@@ -89,7 +92,10 @@ int	index_dollars(t_norm *norm, int *ptr_i, char *res)
 		if (check_type(j, norm, res) == 1)
 		{
 			if (norm->tmp->typ_write_chr == 0)
-				ft_new_arg(norm->tmp, res, j);
+			{
+				if (ft_new_arg(norm->tmp, res, j) == 1)
+					return (-1);
+			}
 			else
 			{
 				ft_display_error(4, norm->base);

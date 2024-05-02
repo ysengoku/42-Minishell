@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:34:58 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 13:21:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:43:31 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_chara_split(char *s, t_base **base)
 	while (srep[i])
 	{
 		srep[i] = check_quote(srep[i], *base);
-		if (create_nod(srep[i], *base) == -1)
+		if (create_nod(srep[i], *base, srep) == -1)
 		{
 			ft_free_strarr(srep);
 			return (0);

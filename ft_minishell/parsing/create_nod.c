@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 14:04:05 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:51:52 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	write_arg(int i, t_line *tmp, char *str, t_base *base)
 	int		last_nod;
 
 	arg = write_char(&i, tmp, str, base);
-	if (!arg)
-		return (i);
+	if (!arg || i == -1)
+		return (-1);
 	last_nod = 0;
 	while (tmp->arg[last_nod])
 		last_nod++;
@@ -51,7 +51,7 @@ static void	attribute_nod(t_base *base, t_line *tmp)
 	}
 }
 
-static void	write_nod(int i, t_line *tmp, char *str, t_base *base)
+static int	write_nod(int i, t_line *tmp, char *str, t_base *base)
 {
 	while (str[i])
 	{
@@ -63,10 +63,13 @@ static void	write_nod(int i, t_line *tmp, char *str, t_base *base)
 			i++;
 		else
 			i = write_arg(i, tmp, str, base);
+		if (i == -1)
+			return (-1);
 	}
+	return (0);
 }
 
-int	create_nod(char *str, t_base *base)
+int	create_nod(char *str, t_base *base, char **srep)
 {
 	t_line	*tmp;
 	int		i;
@@ -88,8 +91,12 @@ int	create_nod(char *str, t_base *base)
 	}
 	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *)); //-----> FIXED
 	if (!tmp->arg)
-		exit_after_malloc_fail(base);
-	write_nod(i, tmp, str, base);
+		exit_after_malloc_fail(base, NULL, NULL);
+	if (write_nod(i, tmp, str, base) == -1)
+	{
+		ft_free_strarr(tmp->arg);
+		exit_after_malloc_fail(base, tmp, srep);
+	}
 	attribute_nod(base, tmp);
 	if (tmp->error_syntax == 1)
 		return (-1);
