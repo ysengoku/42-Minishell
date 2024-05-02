@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 08:46:58 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 11:33:08 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:48:48 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	export_add_on_nod(t_base *base, t_env *tmp)
 		add_new(base, last, tmp);
 }
 
-char	**split_export_arg(char *arg)
+char	**split_export_arg(t_base *base, char *arg, t_env *tmp)
 {
 	char	**split;
 	int		len1;
@@ -34,23 +34,17 @@ char	**split_export_arg(char *arg)
 
 	len1 = 0;
 	len2 = get_length(&len1, arg);
-	split = ft_calloc(3, sizeof(char *)); /// Leak in case of malloc fail
+	split = ft_calloc(3, sizeof(char *)); /// ok
 	if (!split)
-		return (NULL);
-	split[0] = ft_substr(arg, 0, len1); /// Leak in case of malloc fail
+		exit_after_malloc_fail(base, tmp, NULL);
+	split[0] = ft_substr(arg, 0, len1); /// FIXED
 	if (!split[0])
-	{
-		free(split);
-		return (NULL);
-	}
+		exit_after_malloc_fail(base, tmp, split);
 	if (arg[len1] == '+')
 		len1 += 2;
-	split[1] = ft_substr(arg, len1 + 1, len2); /// SEGFAULT & leak in case of malloc fail
+	split[1] = ft_substr(arg, len1 + 1, len2); /// FIXED
 	if (!split[1])
-	{
-		free(split);
-		free(split[0]);
-	}
+		exit_after_malloc_fail(base, tmp, split);
 	return (split);
 }
 

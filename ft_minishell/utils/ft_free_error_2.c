@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling2.c                                  :+:      :+:    :+:   */
+/*   ft_free_error_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 13:50:27 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 17:42:49 by yusengok         ###   ########.fr       */
+/*   Created: 2024/05/02 20:08:05 by dvo               #+#    #+#             */
+/*   Updated: 2024/05/02 20:14:19 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	print_err_malloc(void)
+int	free_error_env(t_env *tmp, int i, t_base *base)
 {
-	write(2, "minishell: Fatal: memory allocation failed\n", 44);
-	return (1);
+	if (tmp->value)
+		free (tmp->value);
+	free(base->env[i]);
+	base->env[i] = NULL;
+	return (-1);
 }
 
-void	exit_after_malloc_fail(t_base *base, void *s, char **arr)
+void	check_error_write_char(t_norm *norm, char *res)
 {
-	print_err_malloc();
-	if (s)
-		free(s);
-	if (arr)
-		ft_free_strarr(arr);
-	exit(clear_before_exit(base, 1));
+	if (norm->j == -1)
+	{
+		free(res);
+		res = NULL;
+		norm->i = -1;
+	}
 }
