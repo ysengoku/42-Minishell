@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:15:56 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/22 20:15:04 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 13:26:56 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_new_arg( t_line *tmp, char *res, int j)
 	check = 0;
 	while (res && res[check] && (res[check] == ' ' || res[check] == '\t'))
 		check++;
-	str = ft_calloc(j + 2, sizeof(char));
+	str = ft_calloc(j + 2, sizeof(char)); ///// -----> Need to check malloc protect
 	while (res[check] && res[check] != ' ' && res[check] != '\t')
 		str[i++] = res[check++];
 	str[i] = '\0';

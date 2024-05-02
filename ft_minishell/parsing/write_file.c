@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/19 17:05:48 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:03:11 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	t_file	*stock;
 
 	i++;
-	stock = ft_calloc(1, sizeof(t_file));
+	stock = ft_calloc(1, sizeof(t_file)); //FIXED
+	if (!stock)
+		exit_after_malloc_fail(base);
 	if (str[i] == '>')
 	{
 		stock->type = OUT_APPEND;
@@ -81,7 +83,9 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 	t_file	*stock;
 
 	i++;
-	stock = ft_calloc(1, sizeof(t_file));
+	stock = ft_calloc(1, sizeof(t_file)); //FIXED
+	if (!stock)
+		exit_after_malloc_fail(base);
 	if (str[i] == '<')
 	{
 		stock->type = HERE_DOC;

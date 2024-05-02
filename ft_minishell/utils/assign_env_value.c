@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/23 13:06:11 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 13:14:03 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*assign_value(char **split)
 	char	*join2;
 
 	i = 2;
-	join1 = ft_strdup(split[1]);
+	join1 = ft_strdup(split[1]); //ok
 	if (!join1)
 		return (NULL);
 	while (split[i])
