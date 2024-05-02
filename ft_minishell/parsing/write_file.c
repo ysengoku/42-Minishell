@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 14:03:11 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:49:35 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	i++;
 	stock = ft_calloc(1, sizeof(t_file)); //FIXED
 	if (!stock)
-		exit_after_malloc_fail(base);
+		exit_after_malloc_fail(base, NULL, NULL);
 	if (str[i] == '>')
 	{
 		stock->type = OUT_APPEND;
@@ -51,6 +51,8 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 		i++;
 	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
+	if (i == -1)
+		exit_after_malloc_fail(base, stock, NULL);
 	if (!stock->filename)
 		tmp->error_syntax = 1;
 	tmp->typ_write_chr = 0;
@@ -85,7 +87,7 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 	i++;
 	stock = ft_calloc(1, sizeof(t_file)); //FIXED
 	if (!stock)
-		exit_after_malloc_fail(base);
+		exit_after_malloc_fail(base, NULL, NULL);
 	if (str[i] == '<')
 	{
 		stock->type = HERE_DOC;
@@ -100,6 +102,11 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 		tmp->char_type = DOC;
 	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
+	if (i == -1)
+	{
+		// free (stock);
+		exit_after_malloc_fail(base, stock, NULL);
+	}
 	if (!stock->filename)
 		tmp->error_syntax = 1;
 	if (stock->type == HERE_DOC)

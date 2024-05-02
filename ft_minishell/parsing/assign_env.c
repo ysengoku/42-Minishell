@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:10:47 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 14:05:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:28:33 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,19 @@
 static char	**attribute_null_env(t_base *base)
 {
 	char	**env;
-	// char	*env3;
 	char	buf[PATH_MAX];
 
-	env = ft_calloc(5, sizeof(char *)); //ok (Add error message ?)
+	env = ft_calloc(5, sizeof(char *)); //ok
 	if (!env)
+	{
+		print_err_malloc();
 		return (NULL);
+	}
 	if (getcwd(buf, sizeof(buf)) == 0)
 		return (ft_perror("getcwd", 1), NULL);
 	env[0] = ft_strjoin("PWD=", buf); //ok
 	env[1] = ft_strdup("SHLVL=1"); //ok
 	env[2] = ft_strdup("OLDPWD"); //ok
-	// env3 = ft_strjoin("_=", buf); //-------> [FIXED] segfault in case of malloc fail
-	// if (!env3)
-	// {
-	// 	ft_free_strarr(env);
-	// 	return (NULL);
-	// }
-	// env[3] = ft_strjoin(env3, "/./minishell"); //ok
-	// free(env3);
 	env[3] = ft_calloc(16 + ft_strlen(buf), sizeof(char));
 	if (!env[0] || !env[1] || !env[2] || !env[3])
 	{
