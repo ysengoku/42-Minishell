@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/04/21 22:02:45 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 14:02:34 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	t_norm	norm;
 
 	norm = attribute_norm(index, tmp, str, base);
-	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Freeze in case of malloc fail
 	if (!res)
 		return (NULL);
 	norm.j = 0;

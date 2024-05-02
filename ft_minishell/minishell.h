@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/30 23:04:06 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/02 13:54:32 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,9 +228,10 @@ int			ft_unset(t_base *base, t_line *node, int fd[2]);
 /* error handling */
 int			print_err(char *s1, char *s2, char *s3, int exit_status);
 int			print_warning(char *s1, char *s2, char *s3, int exit_status);
-int			print_err_malloc(void);
 void		ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
+int			print_err_malloc(void);
+void		exit_after_malloc_fail(t_base *base);
 /* free */
 int			ft_free(void *to_free, int exit_status);
 void		ft_free_strarr(char **arr);
