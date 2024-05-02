@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 17:23:32 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:36:18 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ t_base *base)
 	if (boo == 2)
 	{
 		*res = translate_dollar(norm->str + norm->i + 1, base, *res, norm->tmp);
-		if (!*res)
-		{
-			norm->j = -1;
-			return ;
-		}
 		norm->j = index_dollars(norm, &norm->i, *res);
 	}
 	if (boo == 3)
@@ -96,7 +91,10 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	norm = attribute_norm(index, tmp, str, base);
 	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Fixed
 	if (!res)
+	{
+		norm.j = -1;
 		return (NULL);
+	}
 	norm.j = 0;
 	while (ft_check(res, str, tmp, norm) == 1)
 	{
