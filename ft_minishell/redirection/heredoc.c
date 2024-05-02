@@ -6,7 +6,7 @@
 /*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/26 13:50:43 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:03:26 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ static int	check_delimiter(char *line, char *delimiter)
 
 	if (line[0] == '\n')
 		return (1);
-	delimiter_checker = ft_strtrim(line, "\n");
+	delimiter_checker = ft_strtrim(line, "\n"); //ok
 	if (!delimiter_checker)
+	{
+		print_err_malloc();
 		return (ft_free((void *)line, -1));
+	}
 	if (ft_strcmp(delimiter_checker, delimiter) == 0)
 		return (ft_free((void *)delimiter_checker, 0));
 	return (ft_free((void *)delimiter_checker, 1));
@@ -84,7 +87,7 @@ static char	*ft_expand_heredoc(t_base *base, char *line)
 	char	*buf;
 
 	i = 0;
-	expanded_line = ft_strdup("");
+	expanded_line = ft_strdup(""); //ok
 	if (!expanded_line)
 		return (handle_malloc_failure(NULL));
 	while (line[i])
