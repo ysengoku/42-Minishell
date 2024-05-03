@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 16:55:17 by yusengok          #+#    #+#             */
-/*   Updated: 2024/04/23 16:38:33 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:53:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_base	*init_base(char **env)
 {
 	t_base	*base;
 
-	base = ft_calloc(1, sizeof(t_base)); //ok
+	base = ft_calloc(1, sizeof(t_base));
 	if (!base)
 	{
 		perror("minishell");
@@ -47,7 +47,7 @@ void	check_shell_level(char **env)
 		level = ft_atoi(shlevel + 6) + 1;
 		if (level >= 255)
 			return ;
-		tmp = ft_itoa(level); //ok
+		tmp = ft_itoa(level);
 		if (!tmp)
 			return ;
 		ft_strcpy(shlevel + 6, tmp);

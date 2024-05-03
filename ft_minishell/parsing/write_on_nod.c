@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_on_nod.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:35:03 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 18:36:18 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:14:05 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 	t_norm	norm;
 
 	norm = attribute_norm(index, tmp, str, base);
-	res = ft_calloc(ft_strlen(str) + 1, sizeof(char)); //Fixed
+	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
 	{
 		norm.j = -1;
@@ -104,13 +104,7 @@ char	*write_char(int *index, t_line *tmp, char *str, t_base *base)
 			dollars_condition(&norm, &res, base);
 		norm.i++;
 	}
-	if (norm.j == -1)
-	{
-		free(res);
-		res = NULL;
-		norm.i = -1;
-
-	}
+	check_error_write_char(&norm, res);
 	if (res)
 		res[norm.j] = '\0';
 	*index = norm.i;

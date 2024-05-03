@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_nod.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:50:22 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 18:36:23 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:23:32 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ static int	write_nod(int i, t_line *tmp, char *str, t_base *base)
 	return (0);
 }
 
+static void	check_cnt_param_error(t_line *tmp, char *str, t_base *base)
+{
+	tmp->nb_arg = 0;
+	cnt_param(&str, tmp);
+	ft_display_error(1, base);
+	tmp->error_syntax = 1;
+}
+
 int	create_nod(char *str, t_base *base, char **srep)
 {
 	t_line	*tmp;
@@ -83,13 +91,8 @@ int	create_nod(char *str, t_base *base, char **srep)
 	tmp->nb_arg = base->max_arg_export;
 	tmp->char_type = STANDARD;
 	if (cnt_param(&str, tmp) == -1)
-	{
-		tmp->nb_arg = 0;
-		cnt_param(&str, tmp);
-		ft_display_error(1, base);
-		tmp->error_syntax = 1;
-	}
-	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *)); //-----> FIXED
+		check_cnt_param_error(tmp, str, base);
+	tmp->arg = ft_calloc(tmp->nb_arg + 2, sizeof(char *));
 	if (!tmp->arg)
 		exit_after_malloc_fail(base, NULL, NULL);
 	if (write_nod(i, tmp, str, base) == -1)

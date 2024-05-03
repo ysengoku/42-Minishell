@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_env_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:48:46 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 17:30:36 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:13:17 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static char	*ft_strjoin_char(char const *s1, char const *s2)
 	size_t		i;
 
 	i = ft_strlen(s1) + ft_strlen(s2) + 2;
-	srep = malloc(sizeof(char) * i); //ok
-	if (srep == NULL)
+	srep = malloc(sizeof(char) * i);
+	if (!srep)
 	{
 		perror("minishell");
 		return (NULL);
@@ -57,7 +57,7 @@ char	*assign_value(char **split)
 	char	*join2;
 
 	i = 2;
-	join1 = ft_strdup(split[1]); //ok
+	join1 = ft_strdup(split[1]);
 	if (!join1)
 		return (NULL);
 	while (split[i])
