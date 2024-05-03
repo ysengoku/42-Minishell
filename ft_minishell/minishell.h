@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 08:56:45 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 23:30:19 by dvo              ###   ########.fr       */
+/*   Updated: 2024/05/03 07:55:14 by yusengok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,14 +233,14 @@ int			ft_display_error(int i, t_base *base);
 int			ft_perror(const char *s, int exit_status);
 int			print_err_malloc(void);
 void		exit_after_malloc_fail(t_base *base, void *s, char **arr);
+int			free_error_env(t_env *tmp, int i, t_base *base);
+void		check_error_write_char(t_norm *norm, char *res);
 /* free */
 int			ft_free(void *to_free, int exit_status);
 void		ft_free_strarr(char **arr);
 void		free_base_content(t_base *base);
 void		free_envlist(t_base *base);
 int			clear_before_exit(t_base *base, int exit_code);
-int			free_error_env(t_env *tmp, int i, t_base *base);
-void		check_error_write_char(t_norm *norm, char *res);
 /* envp */
 t_env		*find_env_var(t_base *base, char *key);
 /* init */
