@@ -1,19 +1,21 @@
 ## Minishell  
 
 ### Usage
-Interactive mode  
+#### Interactive mode  
 ```bash
 ./minishell
 ```
-Command line mode  
+#### Command line mode  
 ```bash
 ./minishell -c "commands"
 ```
-To ignore leaks from readline with Valgrind
+#### To ignore leaks from readline with Valgrind (Thanks to @mcombeau)
 ```bash
 valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full ./minishell
 ```
+   
 
+------------------------------------------------------------------------------
 ### Builtin function
 
 #### cd with only a relative or absolute path  
