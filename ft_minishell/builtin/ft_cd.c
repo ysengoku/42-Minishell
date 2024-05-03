@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:53:04 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 11:20:15 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:25:51 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_cd(t_base *base, t_line *node, int fd[2])
 	if (is_home(node->arg[1]) == true || !ft_strncmp(node->arg[1], "-", 2))
 		curpath = expand_path(base, node->arg[1]);
 	else
-		curpath = ft_strdup(node->arg[1]); // ok (cannot print error message)
+		curpath = ft_strdup(node->arg[1]);
 	if (!curpath)
 		return (1);
 	if (curpath[0] != '/')
@@ -80,14 +80,14 @@ static int	update_oldpwd(t_base *base, t_env *oldpwd)
 		if (pwd && pwd->value)
 			oldpwd->value = pwd->value;
 		else
-			oldpwd->value = ft_strdup(base->pwd_log); //ok
+			oldpwd->value = ft_strdup(base->pwd_log);
 		free(tmp);
 		if (!oldpwd->value)
 			return (ft_perror("malloc", 1));
 	}
 	else if (!oldpwd->value)
 	{
-		oldpwd->value = ft_strdup(base->pwd_log); //ok
+		oldpwd->value = ft_strdup(base->pwd_log);
 		if (!oldpwd->value)
 			return (ft_perror("malloc", 1));
 	}
@@ -110,7 +110,7 @@ static int	update_pwd(t_base *base, char *curpath)
 	pwd = find_env_var(base, "PWD");
 	if (pwd && pwd->value)
 	{
-		pwd->value = ft_strdup(curpath); //ok
+		pwd->value = ft_strdup(curpath);
 		if (!pwd->value)
 			return (ft_perror("malloc", 1));
 	}

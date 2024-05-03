@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 10:30:09 by yusengok          #+#    #+#              #
-#    Updated: 2024/05/02 13:50:56 by yusengok         ###   ########.fr        #
+#    Updated: 2024/05/02 23:30:29 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,9 @@ SRCS =	main.c	\
 		env.c \
 		init.c	\
 		assign_env_value.c \
-		signal_handle.c
+		signal_handle.c \
+		ft_free_error_2.c \
+		new_arg_expand.c
 
 DIR_OBJ := .object/
 

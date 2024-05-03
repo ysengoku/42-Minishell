@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 18:30:31 by dvo               #+#    #+#             */
-/*   Updated: 2024/05/02 18:04:56 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:19:08 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	t_file	*stock;
 
 	i++;
-	stock = ft_calloc(1, sizeof(t_file)); //FIXED
+	stock = ft_calloc(1, sizeof(t_file));
 	if (!stock)
 		exit_after_malloc_fail(base, NULL, NULL);
 	if (str[i] == '>')
@@ -52,7 +52,7 @@ int	write_out_file(int i, t_line *tmp, char *str, t_base *base)
 	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (i == -1)
-		exit_after_malloc_fail(base, stock, NULL);
+		return (-1);
 	if (!stock->filename)
 		tmp->error_syntax = 1;
 	tmp->typ_write_chr = 0;
@@ -80,14 +80,8 @@ static void	check_quote_here_doc(int i, char *str, t_file *stock, t_line *tmp)
 	}
 }
 
-int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
+int	check_type_infile(int i, char *str, t_file	*stock)
 {
-	t_file	*stock;
-
-	i++;
-	stock = ft_calloc(1, sizeof(t_file)); //FIXED
-	if (!stock)
-		exit_after_malloc_fail(base, NULL, NULL);
 	if (str[i] == '<')
 	{
 		stock->type = HERE_DOC;
@@ -95,6 +89,18 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 	}
 	else
 		stock->type = INFILE;
+	return (i);
+}
+
+int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
+{
+	t_file	*stock;
+
+	i++;
+	stock = ft_calloc(1, sizeof(t_file));
+	if (!stock)
+		exit_after_malloc_fail(base, NULL, NULL);
+	i = check_type_infile(i, str, stock);
 	while (str[i] == ' ' || str[i] == 9)
 		i++;
 	check_quote_here_doc(i, str, stock, tmp);
@@ -103,7 +109,7 @@ int	write_in_file(int i, t_line *tmp, char *str, t_base *base)
 	tmp->typ_write_chr = 1;
 	stock->filename = write_char(&i, tmp, str, base);
 	if (i == -1)
-		exit_after_malloc_fail(base, stock, NULL);
+		return (-1);
 	if (!stock->filename)
 		tmp->error_syntax = 1;
 	if (stock->type == HERE_DOC)

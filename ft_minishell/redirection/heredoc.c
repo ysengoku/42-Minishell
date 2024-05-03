@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yusengok <yusengok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:31:12 by yusengok          #+#    #+#             */
-/*   Updated: 2024/05/02 15:03:26 by yusengok         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:52:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	check_delimiter(char *line, char *delimiter)
 
 	if (line[0] == '\n')
 		return (1);
-	delimiter_checker = ft_strtrim(line, "\n"); //ok
+	delimiter_checker = ft_strtrim(line, "\n");
 	if (!delimiter_checker)
 	{
 		print_err_malloc();
@@ -87,7 +87,7 @@ static char	*ft_expand_heredoc(t_base *base, char *line)
 	char	*buf;
 
 	i = 0;
-	expanded_line = ft_strdup(""); //ok
+	expanded_line = ft_strdup("");
 	if (!expanded_line)
 		return (handle_malloc_failure(NULL));
 	while (line[i])
