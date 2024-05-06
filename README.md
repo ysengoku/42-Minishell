@@ -1,4 +1,5 @@
 ## Minishell  
+Minishell is a dynamic shell implementation in C including redirection, piping and expansion of environment variable as well as essential builtins.It was developped as the first team project within 42 school cursus.
 
 ### Usage
 #### Interactive mode  
