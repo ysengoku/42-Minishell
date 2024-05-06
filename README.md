@@ -1,5 +1,5 @@
 ## Minishell  
-Minishell is a dynamic shell implementation in C including redirection, piping and expansion of environment variable as well as essential builtins.It was developped as the first team project within 42 school cursus.
+Minishell is a dynamic shell implementation in C including redirection, piping, signal and expansion of environment variable as well as some essential builtins. It was developped as the first team project within 42 school cursus.
 
 ### Usage
 #### Interactive mode  
@@ -18,55 +18,21 @@ valgrind --suppressions=.ignore_readline_leaks.supp --leak-check=full ./minishel
 
 ------------------------------------------------------------------------------
 ### Builtin function
+Implemented builin functions include:
+- echo with option -n
+- cd with only a relative or absolute path
+- pwd with no options
+- env with no options or arguments
+- export with no options
+- unset with no options
+- exit with no options   
 
-#### cd with only a relative or absolute path  
+   
+#### < Zoom on path parsing for cd >     
 
-Used function  
-```c
-int chdir(const char *path);
-```
-##### Relative path
-```bash
-# Navigate to parent directory
-cd ..
-
-# Navigate to the previous working directory (OLDPWD) & print PWD
-cd -
-
-# "Navigate" to the current working directory & update OLDPWD to cwd
-cd ./
-
-If we are in /home/myusername,  
-relative path to /home/myusername/Documents/42/ = "Documents/42/"
-```
-
-##### Absolute path
-```bash
-cd /home/$USER
-cd /home/(username)
-cd $HOME
-cd ~/Documents
-
-# Navigate to user's home
-- cd
-- cd ~
-- cd ~/
-- cd --
-
-# Navigate to root
-cd /
-```
-
-##### ERROR MESSAGE:  
-```bash
-bash: cd: (path): No such file or directory
-```
-  
-##### Algorithm (from man page)
-  
 ###### No directory operand ('cd')
-envp HOME == empty --> error & return  
-envp HOME != empty --> go to $HOME  
+if $HOME is unset or doesn't exist --> error & return  
+else --> go to $HOME  
 
 ###### Set curpath to the directory operand
 Copy/duplicate the directory operand to curpath  
@@ -91,3 +57,5 @@ The PWD environment variable shall be set to the value that curpath had on entry
 The OLDPWD environment variable shall also be set to the value of the old working directory (that is the current working directory immediately prior to the call to cd).  
 		   
 If there is insufficient permission on the new directory, or on any parent of that directory, to determine the current working directory, the value of the PWD environment variable is unspecified.  
+   
+_cf. man page_
